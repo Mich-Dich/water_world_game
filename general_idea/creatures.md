@@ -1,5 +1,5 @@
 
-#creature ideas:
+# Creature Ideas:
 
 The Glass Sail Leviathan (Speculivelum abyssalis)
 
