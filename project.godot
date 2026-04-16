@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 boot_splash/image="uid://6yibwekyjlgm"
 config/icon="res://icon.svg"
 
+[autoload]
+
+wave_time="*uid://jijhlk2ru0nf"
+
 [debug]
 
 gdscript/warnings/untyped_declaration=1

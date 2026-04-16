@@ -29,6 +29,7 @@ uniform vec3 deep_color : source_color = vec3(0.0, 0.341, 0.29);
 uniform vec3 water_absorption : source_color = vec3(0.3, 0.06, 0.02);
 const mat2 octave_m = mat2(vec2(1.6, 1.2), vec2(-1.2, 1.6));
 
+uniform float custom_time;
 uniform float roughness : hint_range(0.0, 1.0) = 0.125;
 uniform float metallic : hint_range(0.0, 1.0) = 0.0;
 uniform float specular : hint_range(0.0, 1.0) = 0.5;
@@ -111,14 +112,14 @@ vec3 get_normal_detailed(vec3 p, float eps, float time) {
 // ============== VERTEX SHADER ==============
 void vertex() {
     vec3 world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-    wave_height = -map(world_pos, TIME);
+    wave_height = -map(world_pos, custom_time);
     VERTEX.y = wave_height;
     world_vert = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
     float vertex_eps = 0.1;
     float h_center = wave_height;
-    float h_x = -map(world_pos + vec3(vertex_eps, 0.0, 0.0), TIME);
-    float h_z = -map(world_pos + vec3(0.0, 0.0, vertex_eps), TIME);
+    float h_x = -map(world_pos + vec3(vertex_eps, 0.0, 0.0), custom_time);
+    float h_z = -map(world_pos + vec3(0.0, 0.0, vertex_eps), custom_time);
     vec3 n_geom = normalize(vec3(h_center - h_x, vertex_eps, h_center - h_z));
     vertex_normal_world = n_geom;
 }
@@ -140,7 +141,7 @@ void fragment() {
     // --- NORMALS WITH DISTANCE-BASED SMOOTHING ---
     float dist_to_cam = length(VERTEX);
     float lod_epsilon = max(normal_epsilon, dist_to_cam * 0.005);
-    vec3 detailed_normal = get_normal_detailed(world_vert, lod_epsilon, TIME);
+    vec3 detailed_normal = get_normal_detailed(world_vert, lod_epsilon, custom_time);
     float smooth_factor = clamp((dist_to_cam - normal_smoothness_dist) / 200.0, 0.0, 1.0);
     vec3 final_normal = mix(detailed_normal, vertex_normal_world, smooth_factor);
     NORMAL = (VIEW_MATRIX * vec4(final_normal, 0.0)).xyz;

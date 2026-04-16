@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cpdht31432b30"]
 
 [ext_resource type="Material" uid="uid://5i6o0qehsuq6" path="res://shaders/water_shader_material.tres" id="1_i4or1"]
+[ext_resource type="Script" uid="uid://d0pghy7vx60xt" path="res://scene/water_plaine.gd" id="2_f5a4c"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_f5a4c"]
 size = Vector2(50, 50)
@@ -12,3 +13,4 @@ orientation = 1
 cast_shadow = 0
 mesh = SubResource("QuadMesh_f5a4c")
 surface_material_override/0 = ExtResource("1_i4or1")
+script = ExtResource("2_f5a4c")
