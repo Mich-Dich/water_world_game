@@ -7,8 +7,10 @@ extends ColorRect
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	process_mode = PROCESS_MODE_WHEN_PAUSED
+	animator.process_mode = PROCESS_MODE_WHEN_PAUSED
 	bu_resume.pressed.connect(resume)
 	bu_quit.pressed.connect(get_tree().quit)
+	animator.animation_started.connect(func(name): print("Animation started: ", name))
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -25,8 +27,18 @@ func resume():
 
 
 func pause():
-	animator.play("show")
 	self.show()
-	get_tree().paused = true;
+	animator.play("show")
+
+	# Debug: print the animation position over time
+	for i in range(10):
+		await get_tree().process_frame
+		print("Animation time: ", animator.current_animation_position)
+		if i == 0:
+			get_tree().paused = true   # pause after first frame
+			break
+
+	await get_tree().process_frame   # Wait one frame so the animation can start
+	get_tree().paused = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	print("Pausing Game")
