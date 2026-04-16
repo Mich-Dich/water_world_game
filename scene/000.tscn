@@ -2,6 +2,7 @@
 
 [ext_resource type="Shader" uid="uid://2qvvypnr3wtm" path="res://shaders/world_grid.gdshader" id="1_qufgm"]
 [ext_resource type="PackedScene" uid="uid://cpdht31432b30" path="res://scene/water_plaine.tscn" id="2_svyum"]
+[ext_resource type="PackedScene" uid="uid://cfb6vip2v1uj3" path="res://scene/character/player.tscn" id="3_qufgm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pit2l"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -30,9 +31,15 @@ shader_parameter/line_width_screen = 1.5
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_gbilv"]
 data = PackedVector3Array(5, 0, 5, -5, 0, 5, 5, 0, -5, -5, 0, 5, -5, 0, -5, 5, 0, -5)
 
-[sub_resource type="BoxMesh" id="BoxMesh_svyum"]
-
 [sub_resource type="SphereMesh" id="SphereMesh_qufgm"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qufgm"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_fxnfp"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fxnfp"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0kde7"]
 
 [node name="Node3D" type="Node3D" unique_id=1251377338]
 
@@ -43,8 +50,11 @@ environment = SubResource("Environment_atw5s")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
+[node name="player" parent="." unique_id=788734149 instance=ExtResource("3_qufgm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -70.43374, 7, 1)
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1368180530]
-transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0)
+transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0.155, 0)
 visible = false
 mesh = SubResource("PlaneMesh_pit2l")
 surface_material_override/0 = SubResource("ShaderMaterial_fxnfp")
@@ -55,17 +65,32 @@ surface_material_override/0 = SubResource("ShaderMaterial_fxnfp")
 shape = SubResource("ConcavePolygonShape3D_gbilv")
 
 [node name="MeshInstance3D2" parent="." unique_id=1358867198 instance=ExtResource("2_svyum")]
-transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, -0.17445087, 0.020670414, 0.0009262562)
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0)
 top_level = true
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=613964107]
-transform = Transform3D(1.1018908, -303.61475, -0.08896976, 0.83511055, 400.546, -0.073040985, 0.059682593, 0.8420362, 2.6646354, 102.878, -161.8941, -9.26783)
-mesh = SubResource("BoxMesh_svyum")
-
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=372573909]
-transform = Transform3D(5.5716977, 0, 0, 0, 5.1375203, 0, 0, 0, 4.877971, -16.737381, 0.27735972, 3.6699662)
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=2110779139]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 60.009964, -18.422276, -79.62622)
 mesh = SubResource("SphereMesh_qufgm")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="MeshInstance3D4" unique_id=2117385927]
-transform = Transform3D(5.3572273, -0.72428244, 0, 1.5310009, 2.5343847, 0, 0, 0, 4.8779726, 8.486731, -0.9550652, 0.45074844)
-mesh = SubResource("SphereMesh_qufgm")
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D3" unique_id=81312724]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D3/StaticBody3D" unique_id=529304023]
+shape = SubResource("SphereShape3D_qufgm")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=680762560]
+transform = Transform3D(1.2285659, -198.48488, 0, 9.924245, 24.571312, 0, 0, 0, 10, -6.996893, -11.708452, 0)
+mesh = SubResource("BoxMesh_fxnfp")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D4" unique_id=1450747939]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D4/StaticBody3D" unique_id=1068999755]
+shape = SubResource("BoxShape3D_fxnfp")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=580339639]
+transform = Transform3D(-8.7073084e-07, -100, 0, 19.92, -4.371139e-06, 0, 0, 0, 12.005, 0, 0, 34.239937)
+mesh = SubResource("BoxMesh_fxnfp")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D5" unique_id=1167269412]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D5/StaticBody3D" unique_id=544468311]
+shape = SubResource("BoxShape3D_0kde7")

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cfb6vip2v1uj3"]
 
-[ext_resource type="Script" uid="uid://c63ysga1t4wp8" path="res://player.gd" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://dlwu1bebby3yn" path="res://scene/character/player.gd" id="1_4flbx"]
+[ext_resource type="PackedScene" uid="uid://btjvhojhxsglp" path="res://scene/menu/pause.tscn" id="2_hovdd"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_onrkg"]
 
@@ -25,3 +26,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.69127727, 0)
 
 [node name="Camera3D" type="Camera3D" parent="twist_pivot/pitch_pivot" unique_id=1740771454]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4592387, 0, 2.4468367)
+
+[node name="pause_manu" parent="." unique_id=120024327 instance=ExtResource("2_hovdd")]
+visible = false

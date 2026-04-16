@@ -1,9 +1,10 @@
+
 shader_type spatial;
+render_mode depth_draw_always;
 
 // Depth and fog uniforms
 uniform sampler2D DEPTH_TEXTURE : hint_depth_texture, filter_linear_mipmap;
-uniform float max_depth : hint_range(0.1, 50.0, 0.1) = 10.0;
-uniform float water_level : hint_range(-10.0, 10.0, 0.1) = 0.0; // kept for compatibility, not used after depth change
+uniform float max_depth : hint_range(0.1, 200.0, 0.1) = 10.0;
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 uniform vec3 underwater_fog_color : source_color = vec3(0.0, 0.05, 0.1);
 uniform float fade_start_depth : hint_range(0.0, 50.0, 0.1) = 0.5;
@@ -26,7 +27,6 @@ uniform float normal_smoothness_dist : hint_range(0.0, 1000.0) = 50.0;
 uniform vec3 base_tint_color : source_color = vec3(0.439, 0.973, 1.0);
 uniform vec3 deep_color : source_color = vec3(0.0, 0.341, 0.29);
 uniform vec3 water_absorption : source_color = vec3(0.3, 0.06, 0.02);
-
 const mat2 octave_m = mat2(vec2(1.6, 1.2), vec2(-1.2, 1.6));
 
 uniform float roughness : hint_range(0.0, 1.0) = 0.125;

@@ -17,10 +17,13 @@ var move_input := Vector2.ZERO
 var twist_input := 0.0
 var pitch_input := 0.0
 
+const half_pi := (PI/2) - 0.1
+
+# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	# Set damping on the RigidBody3D
 	linear_damp = linear_damping
+
 
 func _physics_process(delta: float) -> void:
 	# Get input axes (A/D = left/right, W/S = forward/back)
@@ -50,21 +53,23 @@ func _physics_process(delta: float) -> void:
 	if linear_velocity.length() > walk_speed:
 		linear_velocity = linear_velocity.normalized() * walk_speed
 
+
 func _process(delta: float) -> void:
 	# Apply mouse look (rotation only, no movement)
 	twist_pivot.rotate_y(twist_input)
 	pitch_pivot.rotate_x(pitch_input)
-	pitch_pivot.rotation.x = clamp(pitch_pivot.rotation.x, -PI/2, PI/2)
+	pitch_pivot.rotation.x = clamp(pitch_pivot.rotation.x, -half_pi, half_pi)
 	twist_input = 0.0
 	pitch_input = 0.0
-	
-	if Input.is_action_just_pressed("ui_cancel"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		twist_input = -event.relative.x * mouse_sensitivity
 		pitch_input = -event.relative.y * mouse_sensitivity
+	if event.is_action_pressed("escape"):
+		$pause_manu.pause()
+
 
 # Helper to get the camera (avoids errors if camera is removed)
 func get_camera() -> Camera3D:
