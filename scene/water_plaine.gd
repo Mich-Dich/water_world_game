@@ -5,7 +5,7 @@ var material: ShaderMaterial
 
 func _ready():
 	material = get_surface_override_material(0)
-	wave_time.register_material(material)
+	wave_settings.register_material(material)
 
 func _process(delta):
 	

@@ -18,7 +18,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-wave_time="*uid://jijhlk2ru0nf"
+wave_settings="*uid://jijhlk2ru0nf"
 
 [debug]
 
@@ -66,3 +66,22 @@ escape={
 rendering_device/driver.windows="d3d12"
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
 anti_aliasing/quality/msaa_3d=1
+
+[shader_globals]
+
+sea_height={
+"type": "float",
+"value": 1.5
+}
+sea_choppy={
+"type": "float",
+"value": 1.3
+}
+sea_speed={
+"type": "float",
+"value": 0.032
+}
+sea_freq={
+"type": "float",
+"value": 4.0
+}

@@ -65,7 +65,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_fxnfp")
 shape = SubResource("ConcavePolygonShape3D_gbilv")
 
 [node name="MeshInstance3D2" parent="." unique_id=1358867198 instance=ExtResource("2_svyum")]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0)
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0.7065964, 0.78440094, 3.8035278)
 top_level = true
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=2110779139]
