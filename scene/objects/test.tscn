@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://btc8mkik0p6t4"]
+
+[ext_resource type="Script" uid="uid://b511vywnujbrx" path="res://scene/objects/test.gd" id="1_r4cyx"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_vwtyb"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" unique_id=12804098]
+mesh = SubResource("BoxMesh_vwtyb")
+script = ExtResource("1_r4cyx")

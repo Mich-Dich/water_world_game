@@ -10,10 +10,10 @@ uniform vec3 underwater_fog_color : source_color = vec3(0.0, 0.05, 0.1);
 uniform float fade_start_depth : hint_range(0.0, 50.0, 0.1) = 0.5;
 
 // ============== WAVE UNIFORMS ==============
-global uniform float sea_height : hint_range(0.0, 5.0);
-global uniform float sea_choppy : hint_range(0.0, 10.0);
-global uniform float sea_speed : hint_range(0.0, 5.0);
-global uniform float sea_freq : hint_range(0.0, 0.5);
+uniform float sea_height : hint_range(0.0, 5.0) = 1.3;
+uniform float sea_choppy : hint_range(0.0, 10.0) = 4.0;
+uniform float sea_speed : hint_range(0.0, 5.0) = 1.5;
+uniform float sea_freq : hint_range(0.0, 0.5) = 0.08;
 uniform int ITER_GEOMETRY = 3;
 uniform int ITER_FRAGMENT = 5;
 

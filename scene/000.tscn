@@ -3,6 +3,7 @@
 [ext_resource type="Shader" uid="uid://2qvvypnr3wtm" path="res://shaders/world_grid.gdshader" id="1_qufgm"]
 [ext_resource type="PackedScene" uid="uid://cpdht31432b30" path="res://scene/water_plaine.tscn" id="2_svyum"]
 [ext_resource type="PackedScene" uid="uid://cfb6vip2v1uj3" path="res://scene/character/player.tscn" id="3_qufgm"]
+[ext_resource type="PackedScene" uid="uid://btc8mkik0p6t4" path="res://scene/objects/test.tscn" id="4_fxnfp"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pit2l"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -51,7 +52,7 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="player" parent="." unique_id=788734149 instance=ExtResource("3_qufgm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -70.43374, 7, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.1960907, 15)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1368180530]
 transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0.155, 0)
@@ -65,8 +66,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_fxnfp")
 shape = SubResource("ConcavePolygonShape3D_gbilv")
 
 [node name="MeshInstance3D2" parent="." unique_id=1358867198 instance=ExtResource("2_svyum")]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0.7065964, 0.78440094, 3.8035278)
-top_level = true
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0.6940441, 1.2524033, 3.7119923)
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=2110779139]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 60.009964, -18.422276, -79.62622)
@@ -78,12 +78,21 @@ mesh = SubResource("SphereMesh_qufgm")
 shape = SubResource("SphereShape3D_qufgm")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=680762560]
-transform = Transform3D(1.2285659, -198.48488, 0, 9.924245, 24.571312, 0, 0, 0, 10, -6.996893, -11.708452, 0)
+transform = Transform3D(1.7364824, -196.96153, 0, 9.848078, 34.72964, 0, 0, 0, 10, -6.996893, -11.708452, 0)
 mesh = SubResource("BoxMesh_fxnfp")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D4" unique_id=1450747939]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D4/StaticBody3D" unique_id=1068999755]
+shape = SubResource("BoxShape3D_fxnfp")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=1959393]
+transform = Transform3D(3, 0, 0, 0, 150, 0, 0, 0, 3, 0, -70, 15)
+mesh = SubResource("BoxMesh_fxnfp")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D6" unique_id=1979362164]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D6/StaticBody3D" unique_id=107664746]
 shape = SubResource("BoxShape3D_fxnfp")
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=580339639]
@@ -94,3 +103,30 @@ mesh = SubResource("BoxMesh_fxnfp")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D5/StaticBody3D" unique_id=544468311]
 shape = SubResource("BoxShape3D_0kde7")
+
+[node name="MeshInstance3D7" parent="." unique_id=12804098 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.324571, 0)
+
+[node name="MeshInstance3D8" parent="." unique_id=1600291073 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.8411088, 0)
+
+[node name="MeshInstance3D9" parent="." unique_id=993599502 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4515443, 0)
+
+[node name="MeshInstance3D10" parent="." unique_id=1433828442 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.6819096, -3)
+
+[node name="MeshInstance3D11" parent="." unique_id=1798055390 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 3.3074465, 3)
+
+[node name="MeshInstance3D12" parent="." unique_id=958746889 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1999733, -3)
+
+[node name="MeshInstance3D13" parent="." unique_id=702245757 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.0927007, -3)
+
+[node name="MeshInstance3D14" parent="." unique_id=801175214 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.951044, 3)
+
+[node name="MeshInstance3D15" parent="." unique_id=505457955 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.6508255, 3)
