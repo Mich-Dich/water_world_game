@@ -1,6 +1,5 @@
-
 shader_type spatial;
-render_mode depth_draw_always;
+render_mode depth_draw_always, cull_disabled;
 
 // ============== DEPTH AND FOG UNIFORMS ==============
 uniform sampler2D DEPTH_TEXTURE : hint_depth_texture, filter_linear_mipmap;
@@ -42,6 +41,12 @@ uniform vec3 foam_edge_color : source_color = vec3(0.0, 0.0, 0.05);
 uniform vec2 foam_edge_offset = vec2(0.02, 0.02);
 uniform float voronoi_scale   : hint_range(0.0, 50.0) = 9.0;
 uniform float voronoi_strength : hint_range(0.0, 8.0) = 0.8;
+
+// ============== UNDERWATER EFFECT UNIFORMS ==============
+uniform float underwater_refraction_strength : hint_range(0.0, 2.0) = 0.6;
+uniform vec3 underwater_surface_color : source_color = vec3(0.15, 0.35, 0.6);
+uniform float underwater_fog_density : hint_range(0.0, 2.0) = 0.8;
+uniform float underwater_absorption_scale : hint_range(0.1, 5.0) = 1.5;
 
 uniform float custom_time;
 uniform float roughness : hint_range(0.0, 1.0) = 0.125;
@@ -213,6 +218,11 @@ void vertex() {
 
 // ============== FRAGMENT SHADER ==============
 void fragment() {
+    // --- DETERMINE IF CAMERA IS UNDERWATER ---
+    vec3 camera_world = (inverse(VIEW_MATRIX) * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+    float water_height_at_camera = camera_world.y - map(camera_world, custom_time);
+    bool is_underwater = camera_world.y < water_height_at_camera;
+
     // --- NORMALS WITH DISTANCE-BASED SMOOTHING ---
     float dist_to_cam = length(VERTEX);
     float lod_epsilon = max(normal_epsilon, dist_to_cam * 0.005);
@@ -234,7 +244,10 @@ void fragment() {
     float ref_depth_fade = smoothstep(0.0, 0.5, thickness);
     float refraction_mask = ref_dist_factor * ref_depth_fade;
 
-    vec2 refraction_offset = normal_offset * refraction_strength * refraction_mask * 0.05;
+    // Underwater uses different refraction strength
+    float effective_refraction_strength = is_underwater ? underwater_refraction_strength : refraction_strength;
+
+    vec2 refraction_offset = normal_offset * effective_refraction_strength * refraction_mask * 0.05;
     vec2 distorted_uv = SCREEN_UV + refraction_offset;
     distorted_uv = clamp(distorted_uv, vec2(0.001), vec2(0.999));
 
@@ -250,73 +263,87 @@ void fragment() {
     vec3 original_color = texture(SCREEN_TEXTURE, SCREEN_UV).rgb;
     screen_color = mix(original_color, screen_color, refraction_mask * validity_blend);
 
-    // --- DEPTH-BASED FOG ---
-    float fade_range = max(0.001, max_depth - fade_start_depth);
-    float depth_ratio = clamp((thickness - fade_start_depth) / fade_range, 0.0, 1.0);
+    // --- DEPTH-BASED FOG & ABSORPTION ---
+    if (is_underwater) {
+        // Underwater: absorption based on vertical distance from camera to surface
+        float water_thickness = max(0.0, water_height_at_camera - camera_world.y);
+        vec3 transmittance = exp(-water_thickness * water_absorption * underwater_absorption_scale);
+        vec3 surface_color = underwater_surface_color;
+        vec3 absorbed = mix(surface_color, base_tint_color * 0.5, transmittance);
+        
+        // Blend with screen (what's above water) but with strong fog
+        float fog_factor = 1.0 - exp(-water_thickness * underwater_fog_density);
+        vec3 fogged = mix(screen_color, absorbed, fog_factor);
+        ALBEDO = fogged;
+    } else {
+        // Above water: original logic
+        float fade_range = max(0.001, max_depth - fade_start_depth);
+        float depth_ratio = clamp((thickness - fade_start_depth) / fade_range, 0.0, 1.0);
+        vec3 transmittance = exp(-thickness * water_absorption);
+        vec3 water_volume_color = mix(base_tint_color, deep_color, depth_ratio);
+        vec3 apparent_seabed_color = screen_color * water_volume_color;
+        vec3 absorbed_color = mix(screen_color, apparent_seabed_color, transmittance);
+        ALBEDO = mix(absorbed_color, underwater_fog_color, depth_ratio);
+    }
 
-    // --- BEER-LAMBERT ABSORPTION ---
-    vec3 transmittance = exp(-thickness * water_absorption);
-    vec3 water_volume_color = mix(base_tint_color, deep_color, depth_ratio);
-    vec3 apparent_seabed_color = screen_color * water_volume_color;
-    vec3 absorbed_color = mix(screen_color, apparent_seabed_color, transmittance);
-
-    ALBEDO = mix(absorbed_color, underwater_fog_color, depth_ratio);
     ROUGHNESS = roughness;
     METALLIC = metallic;
     SPECULAR = specular;
 
-    // ============== FOAM CALCULATION ==============
-    float foam_mask_primary = 0.0;
-    float foam_mask_shadow  = 0.0;
+    // ============== FOAM CALCULATION (only above water) ==============
+    if (!is_underwater) {
+        float foam_mask_primary = 0.0;
+        float foam_mask_shadow  = 0.0;
 
-    // Depth and crest factors
-    float depth_foam_factor = smoothstep(foam_depth_start, foam_depth_end, thickness);
-    float wave_crest_factor = smoothstep(foam_crest_threshold, foam_crest_threshold - 0.1, final_normal.y);
-    wave_crest_factor *= foam_crest_amount;
-    float foam_level = clamp(depth_foam_factor + wave_crest_factor, 0.0, 1.0);
+        // Depth and crest factors
+        float depth_foam_factor = smoothstep(foam_depth_start, foam_depth_end, thickness);
+        float wave_crest_factor = smoothstep(foam_crest_threshold, foam_crest_threshold - 0.1, final_normal.y);
+        wave_crest_factor *= foam_crest_amount;
+        float foam_level = clamp(depth_foam_factor + wave_crest_factor, 0.0, 1.0);
 
-    // Domain warping for flow
-    vec2 flow_uv = world_vert.xz * 0.5 + custom_time * 0.05 * foam_noise_speed;
-    vec2 warp = vec2(
-        noise(flow_uv),
-        noise(flow_uv + vec2(5.2, 1.3))
-    ) * 0.5;
+        // Domain warping for flow
+        vec2 flow_uv = world_vert.xz * 0.5 + custom_time * 0.05 * foam_noise_speed;
+        vec2 warp = vec2(
+            noise(flow_uv),
+            noise(flow_uv + vec2(5.2, 1.3))
+        ) * 0.5;
 
-    // Only apply foam where water is in front of geometry
-    if (distorted_bg_depth > water_linear_depth) {
-        vec2 foam_uv = world_vert.xz * foam_noise_scale + warp;
+        // Only apply foam where water is in front of geometry
+        if (distorted_bg_depth > water_linear_depth) {
+            vec2 foam_uv = world_vert.xz * foam_noise_scale + warp;
 
-        // Emergence (pulsing/clumping)
-        float emergence_noise = noise3d(vec3(world_vert.xz * 0.5, custom_time * 0.2 * foam_noise_speed));
-        emergence_noise = smoothstep(0.0, 1.0, emergence_noise * 0.5 + 0.5);
-        float effective_emergence = mix(emergence_noise, 1.0, foam_level);
+            // Emergence (pulsing/clumping)
+            float emergence_noise = noise3d(vec3(world_vert.xz * 0.5, custom_time * 0.2 * foam_noise_speed));
+            emergence_noise = smoothstep(0.0, 1.0, emergence_noise * 0.5 + 0.5);
+            float effective_emergence = mix(emergence_noise, 1.0, foam_level);
 
-        // Main foam sample
-        float foam_noise_val = fbm_voronoi(foam_uv);
-        foam_noise_val *= effective_emergence;
+            // Main foam sample
+            float foam_noise_val = fbm_voronoi(foam_uv);
+            foam_noise_val *= effective_emergence;
 
-        // Shadow sample (edge thickness)
-        vec2 foam_uv_shadow = (world_vert.xz + foam_edge_offset) * foam_noise_scale + warp;
-        float foam_noise_shadow_val = fbm_voronoi(foam_uv_shadow);
-        foam_noise_shadow_val *= effective_emergence;
+            // Shadow sample (edge thickness)
+            vec2 foam_uv_shadow = (world_vert.xz + foam_edge_offset) * foam_noise_scale + warp;
+            float foam_noise_shadow_val = fbm_voronoi(foam_uv_shadow);
+            foam_noise_shadow_val *= effective_emergence;
 
-        // Mask generation
-        float combined_noise  = foam_noise_val + foam_level;
-        float combined_shadow = foam_noise_shadow_val + foam_level;
+            // Mask generation
+            float combined_noise  = foam_noise_val + foam_level;
+            float combined_shadow = foam_noise_shadow_val + foam_level;
 
-        foam_mask_primary = smoothstep(foam_cutoff + 0.5, foam_cutoff + 0.6, combined_noise);
-        float shadow_shape = smoothstep(foam_cutoff + 0.5, foam_cutoff + 0.6, combined_shadow);
-        foam_mask_shadow = clamp(shadow_shape - foam_mask_primary, 0.0, 1.0);
+            foam_mask_primary = smoothstep(foam_cutoff + 0.5, foam_cutoff + 0.6, combined_noise);
+            float shadow_shape = smoothstep(foam_cutoff + 0.5, foam_cutoff + 0.6, combined_shadow);
+            foam_mask_shadow = clamp(shadow_shape - foam_mask_primary, 0.0, 1.0);
+        }
+
+        // Voronoi internal bubble texture
+        float voronoi_val = 1.0 - sqrt(voronoi(world_vert.xz * voronoi_scale + warp));
+        voronoi_val = smoothstep(0.2, 0.8, voronoi_val);
+        float bubble_alpha = 1.0 - clamp((1.0 - voronoi_val) * voronoi_strength, 0.0, 1.0);
+
+        // Apply foam to albedo and roughness
+        ALBEDO = mix(ALBEDO, foam_edge_color, foam_mask_shadow);
+        ALBEDO = mix(ALBEDO, foam_color, foam_mask_primary * bubble_alpha);
+
+        ROUGHNESS = mix(roughness, 0.8, (foam_mask_primary * bubble_alpha) + foam_mask_shadow);
     }
-
-    // Voronoi internal bubble texture
-    float voronoi_val = 1.0 - sqrt(voronoi(world_vert.xz * voronoi_scale + warp));
-    voronoi_val = smoothstep(0.2, 0.8, voronoi_val);
-    float bubble_alpha = 1.0 - clamp((1.0 - voronoi_val) * voronoi_strength, 0.0, 1.0);
-
-    // Apply foam to albedo and roughness
-    ALBEDO = mix(ALBEDO, foam_edge_color, foam_mask_shadow);
-    ALBEDO = mix(ALBEDO, foam_color, foam_mask_primary * bubble_alpha);
-
-    ROUGHNESS = mix(roughness, 0.8, (foam_mask_primary * bubble_alpha) + foam_mask_shadow);
 }

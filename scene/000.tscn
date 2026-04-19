@@ -52,11 +52,10 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="player" parent="." unique_id=788734149 instance=ExtResource("3_qufgm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.1960907, 15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.662676, 3.888507, 16.552528)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1368180530]
-transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0.155, 0)
-visible = false
+transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, -10.377361, 0)
 mesh = SubResource("PlaneMesh_pit2l")
 surface_material_override/0 = SubResource("ShaderMaterial_fxnfp")
 
@@ -66,7 +65,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_fxnfp")
 shape = SubResource("ConcavePolygonShape3D_gbilv")
 
 [node name="MeshInstance3D2" parent="." unique_id=1358867198 instance=ExtResource("2_svyum")]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0.6940441, 1.2524033, 3.7119923)
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0.02458334, 0)
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=2110779139]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 60.009964, -18.422276, -79.62622)
@@ -78,7 +77,7 @@ mesh = SubResource("SphereMesh_qufgm")
 shape = SubResource("SphereShape3D_qufgm")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=680762560]
-transform = Transform3D(1.7364824, -196.96153, 0, 9.848078, 34.72964, 0, 0, 0, 10, -6.996893, -11.708452, 0)
+transform = Transform3D(4.7932014, -263.29205, 0, 8.7764015, 143.79604, 0, 0, 0, 10, 83.5576, -61.16446, 0)
 mesh = SubResource("BoxMesh_fxnfp")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D4" unique_id=1450747939]
@@ -105,28 +104,50 @@ mesh = SubResource("BoxMesh_fxnfp")
 shape = SubResource("BoxShape3D_0kde7")
 
 [node name="MeshInstance3D7" parent="." unique_id=12804098 instance=ExtResource("4_fxnfp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.324571, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1240406, 3.8418102, 10.183366)
+object_height = 2.0
+float_offset = 0.0
 
-[node name="MeshInstance3D8" parent="." unique_id=1600291073 instance=ExtResource("4_fxnfp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.8411088, 0)
+[node name="MeshInstance3D16" type="MeshInstance3D" parent="." unique_id=471241131]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 60.009964, -43.062374, -49.822678)
+mesh = SubResource("SphereMesh_qufgm")
 
-[node name="MeshInstance3D9" parent="." unique_id=993599502 instance=ExtResource("4_fxnfp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4515443, 0)
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D16" unique_id=2057478766]
 
-[node name="MeshInstance3D10" parent="." unique_id=1433828442 instance=ExtResource("4_fxnfp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.6819096, -3)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D16/StaticBody3D" unique_id=457173133]
+shape = SubResource("SphereShape3D_qufgm")
 
-[node name="MeshInstance3D11" parent="." unique_id=1798055390 instance=ExtResource("4_fxnfp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 3.3074465, 3)
+[node name="RigidBody3D" parent="." unique_id=1363506331 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2060537, -9.87736, -1.1301117)
+object_height = 2.0
+float_offset = 0.0
 
-[node name="MeshInstance3D12" parent="." unique_id=958746889 instance=ExtResource("4_fxnfp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1999733, -3)
+[node name="RigidBody3D2" parent="." unique_id=649591351 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2060537, -8.658646, -10.221896)
+object_height = 2.0
+float_offset = 0.0
 
-[node name="MeshInstance3D13" parent="." unique_id=702245757 instance=ExtResource("4_fxnfp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.0927007, -3)
+[node name="MeshInstance3D8" parent="." unique_id=471698747 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 13.831029, -7.1483226)
+object_height = 2.0
+float_offset = 0.0
 
-[node name="MeshInstance3D14" parent="." unique_id=801175214 instance=ExtResource("4_fxnfp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.951044, 3)
+[node name="MeshInstance3D9" parent="." unique_id=1179469781 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8395996, 13.831029, -7.1483226)
+object_height = 2.0
+float_offset = 0.0
 
-[node name="MeshInstance3D15" parent="." unique_id=505457955 instance=ExtResource("4_fxnfp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.6508255, 3)
+[node name="MeshInstance3D10" parent="." unique_id=1733248174 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2459164, 13.831029, -7.1483226)
+object_height = 2.0
+float_offset = 0.0
+
+[node name="MeshInstance3D11" parent="." unique_id=31896794 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5765152, 13.831029, -7.1483226)
+object_height = 2.0
+float_offset = 0.0
+
+[node name="MeshInstance3D12" parent="." unique_id=114527829 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8645554, 13.831029, -7.1483226)
+object_height = 2.0
+float_offset = 0.0

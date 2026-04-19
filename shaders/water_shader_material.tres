@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://5i6o0qehsuq6"]
 
-[ext_resource type="Shader" uid="uid://c0hxw0hcfewur" path="res://shaders/water.gdshader" id="1_b8pfx"]
+[ext_resource type="Shader" uid="uid://cdypfv4njuix4" path="res://shaders/water.gdshader" id="1_b8pfx"]
 
 [resource]
 render_priority = 0
@@ -8,7 +8,7 @@ shader = ExtResource("1_b8pfx")
 shader_parameter/max_depth = 99.60000148415952
 shader_parameter/underwater_fog_color = Color(6.738305e-07, 0.38025883, 0.58963394, 1)
 shader_parameter/fade_start_depth = 4.5000000670554
-shader_parameter/sea_height = 1.9150000909625
+shader_parameter/sea_height = 2.000000095
 shader_parameter/sea_choppy = 3.62000017195
 shader_parameter/sea_speed = 1.5
 shader_parameter/sea_freq = 0.03200000152
@@ -33,7 +33,11 @@ shader_parameter/foam_edge_color = Color(0.18510425, 0.5546947, 0.69644475, 1)
 shader_parameter/foam_edge_offset = Vector2(0.02, 0.02)
 shader_parameter/voronoi_scale = 9.0
 shader_parameter/voronoi_strength = 0.28800001368
-shader_parameter/custom_time = 6888.466436558562
-shader_parameter/roughness = 0.125
+shader_parameter/underwater_refraction_strength = 0.6
+shader_parameter/underwater_surface_color = Color(0.15, 0.35, 0.6, 1)
+shader_parameter/underwater_fog_density = 0.8
+shader_parameter/underwater_absorption_scale = 1.5
+shader_parameter/custom_time = 23383.37549932433
+shader_parameter/roughness = 0.0750000035625
 shader_parameter/metallic = 0.0
 shader_parameter/specular = 0.5

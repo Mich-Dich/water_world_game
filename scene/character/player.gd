@@ -1,57 +1,108 @@
 extends RigidBody3D
 
-# Movement settings
-@export var walk_speed := 20.0          # Max speed (units/sec)
-@export var acceleration_force := 50.0 # How sharply you reach max speed
-@export var linear_damping := 6.0      # Drag – higher = quicker stop / lower top speed
-
-# Mouse look
+# Input
+@export var thrust_force := 80.0              # Force applied along forward axis
+@export var turn_torque := 15.0               # Torque applied for rotation (A/D)
+@export var max_speed := 20.0                 # Max speed (units/sec)
+@export var linear_damping_default := 6.0     # Drag on ground
 @export var mouse_sensitivity := 0.002
-
-# Node references
-@onready var twist_pivot := $twist_pivot
-@onready var pitch_pivot := $twist_pivot/pitch_pivot
-@onready var model := $MeshInstance3D   # Optional: rotate this to face movement
-
 var move_input := Vector2.ZERO
 var twist_input := 0.0
 var pitch_input := 0.0
 
+# Buoyancy settings
+@export var buoyancy_strength: float = 1.0
+@export var water_drag: float = 2.0
+@export var water_angular_drag: float = 1.0
+@export var player_height: float = 2.0        # Approximate height of the capsule/character
+@export var float_offset: float = 1.0
+const buoyancy_points: Array[Vector3] = [
+	Vector3(-0.4,  0.2,  1.6),   # front left (slightly above COM)
+	Vector3( 0.4,  0.2,  1.6),   # front right
+	Vector3(-0.4, -0.3,  0.0),   # middle left (below COM)
+	Vector3( 0.4, -0.3,  0.0),   # middle right
+	Vector3(-0.4,  0.1, -1.7),   # rear left
+	Vector3( 0.4,  0.1, -1.7),   # rear right
+]
+
+# Node references
+@onready var twist_pivot := $twist_pivot
+@onready var pitch_pivot := $twist_pivot/pitch_pivot
+@onready var model: MeshInstance3D = $MeshInstance3D
+
 const half_pi := (PI/2) - 0.1
 
-# Called when the node enters the scene tree for the first time.
+
+
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	linear_damp = linear_damping
 
 
 func _physics_process(delta: float) -> void:
-	# Get input axes (A/D = left/right, W/S = forward/back)
+	# Get input axes (W/S = forward/back, A/D = left/right)
 	move_input = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+
+	# Apply thrust along the boat's forward direction (global_transform.basis.z)
+	var forward_dir := global_transform.basis.z
+	if move_input.y != 0.0:
+		apply_central_force(forward_dir * move_input.y * thrust_force)
+
+	# Apply turning torque around global Y axis (or body's up)
+	if move_input.x != 0.0:
+		apply_torque(Vector3.UP * move_input.x * turn_torque * 200000)
+
+	# Clamp velocity to max speed
+	if linear_velocity.length() > max_speed:
+		linear_velocity = linear_velocity.normalized() * max_speed
 	
-	# Calculate desired direction relative to camera (horizontal only)
-	var cam := get_camera()
-	if cam:
-		var forward := cam.global_transform.basis.z
-		var right := cam.global_transform.basis.x
-		forward.y = 0.0
-		right.y = 0.0
-		forward = forward.normalized()
-		right = right.normalized()
-		
-		var desired_dir := (forward * move_input.y + right * move_input.x).normalized()
-		
-		# Apply force in that direction (sharp acceleration)
-		apply_central_force(desired_dir * acceleration_force)
-		
-		# (Optional) rotate model to face movement direction
-		if model and move_input.length() > 0.2:
-			var target_angle = atan2(desired_dir.x, desired_dir.z)
-			model.rotation.y = lerp_angle(model.rotation.y, target_angle, 10.0 * delta)
+	#apply_force(Vector3(0.0, 100.0, 0.0), Vector3(-0.1, 0.0, -2))
+
+
+func _integrate_forces(state: PhysicsDirectBodyState3D):
+	# --- Point‑based buoyancy forces ---
+	var total_submersion := 0.0
+	var weighted_normal := Vector3.ZERO  # For mesh tilt calculation
 	
-	# Clamp velocity to max speed (organic, prevents over‑shooting)
-	if linear_velocity.length() > walk_speed:
-		linear_velocity = linear_velocity.normalized() * walk_speed
+	for local_point_2d in buoyancy_points:
+		# Convert Vector2 to local Vector3 (x, 0, y) – assuming X is side‑to‑side, Z is front‑back
+		var local_offset := Vector3(local_point_2d.x, 0.0, local_point_2d.y)
+		var world_point := state.transform * local_offset
+		
+		# Get water height at this world XZ
+		var water_height := wave_settings.get_wave_height(Vector2(world_point.x, world_point.z))
+		var depth := water_height - world_point.y   # positive if submerged
+		
+		if depth > 0.0:
+			total_submersion += depth
+			# Apply buoyant force upward at this point
+			var force := Vector3.UP * buoyancy_strength * depth * mass
+			state.apply_force(force, world_point - state.transform.origin)
+			
+			# Accumulate for mesh tilt (weighted by depth)
+			weighted_normal += Vector3.UP * depth + (world_point - state.transform.origin).normalized() * depth * 0.5
+	
+	# --- Mesh tilt based on wave surface ---
+	if model and total_submersion > 0.0:
+		# Compute average tilt direction
+		var avg_tilt := weighted_normal.normalized()
+		# Create a rotation that aligns the boat's up with the tilted normal
+		var target_rotation := Quaternion(Vector3.UP, avg_tilt)
+		# Interpolate smoothly (optional)
+		model.quaternion = model.quaternion.slerp(target_rotation, 5.0 * state.step)
+	
+	# --- Drag adjustment (unchanged) ---
+	var pos := state.transform.origin
+	var wave_height := wave_settings.get_wave_height(Vector2(pos.x, pos.z))
+	var bottom_y := pos.y - player_height / 2.0
+	var water_surface_y := wave_height + float_offset
+	var submersion_depth : float = min(water_surface_y - bottom_y, player_height)
+	
+	#if submersion_depth > 0.0:
+		#linear_damp = water_drag
+		#angular_damp = water_angular_drag
+	#else:
+		#linear_damp = linear_damping_default
+		#angular_damp = -1.0
 
 
 func _process(delta: float) -> void:
@@ -71,6 +122,5 @@ func _unhandled_input(event: InputEvent) -> void:
 		$pause_manu.pause()
 
 
-# Helper to get the camera (avoids errors if camera is removed)
 func get_camera() -> Camera3D:
 	return pitch_pivot.get_node("Camera3D") as Camera3D

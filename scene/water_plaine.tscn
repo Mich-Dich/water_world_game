@@ -4,9 +4,21 @@
 [ext_resource type="Script" uid="uid://d0pghy7vx60xt" path="res://scene/water_plaine.gd" id="2_f5a4c"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_f5a4c"]
-size = Vector2(50, 50)
+size = Vector2(50.5, 50.5)
 subdivide_width = 200
 subdivide_depth = 200
+orientation = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_75t5s"]
+size = Vector2(250, 300)
+subdivide_width = 100
+subdivide_depth = 120
+orientation = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_u3qnk"]
+size = Vector2(1550, 1000)
+subdivide_width = 150
+subdivide_depth = 100
 orientation = 1
 
 [node name="MeshInstance3D" type="MeshInstance3D" unique_id=1358867198]
@@ -14,3 +26,43 @@ cast_shadow = 0
 mesh = SubResource("QuadMesh_f5a4c")
 surface_material_override/0 = ExtResource("1_i4or1")
 script = ExtResource("2_f5a4c")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1741812764]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150, 0, 125)
+mesh = SubResource("QuadMesh_75t5s")
+surface_material_override/0 = ExtResource("1_i4or1")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1487402248]
+transform = Transform3D(-4.3711385e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, -4.3711385e-08, -125, 0, 150)
+mesh = SubResource("QuadMesh_75t5s")
+surface_material_override/0 = ExtResource("1_i4or1")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1501632298]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -150, 0, -125)
+mesh = SubResource("QuadMesh_75t5s")
+surface_material_override/0 = ExtResource("1_i4or1")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=281306921]
+transform = Transform3D(-0.0006457567, 0, -0.99999976, 0, 1, 0, 0.99999976, 0, -0.0006457567, 125, 0, -150)
+mesh = SubResource("QuadMesh_75t5s")
+surface_material_override/0 = ExtResource("1_i4or1")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=152439180]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 500, 0, -775)
+mesh = SubResource("QuadMesh_u3qnk")
+surface_material_override/0 = ExtResource("1_i4or1")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=1816819493]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 775, 0, 500)
+mesh = SubResource("QuadMesh_u3qnk")
+surface_material_override/0 = ExtResource("1_i4or1")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="." unique_id=2081249740]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -775, 0, -500)
+mesh = SubResource("QuadMesh_u3qnk")
+surface_material_override/0 = ExtResource("1_i4or1")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="." unique_id=53037278]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -500, 0, 775)
+mesh = SubResource("QuadMesh_u3qnk")
+surface_material_override/0 = ExtResource("1_i4or1")

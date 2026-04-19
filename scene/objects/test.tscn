@@ -2,8 +2,16 @@
 
 [ext_resource type="Script" uid="uid://b511vywnujbrx" path="res://scene/objects/test.gd" id="1_r4cyx"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_vwtyb"]
+[sub_resource type="BoxMesh" id="BoxMesh_ufnrq"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" unique_id=12804098]
-mesh = SubResource("BoxMesh_vwtyb")
+[sub_resource type="BoxShape3D" id="BoxShape3D_r4cyx"]
+
+[node name="RigidBody3D" type="RigidBody3D" unique_id=1363506331]
 script = ExtResource("1_r4cyx")
+buoyancy_strength = 10.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=796139145]
+mesh = SubResource("BoxMesh_ufnrq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=714637283]
+shape = SubResource("BoxShape3D_r4cyx")
