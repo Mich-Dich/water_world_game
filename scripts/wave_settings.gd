@@ -3,8 +3,8 @@ extends Node
 
 # settings for wave calculation
 var current_time := 0.0
-var sea_height : float = 2
-var sea_choppy : float = 3.62
+var sea_height : float = 0.2
+var sea_choppy : float = 0.62
 var sea_speed : float = 1.5
 var sea_freq : float = 0.032
 var water_materials: Array[ShaderMaterial] = []
