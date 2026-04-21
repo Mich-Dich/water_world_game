@@ -21,7 +21,7 @@ points = PackedVector3Array(22.111614, 34.077324, 47.03673, -19.819912, -13.0828
 points = PackedVector3Array(-4.0904593, 165.11592, -10.619119, 11.6277075, 159.86217, 41.795288, 48.31882, -107.42261, 36.551796, -46.02712, 123.15156, 31.308302, 43.073277, 138.87999, 15.588084, -35.53603, -75.96575, -0.13213348, -46.02712, -107.42261, 36.551796, 32.59142, -128.33911, 5.106229, -46.02712, 138.87999, 15.588084, 30.674187, -160.11008, 25.43086, 32.59142, -86.47326, -0.13213348, -25.054173, -165.08257, 15.588084, 43.073277, 123.15156, 31.308302, -25.054173, -138.87947, 36.551796, 6.3821616, 165.11592, -10.619119, 43.073277, -112.67636, 10.349722, -46.02712, -133.62572, 20.826447, 37.827732, 123.15156, 5.106229, -40.781574, 91.72754, 5.106229, -25.054173, -102.16885, -0.13213348, -8.621468, 148.78659, 40.00877, 37.827732, -154.6079, 15.588084, 22.109564, -138.87947, 36.551796, -40.781574, -96.94794, 5.106229, -27.492474, -155.3629, 29.90491, -9.336005, 165.11592, 5.106229, -4.0904593, 144.13374, -10.619119, 27.345875, -102.16885, -0.13213348, -25.054173, -133.62572, 5.106229, 27.345875, -165.08257, 15.588084, 43.073277, 123.15156, 10.349722, -35.53603, -159.82881, 15.588084)
 
 [sub_resource type="QuadMesh" id="QuadMesh_hovdd"]
-size = Vector2(1.5, 1)
+size = Vector2(0.8, 0.5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5utgv"]
 render_priority = 0
@@ -30,6 +30,7 @@ shader_parameter/sea_height = 2.000000095
 shader_parameter/sea_choppy = 3.62000017195
 shader_parameter/sea_speed = 1.5
 shader_parameter/sea_freq = 0.03200000152
+shader_parameter/custom_time = 0.0
 shader_parameter/height_offset = 0.0
 shader_parameter/underwater_color = Color(0.05225081, 0.3029663, 0.4103298, 1)
 shader_parameter/absorption_strength = 0.014000000665
@@ -75,8 +76,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6083679, 0)
 [node name="Camera3D" type="Camera3D" parent="twist_pivot/pitch_pivot" unique_id=1740771454]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.156124)
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="twist_pivot/pitch_pivot/Camera3D" unique_id=612445735]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8347638, 0, -0.5)
+[node name="effect" type="MeshInstance3D" parent="twist_pivot/pitch_pivot/Camera3D" unique_id=612445735]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0, -0.07)
 mesh = SubResource("QuadMesh_hovdd")
 surface_material_override/0 = SubResource("ShaderMaterial_5utgv")
 

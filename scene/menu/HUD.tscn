@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://ci5hnvsslnu13"]
+
+[node name="Hud" type="Node2D" unique_id=1757460466]
+
+[node name="Label" type="Label" parent="." unique_id=527933008]
+offset_left = 1835.0
+offset_top = 24.0
+offset_right = 1893.0
+offset_bottom = 47.0
+text = "120 Fps"
+
+[node name="Label2" type="Label" parent="." unique_id=733721099]
+offset_left = 1743.0
+offset_top = 929.0
+offset_right = 1807.0
+offset_bottom = 952.0
+text = "99 km/h"

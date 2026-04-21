@@ -13,6 +13,7 @@ uniform float sea_height : hint_range(0.0, 5.0) = 1.3;
 uniform float sea_choppy : hint_range(0.0, 10.0) = 4.0;
 uniform float sea_speed : hint_range(0.0, 5.0) = 1.5;
 uniform float sea_freq : hint_range(0.0, 0.5) = 0.08;
+uniform float custom_time = 0.0;
 uniform int ITER_GEOMETRY = 3;
 uniform int ITER_FRAGMENT = 5;
 
@@ -48,7 +49,6 @@ uniform vec3 underwater_surface_color : source_color = vec3(0.15, 0.35, 0.6);
 uniform float underwater_fog_density : hint_range(0.0, 2.0) = 0.8;
 uniform float underwater_absorption_scale : hint_range(0.1, 5.0) = 1.5;
 
-uniform float custom_time;
 uniform float roughness : hint_range(0.0, 1.0) = 0.125;
 uniform float metallic : hint_range(0.0, 1.0) = 0.0;
 uniform float specular : hint_range(0.0, 1.0) = 0.5;

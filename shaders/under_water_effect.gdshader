@@ -1,11 +1,12 @@
 shader_type spatial;
-render_mode unshaded, cull_disabled, depth_test_disabled;
+render_mode unshaded, cull_disabled, depth_test_disabled, blend_mix;
 
 // ============== WAVE UNIFORMS (MUST MATCH SURFACE WATER) ==============
 uniform float sea_height    : hint_range(0.0, 5.0) = 1.3;
 uniform float sea_choppy    : hint_range(0.0, 10.0) = 4.0;
 uniform float sea_speed     : hint_range(0.0, 5.0)  = 1.5;
 uniform float sea_freq      : hint_range(0.0, 0.5)  = 0.08;
+uniform float custom_time = 0.0;
 uniform float height_offset = 0.0;
 
 // ============== UNDERWATER LOOK ==============
@@ -68,8 +69,8 @@ void fragment() {
     float height = 0.0;
 
     for (int i = 0; i < ITER_GEOMETRY; i++) {
-        float d = sea_octave((uv + TIME * sea_speed)     * freq, chop);
-        d      += sea_octave((uv - TIME * sea_speed)     * freq, chop);
+        float d = sea_octave((uv + custom_time * sea_speed)     * freq, chop);
+        d      += sea_octave((uv - custom_time * sea_speed)     * freq, chop);
         height += d * amp;
         uv     *= octave_m;
         freq   *= 1.9;
@@ -87,8 +88,8 @@ void fragment() {
     // ---- ANIMATED SCREEN‑SPACE REFRACTION ----
     vec2 uv_screen = SCREEN_UV;
     vec2 noise_dir = vec2(
-        noise(uv_screen * 12.0 + TIME * refraction_speed * vec2(1.0, 0.4)),
-        noise(uv_screen * 12.0 + TIME * refraction_speed * vec2(0.6, 1.0))
+        noise(uv_screen * 12.0 + custom_time * refraction_speed * vec2(1.0, 0.4)),
+        noise(uv_screen * 12.0 + custom_time * refraction_speed * vec2(0.6, 1.0))
     ) * 2.0 - 1.0;
 
     vec2 offset = noise_dir * refraction_amount;

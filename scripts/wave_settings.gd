@@ -3,21 +3,21 @@ extends Node
 
 # settings for wave calculation
 var current_time := 0.0
-var sea_height : float = 0.2
-var sea_choppy : float = 0.62
+var sea_height : float = 0.4
+var sea_choppy : float = 4.0
 var sea_speed : float = 1.5
-var sea_freq : float = 0.032
+var sea_freq : float = 0.08
 var water_materials: Array[ShaderMaterial] = []
 
 
-func _ready():
+func _ready() -> void:
 	for mat in water_materials:
 		if mat:
 			update_water_params(mat)
 
 
-func _process(delta: float):
-	var should_advance = true
+func _process(delta: float) -> void:
+	var should_advance: bool = true
 	if not Engine.is_editor_hint():
 		should_advance = not get_tree().paused		# pause wave sim if game paused
 
@@ -28,19 +28,20 @@ func _process(delta: float):
 				mat.set_shader_parameter("custom_time", current_time)
 
 
-func register_material(mat: ShaderMaterial):
+func register_material(mat: ShaderMaterial) -> void:
 	if mat not in water_materials:
 		water_materials.append(mat)
+		update_water_params(mat)
 
 
-func update_water_params(mat: ShaderMaterial):
+func update_water_params(mat: ShaderMaterial) -> void:
 	mat.set_shader_parameter("sea_height", sea_height)
 	mat.set_shader_parameter("sea_choppy", sea_choppy)
 	mat.set_shader_parameter("sea_speed",  sea_speed)
 	mat.set_shader_parameter("sea_freq",   sea_freq)
 
 
-func set_weather_conditions(height: float, rough: float, speed: float, freq: float):
+func set_weather_conditions(height: float, rough: float, speed: float, freq: float) -> void:
 	sea_height = height
 	sea_choppy = rough
 	sea_speed = speed

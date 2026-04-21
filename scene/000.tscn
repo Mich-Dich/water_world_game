@@ -52,7 +52,7 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="player" parent="." unique_id=788734149 instance=ExtResource("3_qufgm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.662676, 3.888507, 16.552528)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.662676, 3.4124742, 16.552528)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1368180530]
 transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, -10.377361, 0)
