@@ -5,14 +5,14 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_b8pfx")
-shader_parameter/max_depth = 99.60000148415952
+shader_parameter/max_depth = 60.000000894072
 shader_parameter/underwater_fog_color = Color(6.738305e-07, 0.38025883, 0.58963394, 1)
 shader_parameter/fade_start_depth = 4.5000000670554
-shader_parameter/sea_height = 0.400000019
+shader_parameter/sea_height = 0.4
 shader_parameter/sea_choppy = 4.0
 shader_parameter/sea_speed = 1.5
 shader_parameter/sea_freq = 0.08
-shader_parameter/custom_time = 8699.490262015304
+shader_parameter/custom_time = 10138.320644919406
 shader_parameter/ITER_GEOMETRY = 3
 shader_parameter/ITER_FRAGMENT = 5
 shader_parameter/refraction_strength = 1.0

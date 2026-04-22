@@ -4,6 +4,7 @@
 [ext_resource type="Shader" uid="uid://crnr1dqndi7g8" path="res://shaders/under_water_effect.gdshader" id="2_5utgv"]
 [ext_resource type="PackedScene" uid="uid://btjvhojhxsglp" path="res://scene/menu/pause.tscn" id="2_hovdd"]
 [ext_resource type="ArrayMesh" uid="uid://dc25l7kwut7fk" path="res://assets/mesh/11807_boat_v1_L2.obj" id="2_w2ep0"]
+[ext_resource type="PackedScene" uid="uid://ci5hnvsslnu13" path="res://scene/menu/HUD.tscn" id="5_rrjs7"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_w2ep0"]
 points = PackedVector3Array(1.1458497, 70.76997, 94.2097, -4.095591, 60.287094, 52.282272, -4.095591, 65.528534, 52.282272, 1.1458497, 60.287094, 52.282272, -4.095591, 65.528534, 94.2097, 1.1458497, 60.287094, 78.47871, 1.1458497, 65.528534, 52.282272, -4.095591, 70.76997, 73.24599, -4.095591, 60.287094, 78.47871, 1.1458497, 70.76997, 73.24599, -4.095591, 70.76997, 94.2097, 1.1458497, 65.528534, 94.2097)
@@ -40,6 +41,7 @@ shader_parameter/refraction_speed = 1.0000000475
 shader_parameter/water_level_fudge = 0.0
 
 [node name="player" type="RigidBody3D" unique_id=788734149]
+mass = 350.0
 linear_damp = 2.0
 angular_damp = 1.0
 script = ExtResource("1_4flbx")
@@ -77,12 +79,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6083679, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.156124)
 
 [node name="effect" type="MeshInstance3D" parent="twist_pivot/pitch_pivot/Camera3D" unique_id=612445735]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0, -0.07)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.74120736, 0, -0.07000017)
 mesh = SubResource("QuadMesh_hovdd")
 surface_material_override/0 = SubResource("ShaderMaterial_5utgv")
 
 [node name="pause_manu" parent="." unique_id=120024327 instance=ExtResource("2_hovdd")]
 visible = false
 
-[node name="thrust" type="Node3D" parent="." unique_id=1710508187]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3841858e-07, -0.35173133, 2.3732758)
+[node name="ColorRect" parent="." unique_id=1470781587 instance=ExtResource("5_rrjs7")]
+visible = false

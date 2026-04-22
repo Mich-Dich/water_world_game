@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bdq0b60payyja"]
+
+[ext_resource type="ArrayMesh" uid="uid://c4ydfowlocxyn" path="res://assets/mesh/bouy.obj" id="1_u4ao8"]
+[ext_resource type="Script" uid="uid://d0htjmd14612p" path="res://scene/objects/bouy.gd" id="2_ifngp"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ifngp"]
+radius = 0.41
+
+[node name="RigidBody3D" type="RigidBody3D" unique_id=1391685409]
+mass = 20.0
+linear_damp = 1.0
+script = ExtResource("2_ifngp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1158279181]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+mesh = ExtResource("1_u4ao8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1159375216]
+shape = SubResource("SphereShape3D_ifngp")
