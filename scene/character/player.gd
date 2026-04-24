@@ -1,11 +1,11 @@
 extends RigidBody3D
 
 # Input
-@export var thrust_force := 980000.0						# Force applied along forward axis
+@export var thrust_force := 680000.0						# Force applied along forward axis
 @export var turn_torque := 90000.0							# Torque applied for rotation (A/D)
 @export var thrust_offset: Vector3 = Vector3(0, 0.24, 0)
 @export var max_speed := 20.0								# Max speed (units/sec)
-@export var linear_damping_default := 1.0					# Drag in air
+@export var linear_damping_default := 0.4					# Drag in air
 @export var mouse_sensitivity := 0.002
 var move_input := Vector2.ZERO
 var twist_input := 0.0
@@ -19,8 +19,8 @@ enum camera_type {
 
 # Buoyancy settings
 @export var buoyancy_strength: float = 15.0
-@export var water_drag: float = 3.0
-@export var water_angular_drag: float = 3.0
+@export var water_drag: float = 1.0
+@export var water_angular_drag: float = 0.8
 @export var player_height: float = 2.0        # Approximate height of the capsule/character
 @export var float_offset: float = 1.0
 const buoyancy_points: Array[Vector3] = [
@@ -68,9 +68,9 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		var depth := water_height - world_point.y   	# positive if submerged
 		if depth > 0.0:
 			is_submersion = true
-			#DebugDraw3D.draw_arrow(world_point, world_point + Vector3(0, 0.5, 0), Color(0, 1, 0, 1), 0.03, false, 0.001)
 			var force := Vector3.UP * buoyancy_strength * depth * mass
 			state.apply_force(force, world_point - state.transform.origin)
+			#DebugDraw3D.draw_arrow(world_point, world_point + Vector3(0, 0.5, 0), Color(0, 1, 0, 1), 0.03, false, 0.001)
 		#else:
 			#DebugDraw3D.draw_arrow(world_point, world_point + Vector3(0, 0.5, 0), Color(1, 0, 0, 1), 0.03, false, 0.001)
 
@@ -98,7 +98,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		pitch_input = -event.relative.y * mouse_sensitivity
 	if event.is_action_pressed("escape"):
 		$pause_manu.pause()
-
+	if event.is_action_pressed("reset_player_pos"):
+		global_position.y += 2.0
+		var camera : Camera3D = get_camera()
+		var camera_forward : Vector3 = -camera.global_transform.basis.z
+		camera_forward.y = 0.0
+		if camera_forward.length_squared() > 0.001:
+			camera_forward = -camera_forward.normalized()
+			var yaw := atan2(camera_forward.x, camera_forward.z)
+			global_rotation = Vector3(0.0, yaw, 0.0)
+		linear_velocity = Vector3.ZERO
+		angular_velocity = Vector3.ZERO
 
 func get_camera() -> Camera3D:
 	return pitch_pivot.get_node("Camera3D") as Camera3D
