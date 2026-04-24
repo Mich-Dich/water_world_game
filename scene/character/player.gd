@@ -1,39 +1,40 @@
 extends RigidBody3D
 
 # Input
-@export var thrust_force := 680000.0						# Force applied along forward axis
-@export var turn_torque := 90000.0							# Torque applied for rotation (A/D)
-@export var thrust_offset: Vector3 = Vector3(0, 0.24, 0)
-@export var max_speed := 20.0								# Max speed (units/sec)
-@export var linear_damping_default := 0.4					# Drag in air
-@export var mouse_sensitivity := 0.002
-var move_input := Vector2.ZERO
-var twist_input := 0.0
-var pitch_input := 0.0
-const half_pi := (PI/2) - 0.1
+@export var thrust_force:				float = 680000.0	# Force applied along forward axis
+@export var turn_torque:				float = 90000.0		# Torque applied for rotation (A/D)
+@export var mouse_sensitivity:			float = 0.002
+var move_input:							Vector2 = Vector2.ZERO
+var twist_input:						float = 0.0
+var pitch_input:						float = 0.0
+const half_pi:							float = (PI/2) - 0.1
 enum camera_type {
 	ORBIT,
 	THIRD_PERSON
 }
-@export var current_camera_type: camera_type = camera_type.ORBIT
+@export var current_camera_type: 		camera_type = camera_type.ORBIT
 
 # Buoyancy settings
-@export var buoyancy_strength: float = 15.0
-@export var water_drag: float = 1.0
-@export var water_angular_drag: float = 0.8
-@export var player_height: float = 2.0        # Approximate height of the capsule/character
-@export var float_offset: float = 1.0
-const buoyancy_points: Array[Vector3] = [
-	Vector3(-0.4, -0.15,  1.6),   # front left (slightly above COM)
-	Vector3( 0.4, -0.15,  1.6),   # front right
-	Vector3(-0.4, -0.15,  0.9),   # middle left (below COM)
-	Vector3( 0.4, -0.15,  0.9),   # middle right
-	Vector3(-0.4, -0.15, -0.6),   # middle right
-	Vector3( 0.4, -0.15, -0.6),   # middle right
-	Vector3(-0.4, -0.1,  -1.7),   # rear left
-	Vector3( 0.4, -0.1,  -1.7),   # rear right
+@export var buoyancy_strength: 			float = 30000.0
+@export var water_damping: 				float = 1.0
+@export var water_angular_damping: 		float = 0.8
+@export var linear_damping_default: 	float = 0.3     # in air
+@export var angular_damping_default: 	float = 0.3     # in air
+const floaters: 						Array[Vector3] = [			# all sheres have the same radius for simpler calculation
+	Vector3( 0.452, -0.094,  1.89),		Vector3(-0.452, -0.094,  1.89),
+	Vector3( 0.478, -0.087,  1.153),	Vector3(-0.478, -0.087,  1.153),
+	Vector3( 0.478, -0.102,  0.277),	Vector3(-0.478, -0.102,  0.277),
+	Vector3( 0.478, -0.094, -0.63),		Vector3(-0.478, -0.094, -0.63),
+	#Vector3( 0.478, -0.065, -1.445),	Vector3(-0.478, -0.065, -1.445),
+	Vector3( 0.46,   0.017, -2.16),		Vector3(-0.46,   0.017, -2.16)
 ]
-const thrust_pos:= Vector3(0.0, -0.352, 2.373)
+const floater_radius: 					float = 0.2
+var floater_volume:						float = wave_settings.get_shere_volume(floater_radius)
+
+# Movement
+const thrust_pos:						Vector3 = Vector3(0.0, -0.352, 2.373)
+@export var thrust_offset: 				Vector3 = Vector3(0, 0.25, 0)
+@export var max_speed:					float = 20.0		# Max speed (units/sec)
 
 # Node referencesw
 @onready var twist_pivot := $twist_pivot
@@ -50,7 +51,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	var thrust_loc := to_global(thrust_pos)
-	if (wave_settings.get_wave_height(Vector2(thrust_loc.x, thrust_loc.z)) - thrust_loc.y) > 0.0:		# prop submerged?
+	var prop_depth: float = wave_settings.get_wave_height(Vector2(thrust_loc.x, thrust_loc.z)) - thrust_loc.y
+	if (prop_depth > 0.0 && prop_depth < 1.5):		# prop submerged but not to deep?
 		move_input = Input.get_vector("move_right", "move_left", "move_forward", "move_back")
 		if move_input.y != 0.0:			# thrust
 			var force_dir: Vector3 = global_transform.basis.z * (move_input.y * thrust_force * delta)
@@ -62,13 +64,12 @@ func _physics_process(delta: float) -> void:
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	# point‑based buoyancy forces
 	var is_submersion : bool = false
-	for local_point_2d in buoyancy_points:
-		var world_point := state.transform * local_point_2d
-		var water_height := wave_settings.get_wave_height(Vector2(world_point.x, world_point.z))
-		var depth := water_height - world_point.y   	# positive if submerged
-		if depth > 0.0:
+	for floaters_loc_position in floaters:
+		var world_point: Vector3 = state.transform * floaters_loc_position
+		var submerged_volume: float = wave_settings.get_submerged_volume_sphere(world_point, floater_radius, floater_volume)
+		if submerged_volume > 0.0:
 			is_submersion = true
-			var force := Vector3.UP * buoyancy_strength * depth * mass
+			var force := Vector3.UP * buoyancy_strength * submerged_volume
 			state.apply_force(force, world_point - state.transform.origin)
 			#DebugDraw3D.draw_arrow(world_point, world_point + Vector3(0, 0.5, 0), Color(0, 1, 0, 1), 0.03, false, 0.001)
 		#else:
@@ -78,8 +79,8 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	# Use [global_rotation] and calculate sloping factor
 
 	# adjust linear/angular dampening
-	linear_damp = water_drag if is_submersion else linear_damping_default
-	angular_damp = water_angular_drag if is_submersion else 1.0
+	linear_damp = water_damping if is_submersion else linear_damping_default
+	angular_damp = water_angular_damping if is_submersion else angular_damping_default
 
 
 func _process(delta: float) -> void:
@@ -99,7 +100,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("escape"):
 		$pause_manu.pause()
 	if event.is_action_pressed("reset_player_pos"):
-		global_position.y += 2.0
+		var sea_height : float = wave_settings.get_wave_height(Vector2(global_position.x, global_position.z))
+		global_position.y = sea_height + 1
 		var camera : Camera3D = get_camera()
 		var camera_forward : Vector3 = -camera.global_transform.basis.z
 		camera_forward.y = 0.0

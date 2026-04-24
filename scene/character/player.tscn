@@ -4,7 +4,13 @@
 [ext_resource type="Shader" uid="uid://crnr1dqndi7g8" path="res://shaders/under_water_effect.gdshader" id="2_5utgv"]
 [ext_resource type="PackedScene" uid="uid://btjvhojhxsglp" path="res://scene/menu/pause.tscn" id="2_hovdd"]
 [ext_resource type="ArrayMesh" uid="uid://dc25l7kwut7fk" path="res://assets/mesh/11807_boat_v1_L2.obj" id="2_w2ep0"]
+[ext_resource type="Shader" uid="uid://2t5hj4crolnx" path="res://shaders/bouy.gdshader" id="3_1t3kv"]
 [ext_resource type="PackedScene" uid="uid://ci5hnvsslnu13" path="res://scene/menu/HUD.tscn" id="5_rrjs7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5srte"]
+render_priority = 0
+shader = ExtResource("3_1t3kv")
+shader_parameter/color = Color(1, 0.5, 0, 1)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_w2ep0"]
 points = PackedVector3Array(1.1458497, 70.76997, 94.2097, -4.095591, 60.287094, 52.282272, -4.095591, 65.528534, 52.282272, 1.1458497, 60.287094, 52.282272, -4.095591, 65.528534, 94.2097, 1.1458497, 60.287094, 78.47871, 1.1458497, 65.528534, 52.282272, -4.095591, 70.76997, 73.24599, -4.095591, 60.287094, 78.47871, 1.1458497, 70.76997, 73.24599, -4.095591, 70.76997, 94.2097, 1.1458497, 65.528534, 94.2097)
@@ -49,6 +55,7 @@ script = ExtResource("1_4flbx")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1647049077]
 transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, 0, -0.33472806, 0)
 mesh = ExtResource("2_w2ep0")
+surface_material_override/0 = SubResource("ShaderMaterial_5srte")
 
 [node name="CollisionShape3D5" type="CollisionShape3D" parent="." unique_id=791545380]
 transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, 0, -0.33472806, 0)

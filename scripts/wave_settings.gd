@@ -3,10 +3,10 @@ extends Node
 
 # settings for wave calculation
 var current_time := 0.0
-var sea_height : float = 0.4
+var sea_height : float = 0.32
 var sea_choppy : float = 4.0
 var sea_speed : float = 1.5
-var sea_freq : float = 0.08
+var sea_freq : float = 0.032
 var water_materials: Array[ShaderMaterial] = []
 
 
@@ -54,10 +54,6 @@ func set_weather_conditions(height: float, rough: float, speed: float, freq: flo
 
 # ----------------------- Wave height calculation -----------------------
 const ITER_GEOMETRY := 3
-const OCTAVE_M: Array = [
-	[1.6, 1.2],
-	[-1.2, 1.6]
-]
 const VEC2_ZERO := Vector2(0, 0)
 const VEC2_RIGHT := Vector2(1, 0)
 const VEC2_UP := Vector2(0, 1)
@@ -115,7 +111,7 @@ func mat2_mult(m: Array, v: Vector2) -> Vector2:
 	)
 
 
-# Main height evaluation – inlined matrix multiplication and time offset
+# Main height evaluation
 func get_wave_height(world_pos: Vector2) -> float:
 	var freq: float = sea_freq
 	var amp: float = sea_height
@@ -125,7 +121,7 @@ func get_wave_height(world_pos: Vector2) -> float:
 	var uv: Vector2 = world_pos
 	uv.x *= 0.75
 	var h: float = 0.0
-	for i in range(3):   # ITER_GEOMETRY
+	for i in range(ITER_GEOMETRY):
 		# First octave
 		var d: float = sea_octave((uv + time_offset) * freq, choppy)
 		# Second octave
@@ -139,3 +135,18 @@ func get_wave_height(world_pos: Vector2) -> float:
 		amp *= 0.22
 		choppy = lerp(choppy, 1.0, 0.2)
 	return h
+
+
+func get_submerged_volume_sphere(world_position: Vector3, radius: float, total_volume: float) -> float:
+	var world_point: Vector3 = world_position - Vector3(0, radius, 0)
+	var water_height: float = wave_settings.get_wave_height(Vector2(world_point.x, world_point.z))
+	var depth: float = water_height - world_point.y   	# positive if submerged
+	if depth < 0.0:										# not in water
+		return 0.0
+	if depth > 0.0 && depth < (2 * radius):				# partally in water
+		return depth * depth * ((radius * 3) - depth)
+	return total_volume									# only option left (fully submerged)
+
+
+func get_shere_volume(radius: float) -> float:
+	return (4.0/3.0) * PI * radius * radius * radius
