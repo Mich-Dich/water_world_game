@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://belnvvxoj5goq"]
 
+[ext_resource type="Script" uid="uid://w1o2qqtvmnsj" path="res://scene/000.gd" id="1_0kde7"]
 [ext_resource type="PackedScene" uid="uid://cpdht31432b30" path="res://scene/water_plaine.tscn" id="2_svyum"]
 [ext_resource type="PackedScene" uid="uid://cfb6vip2v1uj3" path="res://scene/character/player.tscn" id="3_qufgm"]
-[ext_resource type="PackedScene" uid="uid://bdq0b60payyja" path="res://scene/objects/bouy.tscn" id="5_0kde7"]
+[ext_resource type="PackedScene" uid="uid://giqy0fp07tht" path="res://scene/objects/terrain.tscn" id="4_fxnfp"]
+[ext_resource type="Script" uid="uid://cvuyafbcmx87x" path="res://scripts/spectator_camera_3d.gd" id="6_qlmku"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pit2l"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -17,17 +19,8 @@ sky = SubResource("Sky_gbilv")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="SphereMesh" id="SphereMesh_qufgm"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_qufgm"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_fxnfp"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_fxnfp"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_0kde7"]
-
 [node name="Node3D" type="Node3D" unique_id=1251377338]
+script = ExtResource("1_0kde7")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1904029241]
 environment = SubResource("Environment_atw5s")
@@ -36,71 +29,16 @@ environment = SubResource("Environment_atw5s")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="player" parent="." unique_id=788734149 instance=ExtResource("3_qufgm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.994865, 1.2956352, -6.8655605)
+[node name="player" parent="." unique_id=788734149 node_paths=PackedStringArray("spectator_camera") instance=ExtResource("3_qufgm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.296, 0)
+spectator_camera = NodePath("../SpectatorCamera3D")
 
-[node name="MeshInstance3D2" parent="." unique_id=1358867198 instance=ExtResource("2_svyum")]
+[node name="water_plain" parent="." unique_id=1358867198 instance=ExtResource("2_svyum")]
 transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, -0.00822258, 0.16669512, -0.099365234)
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=2110779139]
-transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 60.009964, -18.422276, -79.62622)
-mesh = SubResource("SphereMesh_qufgm")
+[node name="Terrain" parent="." unique_id=280443316 instance=ExtResource("4_fxnfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -21.92868, 0)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D3" unique_id=81312724]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D3/StaticBody3D" unique_id=529304023]
-shape = SubResource("SphereShape3D_qufgm")
-
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=680762560]
-transform = Transform3D(4.7932014, -263.29205, 0, 8.7764015, 143.79604, 0, 0, 0, 10, 83.5576, -61.16446, 0)
-mesh = SubResource("BoxMesh_fxnfp")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D4" unique_id=1450747939]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D4/StaticBody3D" unique_id=1068999755]
-shape = SubResource("BoxShape3D_fxnfp")
-
-[node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=1959393]
-transform = Transform3D(3, 0, 0, 0, 150, 0, 0, 0, 3, 0, -70, 15)
-mesh = SubResource("BoxMesh_fxnfp")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D6" unique_id=1979362164]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D6/StaticBody3D" unique_id=107664746]
-shape = SubResource("BoxShape3D_fxnfp")
-
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=580339639]
-transform = Transform3D(-8.7073084e-07, -100, 0, 19.92, -4.371139e-06, 0, 0, 0, 12.005, 0, 0, 34.239937)
-mesh = SubResource("BoxMesh_fxnfp")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D5" unique_id=1167269412]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D5/StaticBody3D" unique_id=544468311]
-shape = SubResource("BoxShape3D_0kde7")
-
-[node name="MeshInstance3D16" type="MeshInstance3D" parent="." unique_id=471241131]
-transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 60.009964, -43.062374, -49.822678)
-mesh = SubResource("SphereMesh_qufgm")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D16" unique_id=2057478766]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D16/StaticBody3D" unique_id=457173133]
-shape = SubResource("SphereShape3D_qufgm")
-
-[node name="RigidBody3D" parent="." unique_id=1391685409 instance=ExtResource("5_0kde7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.983303, 2.2598372, -12.097181)
-
-[node name="RigidBody3D2" parent="." unique_id=212518433 instance=ExtResource("5_0kde7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.983303, 2.2598372, -10.097181)
-
-[node name="RigidBody3D3" parent="." unique_id=506522735 instance=ExtResource("5_0kde7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.983303, 2.2598372, -8.097181)
-
-[node name="RigidBody3D4" parent="." unique_id=1997505090 instance=ExtResource("5_0kde7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.983303, 2.2598372, -6.0971813)
-
-[node name="RigidBody3D5" parent="." unique_id=1187934745 instance=ExtResource("5_0kde7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.983303, 2.2598372, -4.0971813)
-
-[node name="RigidBody3D6" parent="." unique_id=1814936692 instance=ExtResource("5_0kde7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.983303, 2.2598372, -2.0971813)
+[node name="SpectatorCamera3D" type="Camera3D" parent="." unique_id=1129329762]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
+script = ExtResource("6_qlmku")

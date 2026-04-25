@@ -21,7 +21,7 @@ subdivide_width = 150
 subdivide_depth = 100
 orientation = 1
 
-[node name="MeshInstance3D" type="MeshInstance3D" unique_id=1358867198]
+[node name="water_plain" type="MeshInstance3D" unique_id=1358867198]
 cast_shadow = 0
 mesh = SubResource("QuadMesh_f5a4c")
 surface_material_override/0 = ExtResource("1_i4or1")

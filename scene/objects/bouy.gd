@@ -8,7 +8,7 @@ extends RigidBody3D
 @export var water_angular_damping: 		float = 0.8
 @export var buoyancy_strength: 			float = 5000.0
 const floater_radius: 					float = 0.4
-var floater_volume:						float = wave_settings.get_shere_volume(floater_radius)
+var floater_volume:						float = wave_settings.get_sphere_volume(floater_radius)
 
 
 func _ready() -> void:

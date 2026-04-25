@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://geip0d8uth6j"]
+
+[ext_resource type="ArrayMesh" uid="uid://dys0f6xt37q7t" path="res://assets/mesh/aquatic_water_plant_2.obj" id="1_diw5s"]
+[ext_resource type="Shader" uid="uid://cec03uebgrmyc" path="res://shaders/plant_0.gdshader" id="2_xuhwb"]
+[ext_resource type="Texture2D" uid="uid://dl3uei5ffe6r" path="res://assets/texture/057_leaf.jpg" id="3_xuhwb"]
+[ext_resource type="Script" uid="uid://bbv0uc5fudqww" path="res://scene/objects/plant_0.gd" id="4_uhlmg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uhlmg"]
+render_priority = 0
+shader = ExtResource("2_xuhwb")
+shader_parameter/color = ExtResource("3_xuhwb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" unique_id=280390484]
+transform = Transform3D(0.44919875, 0, 0, 0, 0.44919875, 0, 0, 0, 0.44919875, 0, 0, 0)
+mesh = ExtResource("1_diw5s")
+surface_material_override/0 = SubResource("ShaderMaterial_uhlmg")
+script = ExtResource("4_uhlmg")

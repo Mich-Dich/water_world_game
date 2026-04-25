@@ -11,13 +11,12 @@ func _ready() -> void:
 	bu_resume.pressed.connect(resume)
 	bu_quit.pressed.connect(get_tree().quit)
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
 
-func resume():
+func resume() -> void:
 	animator.play("hide")
 	self.hide()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -25,7 +24,7 @@ func resume():
 	print("Resuming Game")
 
 
-func pause():
+func pause() -> void:
 	self.show()
 	animator.play("show")
 	for i in range(10):

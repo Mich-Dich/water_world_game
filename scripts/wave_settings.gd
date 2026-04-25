@@ -143,10 +143,10 @@ func get_submerged_volume_sphere(world_position: Vector3, radius: float, total_v
 	var depth: float = water_height - world_point.y   	# positive if submerged
 	if depth < 0.0:										# not in water
 		return 0.0
-	if depth > 0.0 && depth < (2 * radius):				# partally in water
+	if depth > 0.0 && depth < (2 * radius):				# partially in water
 		return depth * depth * ((radius * 3) - depth)
 	return total_volume									# only option left (fully submerged)
 
 
-func get_shere_volume(radius: float) -> float:
+func get_sphere_volume(radius: float) -> float:
 	return (4.0/3.0) * PI * radius * radius * radius
