@@ -14,6 +14,7 @@ func _ready() -> void:
 	timer.timeout.connect(update_position_camera)
 	add_child(timer)
 
+
 func _process(delta) -> void:
 	# TODO: remove on realease
 	if Engine.is_editor_hint():

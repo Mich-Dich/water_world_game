@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://d3rp3i7kmjj8g"]
+
+[ext_resource type="Material" uid="uid://qcs6g7y0leq" path="res://shaders/ppm_motor_wake.tres" id="1_1t1md"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mp6ad"]
+albedo_color = Color(0.834597, 0.90047336, 0.9208094, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_1t1md"]
+radius = 0.02
+height = 0.04
+radial_segments = 4
+rings = 1
+
+[node name="water_splash" type="GPUParticles3D" unique_id=1855549335]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_mp6ad")
+amount = 2000
+lifetime = 0.92
+randomness = 0.93
+fixed_fps = 0
+process_material = ExtResource("1_1t1md")
+draw_pass_1 = SubResource("SphereMesh_1t1md")

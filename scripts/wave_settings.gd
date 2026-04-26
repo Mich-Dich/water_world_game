@@ -3,7 +3,7 @@ extends Node
 
 # settings for wave calculation
 var current_time := 0.0
-var sea_height : float = 0.32
+var sea_height : float = 0.9
 var sea_choppy : float = 4.0
 var sea_speed : float = 1.5
 var sea_freq : float = 0.032

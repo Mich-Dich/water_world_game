@@ -1,37 +1,63 @@
 extends Node
 
-const MAX_ATTEMPTS: int = 100
 const MAX_RETRIES: int = 10
+const MAX_ATTEMPTS: int = 100
 const SPLINE_SAMPLES: int = 20
-const MIN_TRACK_LENGTH: int = 6
+const MIN_TRACK_LENGTH: int = 8
 
-var default_config := {
-	num_points = 15,
-	margin = 50.0,
-	min_distance = 50.0,
-	connect_distance = 400.0,
-	num_splits = 1,
-	seed = 42,
-	area_rect = Vector2(300.0, 300.0)			# will be doubled
-}
-var current_track: Dictionary
+class config:
+	var num_points: int
+	var margin: float
+	var min_distance: float
+	var connect_distance: float
+	var num_splits: int
+	var seed: int
+	var area_rect: Vector2
+	
+	func _init(p_num_points: int, p_margin: float, p_min_distance: float, p_connect_distance: float, 
+		p_num_splits: int, p_seed: int = -1, p_area_rect: Vector2 = Vector2(500, 500)) -> void:
+		num_points = p_num_points
+		margin = p_margin
+		min_distance = p_min_distance
+		connect_distance = p_connect_distance
+		num_splits = p_num_splits
+		seed = seed
+		area_rect = p_area_rect
+
+var default_config := config.new(15, 50.0, 5000.0, 400.0, 1, 42, Vector2(300.0, 300.0))
+
+class track_data:
+	var control_points: Array[Vector2]
+	var track_path: Array[Vector2]
+	var open: bool
+	var spline_points: Array[Vector2]
+	var splits: Array[Vector2]
+	
+	func _init(p_control_points: Array[Vector2], p_track_path: Array[Vector2], p_open: bool,
+		p_spline_points: Array[Vector2], p_splits: Array[Vector2]) -> void:
+		control_points = p_control_points
+		track_path = p_track_path
+		open = p_open
+		spline_points = p_spline_points
+		splits = p_splits
+
+var current_track: track_data
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
 
-func generate_track(config: Dictionary = {}) -> Dictionary:
-	# make sure all settings are at least deafult
-	var local_config: Dictionary = default_config.duplicate()
-	for key in config:
-		local_config[key] = config[key]
+func generate_track(local_config: config = default_config) -> track_data:
+	## make sure all settings are at least deafult
+	#var local_config: Dictionary = default_config.duplicate()
+	#for key in config:
+		#local_config[key] = config[key]
 	var random := RandomNumberGenerator.new()
 	if local_config.seed != -1:
 		random.seed = local_config.seed
@@ -41,32 +67,21 @@ func generate_track(config: Dictionary = {}) -> Dictionary:
 	var points: Array[Vector2] = []
 	var path: Array[Vector2] = []
 	while open and counter < MAX_ATTEMPTS:				# repeat untill track makes sense
-		points = generate_points(local_config, random)
+		points = generate_points(random, local_config)
 		path = build_track_path(points, local_config.connect_distance)
 		open = (path.size() < MIN_TRACK_LENGTH) or (path[0] != path.back())
 		counter += 1
-	print("Created track with [", counter, "] attempts")
+	print("Created track with [", counter, "] attempts, track open: [", open, "]")
 
-	var unique_control: Array[Vector2]
-	unique_control = path.duplicate()
-	if not open:
-		unique_control.pop_back()
-
-	var spline_points: Array = get_spline_points(unique_control, !open, SPLINE_SAMPLES)
-	var splits: Array = []
-	if local_config.num_splits > 0 and unique_control.size() >= 3:
-		splits = create_splits(unique_control, local_config.num_splits, local_config.area_rect)
-	current_track = {
-		control_points = points,
-		track_path = path,
-		open = open,
-		spline_points = spline_points,
-		splits = splits
-	}
+	var spline_points: Array[Vector2] = get_spline_points(path, !open, SPLINE_SAMPLES)
+	var splits: Array[Vector2] = []
+	if local_config.num_splits > 0 and path.size() >= 3:
+		splits = create_splits(path, local_config.num_splits, local_config.area_rect)
+	current_track = track_data.new(points, path, open, spline_points, splits)
 	return current_track
 
 
-func get_spline_points(control_points: Array[Vector2], closed: bool = false, num_samples: int = SPLINE_SAMPLES) -> Array:
+func get_spline_points(control_points: Array[Vector2], closed: bool = false, num_samples: int = SPLINE_SAMPLES) -> Array[Vector2]:
 	if control_points.size() < 2:
 		return control_points.duplicate()
 	if control_points.size() == 2:
@@ -76,10 +91,10 @@ func get_spline_points(control_points: Array[Vector2], closed: bool = false, num
 		result.append(control_points[1])
 		return result
 
-	var spline := []
+	var spline: Array[Vector2] = []
 	if closed:
 		var n := control_points.size()
-		for i in range(n-1):
+		for i in range(n):
 			var p0: Vector2 = control_points[(i - 1) % n]
 			var p1: Vector2 = control_points[i]
 			var p2: Vector2 = control_points[(i + 1) % n]
@@ -97,7 +112,7 @@ func get_spline_points(control_points: Array[Vector2], closed: bool = false, num
 		spline.append(spline[0])   # close smooth loop
 	else:
 		var extended := [control_points[0]] + control_points + [control_points.back()]
-		for i in range(1, extended.size() - 2):
+		for i in range(1, extended.size() - 1):
 			var p0: Vector2 = extended[i - 1]
 			var p1: Vector2 = extended[i]
 			var p2: Vector2 = extended[i + 1]
@@ -214,16 +229,16 @@ func build_track_path(points: Array[Vector2], max_distance: float) -> Array[Vect
 	return path
 
 
-func generate_points(config: Dictionary, random: RandomNumberGenerator) -> Array[Vector2]:
-	var margin: float = config.margin
-	var min_distance: float = config.min_distance
-	var area_rect: Vector2 = config.area_rect
+func generate_points(random: RandomNumberGenerator, local_config: config = default_config) -> Array[Vector2]:
+	var margin: float = local_config.margin
+	var min_distance: float = local_config.min_distance
+	var area_rect: Vector2 = local_config.area_rect
 	var x_min: float = -area_rect.x
 	var x_max: float = area_rect.x
 	var y_min: float = -area_rect.y
 	var y_max: float = area_rect.y
 	var candidate: Array[Vector2] = []
-	for _i in range(config.num_points):
+	for _i in range(local_config.num_points):
 		var best_pt := Vector2.ZERO
 		var best_min_dist := -1.0
 		for _trial in range(MAX_ATTEMPTS):

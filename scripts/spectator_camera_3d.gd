@@ -1,6 +1,6 @@
 extends Camera3D
 
-@export var move_speed: float = 40.0
+@export var move_speed: float = 100.0
 @export var mouse_sensitivity: float = 0.002
 
 var velocity: Vector3 = Vector3.ZERO

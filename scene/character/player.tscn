@@ -6,6 +6,8 @@
 [ext_resource type="ArrayMesh" uid="uid://dc25l7kwut7fk" path="res://assets/mesh/11807_boat_v1_L2.obj" id="2_w2ep0"]
 [ext_resource type="Shader" uid="uid://2t5hj4crolnx" path="res://shaders/bouy.gdshader" id="3_1t3kv"]
 [ext_resource type="PackedScene" uid="uid://ci5hnvsslnu13" path="res://scene/menu/HUD.tscn" id="5_rrjs7"]
+[ext_resource type="PackedScene" uid="uid://bstaqstdr1yhb" path="res://scene/vfx/water_splash_small.tscn" id="7_5srte"]
+[ext_resource type="PackedScene" uid="uid://d3rp3i7kmjj8g" path="res://scene/vfx/water_splash.tscn" id="8_oig6r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5srte"]
 render_priority = 0
@@ -95,3 +97,47 @@ visible = false
 
 [node name="ColorRect" parent="." unique_id=1470781587 instance=ExtResource("5_rrjs7")]
 visible = false
+
+[node name="water_splash_small_r0" parent="." unique_id=1365606799 instance=ExtResource("7_5srte")]
+transform = Transform3D(0.9456037, 0, 0.3253206, 0, 0.99999994, 0, -0.32532057, 0, 0.9456038, 0.6190989, -0.053731706, -2.2144115)
+emitting = false
+
+[node name="water_splash_small_r1" parent="." unique_id=1218677733 instance=ExtResource("7_5srte")]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1.3942014, 0.68471074, -0.053731706, -1.136739)
+emitting = false
+
+[node name="water_splash_small_r2" parent="." unique_id=1483364174 instance=ExtResource("7_5srte")]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1.276226, 0.68471074, -0.053731706, 0.024348497)
+emitting = false
+
+[node name="water_splash_small_r3" parent="." unique_id=1870629156 instance=ExtResource("7_5srte")]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1.276226, 0.70524096, -0.053731706, 0.9111352)
+emitting = false
+
+[node name="water_splash_small_r4" parent="." unique_id=827912385 instance=ExtResource("7_5srte")]
+transform = Transform3D(0.999612, 0, -0.027851852, 0, 0.99999994, 0, 0.02785185, 0, 0.99961203, 0.6805061, -0.054, 1.8639446)
+emitting = false
+
+[node name="water_splash_small_l0" parent="." unique_id=642347298 instance=ExtResource("7_5srte")]
+transform = Transform3D(-0.9876882, 0, 0.15643443, 0, 0.99999994, 0, -0.15643442, 0, -0.9876883, -0.619, -0.054, -2.214)
+emitting = false
+
+[node name="water_splash_small_l1" parent="." unique_id=1298690888 instance=ExtResource("7_5srte")]
+transform = Transform3D(-0.99999994, 0, -1.2188495e-07, 0, 0.99999994, 0, 8.742277e-08, 0, -1.3942014, -0.685, -0.054, -1.137)
+emitting = false
+
+[node name="water_splash_small_l2" parent="." unique_id=414180433 instance=ExtResource("7_5srte")]
+transform = Transform3D(-0.99999994, 0, -1.11571225e-07, 0, 0.99999994, 0, 8.742277e-08, 0, -1.276226, -0.685, -0.054, 0.024)
+emitting = false
+
+[node name="water_splash_small_l3" parent="." unique_id=1571429527 instance=ExtResource("7_5srte")]
+transform = Transform3D(-0.99999994, 0, -1.11571225e-07, 0, 0.99999994, 0, 8.742277e-08, 0, -1.276226, -0.705, -0.054, 0.911)
+emitting = false
+
+[node name="water_splash_small_l4" parent="." unique_id=410778581 instance=ExtResource("7_5srte")]
+transform = Transform3D(-0.99961007, 0, 0.027921537, 0, 0.99999994, 0, -0.027921535, 0, -0.9996101, -0.681, -0.054, 1.864)
+emitting = false
+
+[node name="motor_wash" parent="." unique_id=1704336605 instance=ExtResource("8_oig6r")]
+transform = Transform3D(-4.3711385e-08, 0, -1, 0, 0.99999994, 0, 0.99999994, 0, -4.371139e-08, -1.0956649e-07, -0.3396866, 2.4553027)
+emitting = false

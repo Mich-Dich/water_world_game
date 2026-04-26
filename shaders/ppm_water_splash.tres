@@ -1,0 +1,24 @@
+[gd_resource type="ParticleProcessMaterial" format=3 uid="uid://d1kw56q7o1w21"]
+
+[sub_resource type="Curve" id="Curve_gec1c"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.009259254, 0.52808994), 0.8441625, 0.8441625, 0, 0, Vector2(0.7546296, 0.8089888), 0.0, 0.0, 0, 0, Vector2(1, 0), -5.720702, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_j7dhm"]
+curve = SubResource("Curve_gec1c")
+
+[resource]
+lifetime_randomness = 0.62
+emission_shape = 3
+emission_box_extents = Vector3(0.05, 0.05, 0.4)
+inherit_velocity_ratio = 0.336
+direction = Vector3(1, 1, 0)
+spread = 35.0
+initial_velocity_min = 6.0
+initial_velocity_max = 12.0
+gravity = Vector3(0, -1, 0)
+scale_max = 5.0
+scale_curve = SubResource("CurveTexture_j7dhm")
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0

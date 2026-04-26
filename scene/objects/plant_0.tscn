@@ -11,7 +11,7 @@ shader = ExtResource("2_xuhwb")
 shader_parameter/color = ExtResource("3_xuhwb")
 
 [node name="MeshInstance3D" type="MeshInstance3D" unique_id=280390484]
-transform = Transform3D(0.44919875, 0, 0, 0, 0.44919875, 0, 0, 0, 0.44919875, 0, 0, 0)
+transform = Transform3D(0.380693, 0, 0, 0, 0.380693, 0, 0, 0, 0.380693, 0, 0, 0)
 mesh = ExtResource("1_diw5s")
 surface_material_override/0 = SubResource("ShaderMaterial_uhlmg")
 script = ExtResource("4_uhlmg")
