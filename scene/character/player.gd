@@ -1,8 +1,8 @@
 extends RigidBody3D
 
 # Input
-@export var thrust_force:				float = 680000.0	# Force applied along forward axis
-@export var turn_torque:				float = 150000.0	# Torque applied for rotation (A/D)
+@export var thrust_force:				float = 680000.0						# Force applied along forward axis
+@export var turn_torque:				float = 150000.0						# Torque applied for rotation (A/D)
 @export var mouse_sensitivity:			float = 0.002
 @export var spectator_camera:			Camera3D
 var move_input:							Vector2 = Vector2.ZERO
@@ -21,17 +21,14 @@ enum camera_type {
 @export var buoyancy_strength: 			float = 52000.0
 @export var water_damping: 				float = 0.85
 @export var water_angular_damping: 		float = 2.6
-@export var linear_damping_default: 	float = 0.3     # in air
-@export var angular_damping_default: 	float = 0.3     # in air
-
-
+@export var linear_damping_default: 	float = 0.3								# in air
+@export var angular_damping_default: 	float = 0.3								# in air
 class floater_data:
-	var position: 						Vector3			# all spheres have the same radius for simpler calculation
+	var position: 						Vector3									# all spheres have the same radius for simpler calculation
 	var splash_effect: 					Node
-	func _init(p_position: Vector3, p_splash_effect: Node):
+	func _init(p_position: Vector3, p_splash_effect: Node) -> void:
 		position = p_position
 		splash_effect = p_splash_effect
-
 @onready var floaters: 					Array[floater_data] = [
 	floater_data.new(Vector3( 0.452, -0.094,  1.890), $water_splash_small_r0),		floater_data.new(Vector3(-0.452, -0.094,  1.890), $water_splash_small_l0),
 	floater_data.new(Vector3( 0.478, -0.087,  1.153), $water_splash_small_r1),		floater_data.new(Vector3(-0.478, -0.087,  1.153), $water_splash_small_l1),
@@ -46,7 +43,7 @@ var floater_volume:						float = wave_settings.get_sphere_volume(floater_radius)
 # Movement
 const thrust_pos:						Vector3 = Vector3(0.0, -0.352, 2.373)
 @export var thrust_offset: 				Vector3 = Vector3(0, 0.25, 0)
-@export var max_speed:					float = 20.0		# Max speed (units/sec)
+@export var max_speed:					float = 20.0							# Max speed (units/sec)
 @export var impact_threshold: 			float = 8.0
 @export var impact_strength: 			float = 0.1
 @export var impact_decay: 				float = 6.0
@@ -56,9 +53,9 @@ const thrust_pos:						Vector3 = Vector3(0.0, -0.352, 2.373)
 @export var max_fov: 					float = 95.0
 @export var fov_speed_factor: 			float = 0.8
 @export var fov_smooth: 				float = 4.0
-@export var high_speed_angular_damping: float = 3.0   	# extra angular damping at max speed
-@export var downforce_strength: 		float = 1500.0	# downward force per unit of speed
-@export var downforce_only_in_water: 	bool = false	# apply downforce only when submerged
+@export var high_speed_angular_damping: float = 3.0   							# extra angular damping at max speed
+@export var downforce_strength: 		float = 1500.0							# downward force per unit of speed
+@export var downforce_only_in_water: 	bool = false							# apply downforce only when submerged
 var last_velocity: 						Vector3 = Vector3.ZERO
 var impact_offset: 						Vector3 = Vector3.ZERO
 var current_tilt: 						float = 0.0
@@ -67,6 +64,7 @@ var current_tilt: 						float = 0.0
 @onready var motor_wash					:= $motor_wash
 @onready var twist_pivot 				:= $twist_pivot
 @onready var pitch_pivot 				:= $twist_pivot/pitch_pivot
+@onready var pause_menu					:= $pause_menu
 @onready var model: 					MeshInstance3D = $MeshInstance3D
 var water_splash: 						PackedScene
 var timer: 								Timer
@@ -81,7 +79,7 @@ func _ready() -> void:
 	timer.one_shot = true
 	timer.wait_time = 1.5
 	timer.timeout.connect(set_player_position_to_start_of_track)
-	timer.start()
+	timer.autostart = true
 
 	var water_splash_material: Material = load("res://shaders/ppm_water_splash.tres")
 	for loc_floaters in floaters:
@@ -125,8 +123,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	# point‑based buoyancy forces
-	var is_submersion : bool = false
+	var is_submersion : bool = false											# point‑based buoyancy forces
 	for loc_floaters in floaters:
 		var world_point: Vector3 = state.transform * loc_floaters.position
 		var submerged_volume: float = wave_settings.get_submerged_volume_sphere(world_point, floater_radius, floater_volume)
@@ -141,16 +138,14 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 			particles.emitting = is_in_water and last_velocity.length() > 1
 			var mat := particles.process_material as ParticleProcessMaterial
 			if mat:
-				var speed := force.length() * 0.0065
-				mat.initial_velocity_min = speed * 0.5
-				mat.initial_velocity_max = speed * 1.5
+				var force_multiplier: float = force.length() * 0.0065
+				mat.initial_velocity_min = force_multiplier * 0.5
+				mat.initial_velocity_max = force_multiplier * 1.1
 
-	# adjust linear/angular dampening
-	linear_damp = water_damping if is_submersion else linear_damping_default
+	linear_damp = water_damping if is_submersion else linear_damping_default	# adjust linear/angular dampening
 	angular_damp = water_angular_damping if is_submersion else angular_damping_default
 
-	# stability helper
-	var speed: float = state.linear_velocity.length()
+	var speed: float = state.linear_velocity.length()							# stability helper
 	var speed_factor: float = clamp(speed / max_speed, 0.0, 1.0)
 	angular_damp += high_speed_angular_damping * speed_factor					# Increase rotational inertia at high speed
 	if not downforce_only_in_water or is_submersion:							# Downforce – pushes boat downward, scaled by speed
@@ -181,7 +176,7 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("escape"):
-		$pause_manu.pause()
+		pause_menu.pause()
 	if event.is_action_pressed("toggle_spectator"):
 		toggle_spectator()
 

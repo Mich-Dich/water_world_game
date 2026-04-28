@@ -7,7 +7,7 @@
 shader = ExtResource("1_h2tee")
 shader_parameter/lod = 0.800000038
 
-[node name="ColorRect" type="ColorRect" unique_id=120024327]
+[node name="HUD" type="ColorRect" unique_id=120024327]
 material = SubResource("ShaderMaterial_06t71")
 anchors_preset = 15
 anchor_right = 1.0

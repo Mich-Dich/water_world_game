@@ -1,0 +1,163 @@
+[gd_scene format=3 uid="uid://df7iek3utfg86"]
+
+[ext_resource type="ArrayMesh" uid="uid://dc25l7kwut7fk" path="res://assets/mesh/11807_boat_v1_L2.obj" id="1_s7p3w"]
+[ext_resource type="Texture2D" uid="uid://bmijtnbkhglrn" path="res://assets/texture/boat_diffuse_v1.jpg" id="2_1ibce"]
+[ext_resource type="PackedScene" uid="uid://bstaqstdr1yhb" path="res://scene/vfx/water_splash_small.tscn" id="3_1ibce"]
+[ext_resource type="Texture2D" uid="uid://bp8gngy3hxo1k" path="res://assets/texture/boat_bump_v1.jpg" id="3_3kgma"]
+[ext_resource type="Script" uid="uid://cmks1bry1rc5w" path="res://scripts/boat_behaviour.gd" id="3_cfh58"]
+[ext_resource type="PackedScene" uid="uid://d3rp3i7kmjj8g" path="res://scene/vfx/water_splash.tscn" id="4_3kgma"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gxyeq"]
+albedo_texture = ExtResource("2_1ibce")
+metallic = 1.0
+metallic_texture = ExtResource("3_3kgma")
+roughness_texture = ExtResource("3_3kgma")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1ibce"]
+points = PackedVector3Array(1.1458497, 70.76997, 94.2097, -4.095591, 60.287094, 52.282272, -4.095591, 65.528534, 52.282272, 1.1458497, 60.287094, 52.282272, -4.095591, 65.528534, 94.2097, 1.1458497, 60.287094, 78.47871, 1.1458497, 65.528534, 52.282272, -4.095591, 70.76997, 73.24599, -4.095591, 60.287094, 78.47871, 1.1458497, 70.76997, 73.24599, -4.095591, 70.76997, 94.2097, 1.1458497, 65.528534, 94.2097)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_3kgma"]
+points = PackedVector3Array(-14.578473, 60.29119, 47.03673, 11.628732, 81.25285, 47.03673, 1.1443107, 65.53212, 52.27817, 11.473955, 60.41499, 41.8572, -9.33498, 81.25285, 41.79529, -9.33498, 81.25285, 47.03673, -14.578473, 60.29119, 41.79529, 11.628732, 81.25285, 41.79529, 11.628732, 60.29119, 47.03673, -14.578473, 76.00782, 47.03673, -4.0940523, 60.29119, 52.27817, -14.578473, 76.00782, 41.79529, -4.0940523, 65.53212, 52.27817)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_gxyeq"]
+points = PackedVector3Array(11.628731, 154.61865, 57.51961, -9.337032, 81.26056, 41.79529, 11.628731, 81.26056, 41.79529, -9.337032, 159.87447, 41.79529, -9.337032, 133.657, 57.51961, 11.628731, 159.87447, 41.79529, 11.628731, 81.26056, 47.037758, -9.337032, 159.87447, 57.51961, -9.337032, 81.26056, 47.037758, 6.38729, 133.657, 57.51961, 6.38729, 159.87447, 57.51961, 11.628731, 138.89742, 57.51961, 11.628731, 159.87447, 52.277145)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_6dx50"]
+points = PackedVector3Array(22.111614, 34.077324, 47.03673, -19.819912, -13.082821, 41.79529, -14.578471, -23.57545, 41.79529, -14.578471, -18.3335, 52.27817, -14.578471, 60.287094, 52.27817, -14.578471, 60.287094, 41.79529, 16.86607, -18.3335, 41.79529, 16.86607, -13.082821, 52.27817, 16.86607, 60.287094, 41.79529, 11.624628, 60.287094, 52.27817, 11.624628, -28.817406, 47.03673, -19.819912, 34.077324, 52.27817, 22.111614, -2.6076355, 41.79529, -19.819912, 44.561234, 41.79529, 16.86607, 49.80319, 52.27817, -9.33703, -28.817406, 41.79529, -19.819912, 2.6430416, 52.27817, -9.33703, -28.817406, 47.03673, 22.111614, -2.6076355, 47.03673, 11.624628, -28.817406, 41.79529, 22.111614, 34.077324, 41.79529, 11.624628, -18.3335, 52.27817, 16.86607, 60.287094, 47.03673, -19.819912, -13.082821, 47.03673, -19.819912, 44.561234, 47.03673, -14.578471, -23.57545, 47.03673, 16.86607, -18.3335, 47.03673)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_grq35"]
+points = PackedVector3Array(-4.0904593, 165.11592, -10.619119, 11.6277075, 159.86217, 41.795288, 48.31882, -107.42261, 36.551796, -46.02712, 123.15156, 31.308302, 43.073277, 138.87999, 15.588084, -35.53603, -75.96575, -0.13213348, -46.02712, -107.42261, 36.551796, 32.59142, -128.33911, 5.106229, -46.02712, 138.87999, 15.588084, 30.674187, -160.11008, 25.43086, 32.59142, -86.47326, -0.13213348, -25.054173, -165.08257, 15.588084, 43.073277, 123.15156, 31.308302, -25.054173, -138.87947, 36.551796, 6.3821616, 165.11592, -10.619119, 43.073277, -112.67636, 10.349722, -46.02712, -133.62572, 20.826447, 37.827732, 123.15156, 5.106229, -40.781574, 91.72754, 5.106229, -25.054173, -102.16885, -0.13213348, -8.621468, 148.78659, 40.00877, 37.827732, -154.6079, 15.588084, 22.109564, -138.87947, 36.551796, -40.781574, -96.94794, 5.106229, -27.492474, -155.3629, 29.90491, -9.336005, 165.11592, 5.106229, -4.0904593, 144.13374, -10.619119, 27.345875, -102.16885, -0.13213348, -25.054173, -133.62572, 5.106229, 27.345875, -165.08257, 15.588084, 43.073277, 123.15156, 10.349722, -35.53603, -159.82881, 15.588084)
+
+[sub_resource type="SphereMesh" id="SphereMesh_1ibce"]
+radius = 0.2
+height = 0.4
+
+[sub_resource type="SphereMesh" id="SphereMesh_3kgma"]
+radius = 0.15
+height = 0.3
+
+[node name="RigidBody3D" type="RigidBody3D" unique_id=710540662 node_paths=PackedStringArray("splash_effect_right", "splash_effect_left")]
+script = ExtResource("3_cfh58")
+floater_right_transform = Array[Vector4]([Vector4(0.434, 0.097, -1.954, 0.15), Vector4(0.454, 0.103, -1.036, 0.2), Vector4(466, 0.085, -0.13, 0.2), Vector4(0.46, 0.131, 0.981, 0.2), Vector4(0.476, 0.137, 1.724, 0.2)])
+splash_effect_right = [NodePath("water_splash_small_r0"), NodePath("water_splash_small_r1"), NodePath("water_splash_small_r2"), NodePath("water_splash_small_r3"), NodePath("water_splash_small_r4")]
+floater_left_transform = Array[Vector4]([Vector4(-0.434, 0.097, -1.954, 0.15), Vector4(-0.454, 0.103, -1.036, 0.2), Vector4(-466, 0.085, -0.13, 0.2), Vector4(-0.46, 0.131, 0.981, 0.2), Vector4(-0.476, 0.137, 1.724, 0.2)])
+splash_effect_left = [NodePath("water_splash_small_l0"), NodePath("water_splash_small_l1"), NodePath("water_splash_small_l2"), NodePath("water_splash_small_l3"), NodePath("water_splash_small_l4")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=267300022]
+transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, -1.3707853e-15, -0.20768727, -9.0783e-09)
+mesh = ExtResource("1_s7p3w")
+surface_material_override/0 = SubResource("StandardMaterial3D_gxyeq")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="." unique_id=402148767]
+transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, -1.3707853e-15, -0.20768727, -9.0783e-09)
+visible = false
+shape = SubResource("ConvexPolygonShape3D_1ibce")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=1517665022]
+transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, -1.3707853e-15, -0.20768727, -9.0783e-09)
+visible = false
+shape = SubResource("ConvexPolygonShape3D_3kgma")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=641934539]
+transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, -1.3707853e-15, -0.20768727, -9.0783e-09)
+visible = false
+shape = SubResource("ConvexPolygonShape3D_gxyeq")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1818763165]
+transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, -1.3707853e-15, -0.20768727, -9.0783e-09)
+visible = false
+shape = SubResource("ConvexPolygonShape3D_6dx50")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1387171590]
+transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, -1.3707853e-15, -0.20768727, -9.0783e-09)
+visible = false
+shape = SubResource("ConvexPolygonShape3D_grq35")
+
+[node name="water_splash_small_r0" parent="." unique_id=1855549335 instance=ExtResource("3_1ibce")]
+transform = Transform3D(0.9830187, 0, 0.1835053, 0, 0.99999994, 0, -0.18350527, 0, 0.98301876, 0.5890791, -0.053731706, -1.9543871)
+emitting = false
+
+[node name="water_splash_small_r1" parent="." unique_id=422523672 instance=ExtResource("3_1ibce")]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0.68471074, -0.053731706, -1.0358107)
+emitting = false
+
+[node name="water_splash_small_r2" parent="." unique_id=658536496 instance=ExtResource("3_1ibce")]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1.276226, 0.65532327, -0.053731587, -0.13027637)
+emitting = false
+
+[node name="water_splash_small_r3" parent="." unique_id=277756040 instance=ExtResource("3_1ibce")]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1.276226, 0.63810146, -0.053731587, 0.8908458)
+emitting = false
+
+[node name="water_splash_small_r4" parent="." unique_id=1664840301 instance=ExtResource("3_1ibce")]
+transform = Transform3D(0.99961203, 0, -0.022281481, 0, 1, 0, 0.027851852, 0, 0.79968965, 0.6003967, -0.054, 1.723965)
+emitting = false
+
+[node name="water_splash_small_l0" parent="." unique_id=144150433 instance=ExtResource("3_1ibce")]
+transform = Transform3D(-0.98325473, 0, 0.18223558, 0, 0.99999994, 0, -0.18223557, 0, -0.98325485, -0.589, -0.054, -1.954)
+emitting = false
+
+[node name="water_splash_small_l1" parent="." unique_id=1077479041 instance=ExtResource("3_1ibce")]
+transform = Transform3D(-0.99999994, 0, -1.2188495e-07, 0, 0.99999994, 0, 8.742277e-08, 0, -1.3942014, -0.685, -0.054, -1.036)
+emitting = false
+
+[node name="water_splash_small_l2" parent="." unique_id=182077270 instance=ExtResource("3_1ibce")]
+transform = Transform3D(-0.99999994, 0, -1.11571225e-07, 0, 0.99999994, 0, 8.742277e-08, 0, -1.276226, -0.655, -0.054, -0.13)
+emitting = false
+
+[node name="water_splash_small_l3" parent="." unique_id=608605028 instance=ExtResource("3_1ibce")]
+transform = Transform3D(-0.99999994, 0, -1.11571225e-07, 0, 0.99999994, 0, 8.742277e-08, 0, -1.276226, -0.638, -0.054, 0.891)
+emitting = false
+
+[node name="water_splash_small_l4" parent="." unique_id=2109666888 instance=ExtResource("3_1ibce")]
+transform = Transform3D(-0.99961007, 0, 0.027921537, 0, 0.99999994, 0, -0.027921535, 0, -0.9996101, -0.6, -0.054, 1.724)
+emitting = false
+
+[node name="motor_wash" parent="." unique_id=995984214 instance=ExtResource("4_3kgma")]
+transform = Transform3D(-4.3711385e-08, 0, -1, 0, 0.99999994, 0, 0.99999994, 0, -4.371139e-08, -1.0956649e-07, -0.21230765, 2.4038627)
+emitting = false
+
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="." unique_id=414944451]
+transform = Transform3D(0.485, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06271362, 0.017486572)
+visible = false
+size = Vector3(2, 0.3880005, 4.0429077)
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1897080789]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.454, 0.103, -1.036)
+mesh = SubResource("SphereMesh_1ibce")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=668480661]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4663239, 0.085, -0.13)
+mesh = SubResource("SphereMesh_1ibce")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=2055809977]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46, 0.131, 0.891)
+mesh = SubResource("SphereMesh_1ibce")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=1732497446]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.476, 0.137, 1.724)
+mesh = SubResource("SphereMesh_1ibce")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="." unique_id=879743729]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.589, -0.054, -1.954)
+mesh = SubResource("SphereMesh_1ibce")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="." unique_id=1006344913]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.454, 0.103, -1.036)
+mesh = SubResource("SphereMesh_1ibce")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="." unique_id=1198608965]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.466, 0.085, -0.13)
+mesh = SubResource("SphereMesh_1ibce")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="." unique_id=1855028744]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46, 0.131, 0.891)
+mesh = SubResource("SphereMesh_1ibce")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="." unique_id=1310728623]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.476, 0.137, 1.724)
+mesh = SubResource("SphereMesh_1ibce")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=351095468]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.434, 0.097, -1.954)
+mesh = SubResource("SphereMesh_3kgma")

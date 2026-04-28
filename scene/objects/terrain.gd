@@ -87,8 +87,8 @@ func _process(delta: float) -> void:
 	spawn_foliage()
 
 
-func sample_noise(noise_object: Noise, world_xz: Vector2, scale: float) -> float:
-	return noise_object.get_noise_2d(world_xz.x * scale, world_xz.y * scale)
+func sample_noise(noise_object: Noise, world_xz: Vector2, sample_scale: float) -> float:
+	return noise_object.get_noise_2d(world_xz.x * sample_scale, world_xz.y * sample_scale)
 
 
 func is_grass_at(world_xz: Vector2) -> bool:
@@ -98,12 +98,11 @@ func is_grass_at(world_xz: Vector2) -> bool:
 		#print("noise_value ", noise_value)
 	return noise_value > 0.0
 
+
 func spawn_foliage() -> void:
 	if not foliage_scene:
 		push_warning("Foliage was not set")
 		return
-	#for x in range(-spawn_size, spawn_size, step):
-		#for z in range(-spawn_size, spawn_size, step):
 
 	var world_position: Vector3 = Vector3(0, 0, -20)
 	if is_grass_at(Vector2(world_position.x, world_position.z)):

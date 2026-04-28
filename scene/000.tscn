@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cpdht31432b30" path="res://scene/water_plaine.tscn" id="2_svyum"]
 [ext_resource type="PackedScene" uid="uid://cfb6vip2v1uj3" path="res://scene/character/player.tscn" id="3_qufgm"]
 [ext_resource type="PackedScene" uid="uid://giqy0fp07tht" path="res://scene/objects/terrain.tscn" id="4_fxnfp"]
+[ext_resource type="PackedScene" uid="uid://df7iek3utfg86" path="res://scene/objects/generic_boat.tscn" id="6_4ssk7"]
 [ext_resource type="Script" uid="uid://cvuyafbcmx87x" path="res://scripts/spectator_camera_3d.gd" id="6_qlmku"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pit2l"]
@@ -42,3 +43,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -21.92868, 0)
 [node name="SpectatorCamera3D" type="Camera3D" parent="." unique_id=1129329762]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
 script = ExtResource("6_qlmku")
+
+[node name="RigidBody3D" parent="." unique_id=710540662 instance=ExtResource("6_4ssk7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.154411, 12.181666, -14.881571)

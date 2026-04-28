@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://c2h4c4h2viqve"]
+
+[ext_resource type="ArrayMesh" uid="uid://bjwpcq7vvj666" path="res://assets/mesh/boats/hacker-craft_runabout.obj" id="1_0hwwm"]
+[ext_resource type="Texture2D" uid="uid://bw6hmpsrmgchl" path="res://assets/mesh/boats/hacker-craft_runabout_textures/Hull_baseColor.jpeg" id="2_1qdc5"]
+[ext_resource type="Texture2D" uid="uid://bkvrie32pv2ca" path="res://assets/mesh/boats/hacker-craft_runabout_textures/Hull_metallicRoughness.png" id="3_uclqq"]
+[ext_resource type="Texture2D" uid="uid://c3xo7ifdgoygb" path="res://assets/mesh/boats/hacker-craft_runabout_textures/Hull_normal.png" id="4_nrfog"]
+[ext_resource type="Texture2D" uid="uid://brath0wrxwou0" path="res://assets/mesh/boats/hacker-craft_runabout_textures/Glass_baseColor.png" id="5_bmw3t"]
+[ext_resource type="Texture2D" uid="uid://bmyg6a1dufkn6" path="res://assets/mesh/boats/hacker-craft_runabout_textures/Glass_metallicRoughness.png" id="6_1klbo"]
+[ext_resource type="Texture2D" uid="uid://bojc27cjdrwte" path="res://assets/mesh/boats/hacker-craft_runabout_textures/Glass_normal.png" id="7_onrk3"]
+[ext_resource type="Texture2D" uid="uid://w0me2v1wc5ut" path="res://assets/mesh/boats/hacker-craft_runabout_textures/Details_baseColor.jpeg" id="8_4cg4c"]
+[ext_resource type="Texture2D" uid="uid://i2l2gly8y81s" path="res://assets/mesh/boats/hacker-craft_runabout_textures/Details_metallicRoughness.png" id="9_is3bg"]
+[ext_resource type="Texture2D" uid="uid://dhkdpdjywvetm" path="res://assets/mesh/boats/hacker-craft_runabout_textures/Details_normal.png" id="10_1lh80"]
+[ext_resource type="PackedScene" uid="uid://bstaqstdr1yhb" path="res://scene/vfx/water_splash_small.tscn" id="11_1qdc5"]
+[ext_resource type="Script" uid="uid://cmks1bry1rc5w" path="res://scripts/boat_behaviour.gd" id="11_uclqq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jdvka"]
+albedo_texture = ExtResource("2_1qdc5")
+metallic = 1.0
+metallic_texture = ExtResource("3_uclqq")
+metallic_texture_channel = 1
+roughness_texture = ExtResource("3_uclqq")
+normal_enabled = true
+normal_texture = ExtResource("4_nrfog")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yd2jj"]
+transparency = 1
+albedo_texture = ExtResource("5_bmw3t")
+metallic = 1.0
+metallic_texture = ExtResource("6_1klbo")
+roughness_texture = ExtResource("6_1klbo")
+normal_enabled = true
+normal_texture = ExtResource("7_onrk3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6av5r"]
+albedo_texture = ExtResource("8_4cg4c")
+metallic = 1.0
+metallic_texture = ExtResource("9_is3bg")
+roughness_texture = ExtResource("9_is3bg")
+normal_enabled = true
+normal_texture = ExtResource("10_1lh80")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1qdc5"]
+points = PackedVector3Array(-1.0430417, 0.41436973, -0.42261568, 1.1130396, 0.7963941, 1.3534853, 1.0803608, 0.65587854, 1.3188993, 0.8299501, 0.58690065, -4.2836742, 0.10502997, -0.86237204, -3.848651, -0.039471574, -0.28245014, 4.4140615, -0.90961695, 1.3117498, 2.2389467, -0.76463294, 0.7318279, -4.2836742, 0.8299501, 1.3117498, 2.0945444, 0.9749341, -0.28245014, -1.8188465, -0.90961695, -0.28245014, -3.7033408, -0.76463294, -0.13752288, 2.8192801, 0.09901401, 0.95543146, 4.4634595, 0.8299501, -0.13752288, 2.6739697, 0.8299501, 0.7318279, 3.8337283, 0.10502997, 0.8767552, -3.7033408, 0.9749341, -0.13752288, -4.138364, -0.18445559, -0.86237204, -3.9939613, -0.557621, 0.94616324, 3.8841684, 0.10502997, -0.57230467, -4.4289846, -0.90961695, 0.4419734, -4.2836742, 0.10502997, 1.1666098, 4.1234407, 0.8299501, 0.7318279, -3.9939613, -0.18445559, 0.15233165, 4.7037745, -1.0121412, 0.90044713, 2.176732, 0.10502997, -0.28245014, 4.4140615, 0.9749341, 0.4419734, -4.138364, 0.250014, 0.7318279, -4.4289846, -0.76463294, -0.28245014, -4.2836742, -1.0170112, 0.2863254, 0.9504133, -0.90961695, 0.7318279, -3.5589385, -0.61940765, 1.0216825, -1.8188465)
+
+[node name="MeshInstance3D" type="MeshInstance3D" unique_id=1194399225]
+transform = Transform3D(-0.6, 0, -5.2453668e-08, 0, 0.6, 0, 5.2453668e-08, 0, -0.6, 0, 0, 0)
+mesh = ExtResource("1_0hwwm")
+surface_material_override/1 = SubResource("StandardMaterial3D_jdvka")
+surface_material_override/2 = SubResource("StandardMaterial3D_yd2jj")
+surface_material_override/3 = SubResource("StandardMaterial3D_6av5r")
+script = ExtResource("11_uclqq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=427406295]
+transform = Transform3D(0.99999994, 0, -7.1054274e-15, 0, 0.99999994, 0, 7.1054274e-15, 0, 0.99999994, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=426018592]
+shape = SubResource("ConvexPolygonShape3D_1qdc5")
+
+[node name="water_splash_small_r0" parent="." unique_id=1855549335 instance=ExtResource("11_1qdc5")]
+transform = Transform3D(0.9238795, 0, -0.70605105, 0, 1, 0, 0.3826835, 0, 1.7045577, 0.43555626, 0.029959276, 3.5751326)
+emitting = false

@@ -15,10 +15,10 @@ func _ready() -> void:
 	add_child(timer)
 
 
-func _process(delta) -> void:
+func _process(delta: float) -> void:
 	# TODO: remove on realease
 	if Engine.is_editor_hint():
-		var real_time: float = Time.get_ticks_msec() / 1000.0  # seconds since engine start
+		var real_time: float = Time.get_ticks_msec() / 1000.0  					# seconds since engine start
 		if material:
 			material.set_shader_parameter("custom_time", real_time)
 
@@ -26,6 +26,6 @@ func _process(delta) -> void:
 func update_position_camera() -> void:
 	var camera: Camera3D = get_viewport().get_camera_3d()
 	if not camera:
-		return			# no active camera
+		return																	# no active camera
 	var camera_position: Vector3 = camera.global_position
 	global_position = Vector3(round(camera_position.x), 0.0, round(camera_position.z))

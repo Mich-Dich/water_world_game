@@ -3,18 +3,20 @@
 [ext_resource type="Material" uid="uid://d1kw56q7o1w21" path="res://shaders/ppm_water_splash.tres" id="1_j7dhm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mp6ad"]
-albedo_color = Color(0.834597, 0.90047336, 0.9208094, 1)
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.9506, 0.97314006, 0.98, 0.33333334)
 
 [sub_resource type="SphereMesh" id="SphereMesh_1t1md"]
 radius = 0.02
 height = 0.04
-radial_segments = 4
-rings = 1
+radial_segments = 10
+rings = 5
 
 [node name="water_splash_small" type="GPUParticles3D" unique_id=1855549335]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_mp6ad")
-amount = 400
+amount = 800
 lifetime = 0.9
 randomness = 0.93
 fixed_fps = 120

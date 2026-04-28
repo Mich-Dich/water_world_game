@@ -11,7 +11,7 @@ class config:
 	var min_distance: float
 	var connect_distance: float
 	var num_splits: int
-	var seed: int
+	var random_seed: int
 	var area_rect: Vector2
 	
 	func _init(p_num_points: int, p_margin: float, p_min_distance: float, p_connect_distance: float, 
@@ -21,7 +21,7 @@ class config:
 		min_distance = p_min_distance
 		connect_distance = p_connect_distance
 		num_splits = p_num_splits
-		seed = seed
+		random_seed = p_seed
 		area_rect = p_area_rect
 
 var default_config := config.new(15, 50.0, 5000.0, 400.0, 1, 42, Vector2(300.0, 300.0))
@@ -54,14 +54,9 @@ func _process(delta: float) -> void:
 
 
 func generate_track(local_config: config = default_config) -> track_data:
-	## make sure all settings are at least deafult
-	#var local_config: Dictionary = default_config.duplicate()
-	#for key in config:
-		#local_config[key] = config[key]
 	var random := RandomNumberGenerator.new()
-	if local_config.seed != -1:
-		random.seed = local_config.seed
-
+	if local_config.random_seed != -1:
+		random.seed = local_config.random_seed
 	var open: bool = true
 	var counter: int = 0
 	var points: Array[Vector2] = []
@@ -142,15 +137,15 @@ func create_splits(track_control_points: Array, num_splits: int, area_rect: Vect
 		var length := p1.distance_to(p2)
 		edges.append({"index": i, "length": length})
 	var avg_len := 0.0
-	for e in edges:
-		avg_len += e.length
+	for edge: Dictionary in edges:
+		avg_len += edge.length
 	avg_len /= n
 
 	# sort edges by how close their length is to the average
 	edges.sort_custom(func(a, b): return abs(a.length - avg_len) < abs(b.length - avg_len))
 	var available := range(n)
 	var splits := []
-	for edge in edges:
+	for edge: Dictionary in edges:
 		var idx: int = edge.index
 		if idx not in available or edge.length < 30:
 			continue
@@ -210,7 +205,7 @@ func build_track_path(points: Array[Vector2], max_distance: float) -> Array[Vect
 	while not unvisited.is_empty():
 		var nearest_index: int = -1
 		var nearest_dist: float = INF
-		for index in unvisited:
+		for index: int in unvisited:
 			var d: float = current.distance_to(points[index])
 			if d < nearest_dist:
 				nearest_dist = d
@@ -230,7 +225,7 @@ func build_track_path(points: Array[Vector2], max_distance: float) -> Array[Vect
 
 
 func generate_points(random: RandomNumberGenerator, local_config: config = default_config) -> Array[Vector2]:
-	var margin: float = local_config.margin
+	#var margin: float = local_config.margin
 	var min_distance: float = local_config.min_distance
 	var area_rect: Vector2 = local_config.area_rect
 	var x_min: float = -area_rect.x
