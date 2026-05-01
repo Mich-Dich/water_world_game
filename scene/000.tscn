@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://giqy0fp07tht" path="res://scene/objects/terrain.tscn" id="4_fxnfp"]
 [ext_resource type="PackedScene" uid="uid://df7iek3utfg86" path="res://scene/objects/generic_boat.tscn" id="6_4ssk7"]
 [ext_resource type="Script" uid="uid://cvuyafbcmx87x" path="res://scripts/spectator_camera_3d.gd" id="6_qlmku"]
+[ext_resource type="PackedScene" uid="uid://c2h4c4h2viqve" path="res://scene/objects/hacker-craft_runabout.tscn" id="7_4ssk7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pit2l"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -30,10 +31,6 @@ environment = SubResource("Environment_atw5s")
 transform = Transform3D(-0.8660254, -0.31488398, 0.3883917, -1.4901161e-08, 0.77678335, 0.6297679, -0.50000006, 0.545395, -0.6727142, 0, 0, 0)
 shadow_enabled = true
 
-[node name="player" parent="." unique_id=788734149 node_paths=PackedStringArray("spectator_camera") instance=ExtResource("3_qufgm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.296, 0)
-spectator_camera = NodePath("../SpectatorCamera3D")
-
 [node name="water_plain" parent="." unique_id=1358867198 instance=ExtResource("2_svyum")]
 transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, -0.00822258, 0.16669512, -0.099365234)
 
@@ -45,4 +42,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
 script = ExtResource("6_qlmku")
 
 [node name="RigidBody3D" parent="." unique_id=710540662 instance=ExtResource("6_4ssk7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.154411, 12.181666, -14.881571)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.306, 0.8407645, -9.496)
+
+[node name="player" parent="RigidBody3D" unique_id=788734149 instance=ExtResource("3_qufgm")]
+
+[node name="RigidBody3D2" parent="." unique_id=1499121439 instance=ExtResource("7_4ssk7")]
+transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, -2.8514452, 0.3840754, -9.693378)

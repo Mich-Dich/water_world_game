@@ -1,14 +1,20 @@
 [gd_scene format=3 uid="uid://ci5hnvsslnu13"]
 
-[ext_resource type="Shader" uid="uid://bg1tih677tcc5" path="res://shaders/blur.gdshader" id="1_h2tee"]
 [ext_resource type="Script" uid="uid://c4wlr4ltwsgem" path="res://scene/menu/hud.gd" id="2_h2tee"]
+[ext_resource type="Script" uid="uid://cbc6r3x84ejtj" path="res://addons/radial_progress/RadialProgress.gd" id="2_wabtr"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_06t71"]
-shader = ExtResource("1_h2tee")
-shader_parameter/lod = 0.800000038
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wabtr"]
+bg_color = Color(0, 0, 0, 0.70000005)
+corner_radius_bottom_left = 10
+corner_detail = 1
 
-[node name="HUD" type="ColorRect" unique_id=120024327]
-material = SubResource("ShaderMaterial_06t71")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2tee"]
+bg_color = Color(0, 0, 0, 0.7019608)
+corner_radius_top_left = 60
+corner_detail = 1
+
+[node name="HUD" type="Control" unique_id=1254872173]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -16,15 +22,105 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_h2tee")
 
-[node name="fps_lable" type="Label" parent="." unique_id=2143945759]
+[node name="PanelContainer2" type="PanelContainer" parent="." unique_id=1158614867]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -96.0
-offset_top = 24.0
-offset_right = -22.0
-offset_bottom = 52.0
+offset_left = -122.0
+offset_bottom = 62.0
 grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wabtr")
+
+[node name="fps_lable" type="Label" parent="PanelContainer2" unique_id=2143945759]
+layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "120 FPS"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=720824368]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -241.0
+offset_top = -230.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_h2tee")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1006259896]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -211.79504
+offset_top = -200.0
+offset_right = 18.204956
+offset_bottom = 30.000977
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="speed_label" type="Label" parent="CenterContainer" unique_id=704722242]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "51.9
+km/h"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="rpm_number_display" type="Control" parent="CenterContainer" unique_id=541399429]
+layout_mode = 2
+
+[node name="rpm_green" type="Control" parent="CenterContainer/rpm_number_display" unique_id=677863662]
+anchors_preset = 0
+grow_horizontal = 0
+grow_vertical = 0
+rotation = -2.0943952
+script = ExtResource("2_wabtr")
+max_value = 224.73
+radius = 104.31
+progress = 100.0
+thickness = 15.0
+bg_color = Color(0.5019608, 0.5019608, 0.5019608, 0)
+bar_color = Color(0.19913465, 0.6635978, 0.20764804, 1)
+ring = true
+metadata/_custom_type_script = "uid://cbc6r3x84ejtj"
+
+[node name="rpm_main" type="ColorRect" parent="CenterContainer/rpm_number_display" unique_id=909145892]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.25
+offset_top = 90.0
+offset_right = 1.75
+offset_bottom = 107.99999
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 3.7524579
+pivot_offset_ratio = Vector2(0.125, -4.995)
+
+[node name="rpm_sub" type="ColorRect" parent="CenterContainer/rpm_number_display" unique_id=1682848612]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.24993896
+offset_top = 90.00003
+offset_right = 1.750061
+offset_bottom = 95.76003
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.1030481
+pivot_offset_ratio = Vector2(0.13, -15.62)

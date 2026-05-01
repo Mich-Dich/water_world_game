@@ -3,33 +3,7 @@
 [ext_resource type="Script" uid="uid://dlwu1bebby3yn" path="res://scene/character/player.gd" id="1_4flbx"]
 [ext_resource type="Shader" uid="uid://crnr1dqndi7g8" path="res://shaders/under_water_effect.gdshader" id="2_5utgv"]
 [ext_resource type="PackedScene" uid="uid://btjvhojhxsglp" path="res://scene/menu/pause.tscn" id="2_hovdd"]
-[ext_resource type="ArrayMesh" uid="uid://dc25l7kwut7fk" path="res://assets/mesh/11807_boat_v1_L2.obj" id="2_w2ep0"]
-[ext_resource type="Texture2D" uid="uid://bmijtnbkhglrn" path="res://assets/texture/boat_diffuse_v1.jpg" id="3_d4d1h"]
-[ext_resource type="Texture2D" uid="uid://bp8gngy3hxo1k" path="res://assets/texture/boat_bump_v1.jpg" id="4_e0121"]
 [ext_resource type="PackedScene" uid="uid://ci5hnvsslnu13" path="res://scene/menu/HUD.tscn" id="5_rrjs7"]
-[ext_resource type="PackedScene" uid="uid://bstaqstdr1yhb" path="res://scene/vfx/water_splash_small.tscn" id="7_5srte"]
-[ext_resource type="PackedScene" uid="uid://d3rp3i7kmjj8g" path="res://scene/vfx/water_splash.tscn" id="8_oig6r"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_im1mn"]
-albedo_texture = ExtResource("3_d4d1h")
-metallic = 1.0
-metallic_texture = ExtResource("4_e0121")
-roughness_texture = ExtResource("4_e0121")
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_w2ep0"]
-points = PackedVector3Array(1.1458497, 70.76997, 94.2097, -4.095591, 60.287094, 52.282272, -4.095591, 65.528534, 52.282272, 1.1458497, 60.287094, 52.282272, -4.095591, 65.528534, 94.2097, 1.1458497, 60.287094, 78.47871, 1.1458497, 65.528534, 52.282272, -4.095591, 70.76997, 73.24599, -4.095591, 60.287094, 78.47871, 1.1458497, 70.76997, 73.24599, -4.095591, 70.76997, 94.2097, 1.1458497, 65.528534, 94.2097)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_rrjs7"]
-points = PackedVector3Array(-14.578473, 60.29119, 47.03673, 11.628732, 81.25285, 47.03673, 1.1443107, 65.53212, 52.27817, 11.473955, 60.41499, 41.8572, -9.33498, 81.25285, 41.79529, -9.33498, 81.25285, 47.03673, -14.578473, 60.29119, 41.79529, 11.628732, 81.25285, 41.79529, 11.628732, 60.29119, 47.03673, -14.578473, 76.00782, 47.03673, -4.0940523, 60.29119, 52.27817, -14.578473, 76.00782, 41.79529, -4.0940523, 65.53212, 52.27817)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1t3kv"]
-points = PackedVector3Array(11.628731, 154.61865, 57.51961, -9.337032, 81.26056, 41.79529, 11.628731, 81.26056, 41.79529, -9.337032, 159.87447, 41.79529, -9.337032, 133.657, 57.51961, 11.628731, 159.87447, 41.79529, 11.628731, 81.26056, 47.037758, -9.337032, 159.87447, 57.51961, -9.337032, 81.26056, 47.037758, 6.38729, 133.657, 57.51961, 6.38729, 159.87447, 57.51961, 11.628731, 138.89742, 57.51961, 11.628731, 159.87447, 52.277145)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5srte"]
-points = PackedVector3Array(22.111614, 34.077324, 47.03673, -19.819912, -13.082821, 41.79529, -14.578471, -23.57545, 41.79529, -14.578471, -18.3335, 52.27817, -14.578471, 60.287094, 52.27817, -14.578471, 60.287094, 41.79529, 16.86607, -18.3335, 41.79529, 16.86607, -13.082821, 52.27817, 16.86607, 60.287094, 41.79529, 11.624628, 60.287094, 52.27817, 11.624628, -28.817406, 47.03673, -19.819912, 34.077324, 52.27817, 22.111614, -2.6076355, 41.79529, -19.819912, 44.561234, 41.79529, 16.86607, 49.80319, 52.27817, -9.33703, -28.817406, 41.79529, -19.819912, 2.6430416, 52.27817, -9.33703, -28.817406, 47.03673, 22.111614, -2.6076355, 47.03673, 11.624628, -28.817406, 41.79529, 22.111614, 34.077324, 41.79529, 11.624628, -18.3335, 52.27817, 16.86607, 60.287094, 47.03673, -19.819912, -13.082821, 47.03673, -19.819912, 44.561234, 47.03673, -14.578471, -23.57545, 47.03673, 16.86607, -18.3335, 47.03673)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_oig6r"]
-points = PackedVector3Array(-4.0904593, 165.11592, -10.619119, 11.6277075, 159.86217, 41.795288, 48.31882, -107.42261, 36.551796, -46.02712, 123.15156, 31.308302, 43.073277, 138.87999, 15.588084, -35.53603, -75.96575, -0.13213348, -46.02712, -107.42261, 36.551796, 32.59142, -128.33911, 5.106229, -46.02712, 138.87999, 15.588084, 30.674187, -160.11008, 25.43086, 32.59142, -86.47326, -0.13213348, -25.054173, -165.08257, 15.588084, 43.073277, 123.15156, 31.308302, -25.054173, -138.87947, 36.551796, 6.3821616, 165.11592, -10.619119, 43.073277, -112.67636, 10.349722, -46.02712, -133.62572, 20.826447, 37.827732, 123.15156, 5.106229, -40.781574, 91.72754, 5.106229, -25.054173, -102.16885, -0.13213348, -8.621468, 148.78659, 40.00877, 37.827732, -154.6079, 15.588084, 22.109564, -138.87947, 36.551796, -40.781574, -96.94794, 5.106229, -27.492474, -155.3629, 29.90491, -9.336005, 165.11592, 5.106229, -4.0904593, 144.13374, -10.619119, 27.345875, -102.16885, -0.13213348, -25.054173, -133.62572, 5.106229, 27.345875, -165.08257, 15.588084, 43.073277, 123.15156, 10.349722, -35.53603, -159.82881, 15.588084)
 
 [sub_resource type="QuadMesh" id="QuadMesh_hovdd"]
 size = Vector2(0.8, 0.5)
@@ -50,96 +24,26 @@ shader_parameter/refraction_amount = 0.0010000000475
 shader_parameter/refraction_speed = 1.0000000475
 shader_parameter/water_level_fudge = 0.0
 
-[node name="player" type="RigidBody3D" unique_id=788734149]
-mass = 350.0
-linear_damp = 2.0
-angular_damp = 1.0
+[node name="player" type="Node3D" unique_id=1845879057]
 script = ExtResource("1_4flbx")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1647049077]
-transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, 0, -0.33472806, 0)
-mesh = ExtResource("2_w2ep0")
-surface_material_override/0 = SubResource("StandardMaterial3D_im1mn")
-
-[node name="CollisionShape3D5" type="CollisionShape3D" parent="." unique_id=791545380]
-transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, 0, -0.33472806, 0)
-shape = SubResource("ConvexPolygonShape3D_w2ep0")
-
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=1392754179]
-transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, 0, -0.33472806, 0)
-shape = SubResource("ConvexPolygonShape3D_rrjs7")
-
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=853132788]
-transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, 0, -0.33472806, 0)
-shape = SubResource("ConvexPolygonShape3D_1t3kv")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=327650885]
-transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, 0, -0.33472806, 0)
-shape = SubResource("ConvexPolygonShape3D_5srte")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1229608073]
-transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, 0, -0.33472806, 0)
-shape = SubResource("ConvexPolygonShape3D_oig6r")
 
 [node name="twist_pivot" type="Node3D" parent="." unique_id=1315646491]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6083679, 0)
 
 [node name="pitch_pivot" type="Node3D" parent="twist_pivot" unique_id=1009400769]
+transform = Transform3D(1, 0, 0, 0, 0.90630776, 0.42261827, 0, -0.42261827, 0.90630776, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="twist_pivot/pitch_pivot" unique_id=1740771454]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.156124)
 
 [node name="effect" type="MeshInstance3D" parent="twist_pivot/pitch_pivot/Camera3D" unique_id=612445735]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.74120736, 0, -0.07000017)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0, -0.07)
 mesh = SubResource("QuadMesh_hovdd")
 surface_material_override/0 = SubResource("ShaderMaterial_5utgv")
 
-[node name="pause_menu" parent="." unique_id=120024327 instance=ExtResource("2_hovdd")]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1339601607]
+
+[node name="pause_menu" parent="CanvasLayer" unique_id=120024327 instance=ExtResource("2_hovdd")]
 visible = false
 
-[node name="ColorRect" parent="." unique_id=1470781587 instance=ExtResource("5_rrjs7")]
-visible = false
-
-[node name="water_splash_small_r0" parent="." unique_id=1365606799 instance=ExtResource("7_5srte")]
-transform = Transform3D(0.9456037, 0, 0.3253206, 0, 0.99999994, 0, -0.32532057, 0, 0.9456038, 0.6190989, -0.053731706, -2.2144115)
-emitting = false
-
-[node name="water_splash_small_r1" parent="." unique_id=1218677733 instance=ExtResource("7_5srte")]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1.3942014, 0.68471074, -0.053731706, -1.136739)
-emitting = false
-
-[node name="water_splash_small_r2" parent="." unique_id=1483364174 instance=ExtResource("7_5srte")]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1.276226, 0.68471074, -0.053731706, 0.024348497)
-emitting = false
-
-[node name="water_splash_small_r3" parent="." unique_id=1870629156 instance=ExtResource("7_5srte")]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1.276226, 0.70524096, -0.053731706, 0.9111352)
-emitting = false
-
-[node name="water_splash_small_r4" parent="." unique_id=827912385 instance=ExtResource("7_5srte")]
-transform = Transform3D(0.999612, 0, -0.027851852, 0, 0.99999994, 0, 0.02785185, 0, 0.99961203, 0.6805061, -0.054, 1.8639446)
-emitting = false
-
-[node name="water_splash_small_l0" parent="." unique_id=642347298 instance=ExtResource("7_5srte")]
-transform = Transform3D(-0.9876882, 0, 0.15643443, 0, 0.99999994, 0, -0.15643442, 0, -0.9876883, -0.619, -0.054, -2.214)
-emitting = false
-
-[node name="water_splash_small_l1" parent="." unique_id=1298690888 instance=ExtResource("7_5srte")]
-transform = Transform3D(-0.99999994, 0, -1.2188495e-07, 0, 0.99999994, 0, 8.742277e-08, 0, -1.3942014, -0.685, -0.054, -1.137)
-emitting = false
-
-[node name="water_splash_small_l2" parent="." unique_id=414180433 instance=ExtResource("7_5srte")]
-transform = Transform3D(-0.99999994, 0, -1.11571225e-07, 0, 0.99999994, 0, 8.742277e-08, 0, -1.276226, -0.685, -0.054, 0.024)
-emitting = false
-
-[node name="water_splash_small_l3" parent="." unique_id=1571429527 instance=ExtResource("7_5srte")]
-transform = Transform3D(-0.99999994, 0, -1.11571225e-07, 0, 0.99999994, 0, 8.742277e-08, 0, -1.276226, -0.705, -0.054, 0.911)
-emitting = false
-
-[node name="water_splash_small_l4" parent="." unique_id=410778581 instance=ExtResource("7_5srte")]
-transform = Transform3D(-0.99961007, 0, 0.027921537, 0, 0.99999994, 0, -0.027921535, 0, -0.9996101, -0.681, -0.054, 1.864)
-emitting = false
-
-[node name="motor_wash" parent="." unique_id=1704336605 instance=ExtResource("8_oig6r")]
-transform = Transform3D(-4.3711385e-08, 0, -1, 0, 0.99999994, 0, 0.99999994, 0, -4.371139e-08, -1.0956649e-07, -0.3396866, 2.4553027)
-emitting = false
+[node name="HUD" parent="CanvasLayer" unique_id=517827588 instance=ExtResource("5_rrjs7")]

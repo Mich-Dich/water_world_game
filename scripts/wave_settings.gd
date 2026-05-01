@@ -2,12 +2,12 @@
 extends Node
 
 # settings for wave calculation
-var current_time := 0.0
-var sea_height : float = 0.02
-var sea_choppy : float = 4.0
-var sea_speed : float = 1.5
-var sea_freq : float = 0.032
-var water_materials: Array[ShaderMaterial] = []
+var current_time:																= 0.0
+var sea_height:																	float = 0.4
+var sea_choppy: 																float = 4.0
+var sea_speed: 																	float = 1.5
+var sea_freq: 																	float = 0.032
+var water_materials: 															Array[ShaderMaterial] = []
 
 
 func _ready() -> void:
@@ -53,12 +53,13 @@ func set_weather_conditions(height: float, rough: float, speed: float, freq: flo
 
 
 # ----------------------- Wave height calculation -----------------------
-const ITER_GEOMETRY := 3
-const VEC2_ZERO := Vector2(0, 0)
-const VEC2_RIGHT := Vector2(1, 0)
-const VEC2_UP := Vector2(0, 1)
-const VEC2_ONE := Vector2(1, 1)
-const VEC2_SMOOTH := Vector2(3, 3)
+const ITER_GEOMETRY:															= 2
+const VEC2_ZERO:																= Vector2(0, 0)
+const VEC2_RIGHT:																= Vector2(1, 0)
+const VEC2_UP:																	= Vector2(0, 1)
+const VEC2_ONE:																	= Vector2(1, 1)
+const VEC2_SMOOTH:																= Vector2(3, 3)
+
 
 # 32-bit unsigned hash – now takes two ints directly to skip Vector2 creation
 func hash12(x: int, y: int) -> float:
@@ -140,6 +141,16 @@ func get_wave_height(world_pos: Vector2) -> float:
 func get_submerged_volume_sphere(world_position: Vector3, radius: float, total_volume: float) -> float:
 	var world_point: Vector3 = world_position - Vector3(0, radius, 0)
 	var water_height: float = wave_settings.get_wave_height(Vector2(world_point.x, world_point.z))
+	var depth: float = water_height - world_point.y   	# positive if submerged
+	if depth < 0.0:										# not in water
+		return 0.0
+	if depth > 0.0 && depth < (2 * radius):				# partially in water
+		return depth * depth * ((radius * 3) - depth)
+	return total_volume									# only option left (fully submerged)
+
+
+func get_submerged_volume_sphere_2(world_position: Vector3, radius: float, total_volume: float, water_height: float) -> float:
+	var world_point: Vector3 = world_position - Vector3(0, radius, 0)
 	var depth: float = water_height - world_point.y   	# positive if submerged
 	if depth < 0.0:										# not in water
 		return 0.0

@@ -9,7 +9,7 @@ var track_width: float = 20.0   # total width in meters
 func _ready() -> void:
 	bouy = load("res://scene/objects/bouy.tscn")
 	var track_data: racetrack.track_data = racetrack.generate_track(
-		racetrack.config.new(18, 80.0, 100.0, 500.0, 0, -1, Vector2(300.0, 300.0))
+		racetrack.config.new(18, 80.0, 100.0, 500.0, 0, -1, Vector2(600.0, 600.0))
 	)
 	var spline_points: Array[Vector2] = track_data.spline_points as Array[Vector2]
 	if spline_points.is_empty():

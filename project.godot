@@ -34,6 +34,11 @@ settings/addon_root_folder="res://addons/debug_draw_3d"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/initial_position_type=0
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/radial_progress/plugin.cfg")
 
 [input]
 
