@@ -1,56 +1,63 @@
 extends RigidBody3D
 
 # Input
-@export var thrust_force:				float = 2000.0							# Force applied along forward axis
-@export var turn_torque:				float = 230.0							# Torque applied for rotation (A/D)
-const half_pi:							float = (PI/2) - 0.1
-@export var motor_can_add_force:		bool = true
-@export var move_input:					= Vector2(0.0, 0.0)
-@export var invert_thrust_input:		bool = false
-@export var rpm_percentage:				float = 0.0
+@export var thrust_force:						float = 2000.0					# Force applied along forward axis
+@export var turn_torque:						float = 230.0					# Torque applied for rotation (A/D)
+const half_pi:									float = (PI/2) - 0.1
+@export var motor_can_add_force:				bool = true
+@export var move_input:							= Vector2(0.0, 0.0)
+@export var rpm_percentage:						float = 0.0
 
 # RPM simulation curves
-@export var rpm_increase_rate_curve:	Curve									# Maps absolute RPM (0-1) to increase rate (rpm/s)
-@export var rpm_decrease_rate_curve:	Curve									# Maps absolute RPM (0-1) to decrease rate (rpm/s)
-@export var rpm_increase_default_rate:	float = 2.0								# Fallback if no increase curve set
-@export var rpm_decrease_default_rate:	float = 4.0								# Fallback if no decrease curve set
+@export var rpm_increase_rate_curve:			Curve							# Maps absolute RPM (0-1) to increase rate (rpm/s)
+@export var rpm_decrease_rate_curve:			Curve							# Maps absolute RPM (0-1) to decrease rate (rpm/s)
+@export var rpm_increase_default_rate:			float = 2.0						# Fallback if no increase curve set
+@export var rpm_decrease_default_rate:			float = 4.0						# Fallback if no decrease curve set
 
 # Buoyancy settings
-@export var buoyancy_strength: 			float = 90.0
-@export var damping_linear_water:		float = 0.85
-@export var damping_angular_water: 		float = 2.6
-@export var damping_linear_default: 	float = 0.3								# in air
-@export var damping_angular_default: 	float = 1.6								# in air
+@export var buoyancy_strength: 					float = 90.0
+@export var damping_default_linear: 			float = 0.3
+@export var damping_default_angular: 			float = 1.6
+@export var damping_water_linear: 				float = 0.85
+@export var damping_water_angular: 				float = 2.6
 
 # floaters are sphereical locations used to calculate the water buoyancy effect, they have a splash partical-effect
-@export var floater_transform:			Array[Vector4] = []						# [pos.x, pos.y, pos.z, size] save size in last value
-@export var splash_effect:				Array[GPUParticles3D] = []
-var floater_volume: 					Array[float] = []						# will be computed at ready
-var splash_effect_matterial:			Array[ParticleProcessMaterial] = []
-var num_of_floaters: 					int = 0									# Assume floaters are symetrical
+@export var floater_transform:					Array[Vector4] = []				# [pos.x, pos.y, pos.z, size] save size in last value
+@export var splash_effect:						Array[GPUParticles3D] = []
+var floater_volume: 							Array[float] = []				# will be computed at ready
+var splash_effect_matterial:					Array[ParticleProcessMaterial] = []
+var num_of_floaters: 							int = 0							# Assume floaters are symetrical
 
 # pure floaters don't have a splash effect
-@export var pure_floater_transform:		Array[Vector4] = []						# [pos.x, pos.y, pos.z, size] save size in last value
-var pure_floater_volume: 				Array[float] = []						# will be computed at ready
-var num_of_pure_floaters: 				int = 0									# Assume floaters are symetrical
+@export var pure_floater_transform:				Array[Vector4] = []				# [pos.x, pos.y, pos.z, size] save size in last value
+var pure_floater_volume: 						Array[float] = []				# will be computed at ready
+var num_of_pure_floaters: 						int = 0							# Assume floaters are symetrical
 
 # Movement
-@export var thrust_pos:					= Vector3(0.0, -0.352, 2.373)
-@export var thrust_offset: 				= Vector3(0, 0.25, 0)
-@export var max_speed:					float = 20.0							# Max speed (units/sec)
-@export var impact_threshold: 			float = 1.0
-@export var impact_strength: 			float = 0.1
-@export var impact_decay: 				float = 6.0
-@export var high_speed_angular_damping: float = 3.0   							# extra angular damping at max speed
-@export var downforce_strength: 		float = 5.0								# downward force per unit of speed
-@export var downforce_only_in_water: 	bool = false							# apply downforce only when submerged
-var last_velocity: 						= Vector3.ZERO
-var impact_offset: 						= Vector3.ZERO
-var current_tilt: 						= 0.0
+@export var thrust_pos:							= Vector3(0.0, -0.352, 2.373)
+@export var thrust_offset: 						= Vector3(0, 0.25, 0)
+@export var max_speed:							float = 20.0					# Max speed (units/sec)
+@export var impact_threshold: 					float = 1.0
+@export var impact_strength: 					float = 0.1
+@export var impact_decay: 						float = 6.0
+@export var high_speed_angular_damping: 		float = 3.0   					# extra angular damping at max speed
+@export var downforce_strength: 				float = 5.0						# downward force per unit of speed
+@export var downforce_only_in_water: 			bool = false					# apply downforce only when submerged
+var last_velocity: 								= Vector3.ZERO
+var impact_offset: 								= Vector3.ZERO
+var current_tilt: 								= 0.0
 
 # Node referencesw
-@onready var motor_wash:				GPUParticles3D = $motor_wash
-var timer: 								Timer
+@onready var motor_wash:						GPUParticles3D = $motor_wash
+@onready var motor_sound:						AudioStreamPlayer3D = $motor_sound
+var timer: 										Timer
+
+# Sound
+@export var min_pitch: 							float = 0.5						# pitch at idle
+@export var max_pitch: 							float = 2.0						# pitch at max RPM
+@export var min_volume: 						float = -10.0					# dB at idle
+@export var max_volume: 						float = 0.0						# dB at max RPM
+
 
 
 func _ready() -> void:
@@ -58,11 +65,8 @@ func _ready() -> void:
 	if not (floater_transform.size() == splash_effect.size()):
 		breakpoint
 
-	num_of_floaters = floater_transform.size()
-	if invert_thrust_input:
-		thrust_force = -thrust_force
-
 	# set some data that can be semi static
+	num_of_floaters = floater_transform.size()
 	var water_splash_material: Material = load("res://VFX/ppm_water_splash.tres")
 	floater_volume.resize(num_of_floaters)
 	splash_effect_matterial.resize(num_of_floaters)
@@ -79,10 +83,23 @@ func _ready() -> void:
 	for index in num_of_pure_floaters:
 		pure_floater_volume[index] = wave_settings.get_sphere_volume(pure_floater_transform[index].w)
 
+	#if motor_sound.stream:
+		#motor_sound.stream.loop = true
+	#motor_sound.play()
+
+
+func _process(_delta: float) -> void:
+	var abs_rpm: float = abs(rpm_percentage)
+	motor_sound.pitch_scale = lerp(min_pitch, max_pitch, abs_rpm)
+	motor_sound.volume_db = lerp(min_volume, max_volume, abs_rpm)
+
 
 func _physics_process(delta: float) -> void:
 	var thrust_loc := to_global(thrust_pos)
 	var prop_depth: float = wave_settings.get_wave_height(Vector2(thrust_loc.x, thrust_loc.z)) - thrust_loc.y
+	var prop_in_correct_depth: bool = (prop_depth > 0.0 && prop_depth < 1.5)
+	if not prop_in_correct_depth:												# reset target RPM if prop not in correct depth
+		move_input.y = 0.0
 
 	# calc the RPM percentage
 	var target_rpm := move_input.y
@@ -97,7 +114,7 @@ func _physics_process(delta: float) -> void:
 	rpm_percentage = clamp(rpm_percentage, -1.0, 1.0)
 
 	# add thrust
-	if (prop_depth > 0.0 && prop_depth < 1.5) and motor_can_add_force:
+	if prop_in_correct_depth and motor_can_add_force:
 		var motor_working: bool = abs(rpm_percentage) > 0.01
 		motor_wash.emitting = motor_working
 		if motor_working:
@@ -111,8 +128,8 @@ func _physics_process(delta: float) -> void:
 	# visual
 	var material := motor_wash.process_material
 	if material:
-		material.initial_velocity_min = rpm_percentage * 4.0
-		material.initial_velocity_max = rpm_percentage * 7.0
+		material.initial_velocity_min =  4.0
+		material.initial_velocity_max =  7.0
 	var velocity_change := (linear_velocity - last_velocity).length()
 	if velocity_change > impact_threshold:
 		print("Registered impace")
@@ -124,12 +141,9 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	var floater_submerged: bool = integrate_forces_for_floater(state, floater_transform, floater_volume)
 	var pure_floater_submerged: bool = integrate_forces_for_pure_floater(state, pure_floater_transform, pure_floater_volume)
 	var is_submerged: bool = floater_submerged and pure_floater_submerged
-	if is_submerged:
-		linear_damp = damping_linear_water
-		angular_damp = damping_angular_water
-	else:
-		linear_damp = damping_linear_default
-		angular_damp = damping_angular_default
+	linear_damp = damping_water_linear if is_submerged else damping_default_linear
+	angular_damp = damping_water_angular if is_submerged else damping_default_angular
+
 	var speed: float = state.linear_velocity.length()							# stability helper
 	var speed_factor: float = clamp(speed / max_speed, 0.0, 1.0)
 	angular_damp += high_speed_angular_damping * speed_factor					# Increase rotational inertia at high speed

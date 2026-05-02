@@ -1,16 +1,24 @@
 extends Node3D
 
-var bouy: PackedScene
-var last_center_point := Vector2.ZERO
-var min_bouy_distance: float = 4.0
-var track_width: float = 20.0   # total width in meters
+@onready var bouy: 				PackedScene = load("res://scene/objects/bouy.tscn")
+@onready var pillar: 			PackedScene = load("res://scene/objects/pillar.tscn")
+var last_center_point:			= Vector2.ZERO
+var min_bouy_distance: 			float = 4.0
+var track_width: 				float = 30.0									# width in meters
 
 
 func _ready() -> void:
-	bouy = load("res://scene/objects/bouy.tscn")
 	var track_data: racetrack.track_data = racetrack.generate_track(
-		racetrack.config.new(18, 80.0, 100.0, 500.0, 0, -1, Vector2(600.0, 600.0))
+		racetrack.config.new(
+			20,																	# num_points
+			250.0,																# margin
+			300.0,																# min_distance
+			500.0,																# connect_distance
+			0,																	# num_splits
+			-1,																	# random_seed
+			Vector2(600.0, 600.0))												# area_rect
 	)
+	
 	var spline_points: Array[Vector2] = track_data.spline_points as Array[Vector2]
 	if spline_points.is_empty():
 		return
@@ -20,7 +28,7 @@ func _ready() -> void:
 	var tangents := compute_tangents(spline_points)
 	var half_width := track_width * 0.5
 
-	# 1) Pre‑compute left and right edge points for every spline point
+	# Pre‑compute left and right edge points for every spline point
 	var left_edges: Array[Vector2]  = []
 	var right_edges: Array[Vector2] = []
 	for i in range(n):
@@ -30,9 +38,7 @@ func _ready() -> void:
 		left_edges.append(center + perp * half_width)
 		right_edges.append(center - perp * half_width)
 
-	# 2) Build quadrilaterals for each track segment
-	#    A segment is the area between spline_points[i] and spline_points[i+1]
-	var quads: Array[PackedVector2Array] = []
+	var quads: Array[PackedVector2Array] = []									# Build quadrilaterals for each track segment, a segment is the area between spline_points[i] and spline_points[i+1]
 	if not open:
 		for i in range(n):
 			var j := (i + 1) % n
@@ -48,31 +54,53 @@ func _ready() -> void:
 				right_edges[j], left_edges[j]
 			]))
 
-	# 3) Place buoys, skipping those that fall inside another segment
-	for i in range(n):
-		var center := spline_points[i]
 
-		# Distance skip (same as before)
-		if center.distance_squared_to(last_center_point) < min_bouy_distance * min_bouy_distance:
+	var m := track_data.track_path.size()
+	for k in range(m):
+		var point := track_data.track_path[k]
+		var tangent: Vector2 = Vector2.RIGHT   # fallback, no direction available
+		if m != 1:
+			var prev_point: Vector2
+			var next_point: Vector2
+			if track_data.open:
+				prev_point = track_data.track_path[max(k - 1, 0)]
+				next_point = track_data.track_path[min(k + 1, m - 1)]
+				if k == 0:
+					tangent = (track_data.track_path[1] - point).normalized()
+				elif k == m - 1:
+					tangent = (point - track_data.track_path[m - 2]).normalized()
+				else:
+					tangent = (next_point - prev_point).normalized()
+			else:  # closed track
+				prev_point = track_data.track_path[(k - 1) % m]
+				next_point = track_data.track_path[(k + 1) % m]
+				tangent = (next_point - prev_point).normalized()
+		
+		var perp := Vector2(-tangent.y, tangent.x)
+		var left_edge  := point + perp * half_width
+		var right_edge := point - perp * half_width
+		spawn_pillar_at(left_edge)
+		spawn_pillar_at(right_edge)
+		last_center_point = point   # still use center for buoy distance skipping
+
+
+	for i in range(n):															# Place buoys, skipping those that fall inside another segment
+		var center := spline_points[i]
+		if center.distance_squared_to(last_center_point) < min_bouy_distance * min_bouy_distance:	# Distance skip (same as before)
 			continue
 
 		var left_buoy  := left_edges[i]
 		var right_buoy := right_edges[i]
-
 		var left_ok  := true
 		var right_ok := true
 
-		# Check overlap with every segment except the immediate neighbours
-		for j in range(quads.size()):
+		for j in range(quads.size()):											# Check overlap with every segment except the immediate neighbours
 			if not open:
-				# Closed track – skip indices i‑2 to i+2 (wrapping safe)
-				var d := wrapi(j - i, -n/2, n/2)
+				var d := wrapi(j - i, -n/2, n/2)								# Closed track – skip indices i‑2 to i+2 (wrapping safe)
 				if abs(d) <= 2:
 					continue
 			else:
-				# Open track – skip segment indices that share point i or its neighbours
-				# (segment j goes from j to j+1)
-				if j >= i - 2 and j <= i + 1:
+				if j >= i - 2 and j <= i + 1:									# Open track – skip segment indices that share point i or its neighbours
 					continue
 
 			var quad := quads[j]
@@ -80,7 +108,6 @@ func _ready() -> void:
 				left_ok = false
 			if right_ok and Geometry2D.is_point_in_polygon(right_buoy, quad):
 				right_ok = false
-
 			if not left_ok and not right_ok:
 				break
 
@@ -106,5 +133,45 @@ func compute_tangents(points: Array[Vector2]) -> Array[Vector2]:
 
 func spawn_buoy_at(world_pos_2d: Vector2) -> void:
 	var bouy_instance := bouy.instantiate()
+	bouy_instance.set_spawn_location(Vector3(world_pos_2d.x, 60.0, world_pos_2d.y))
 	add_child(bouy_instance)
-	bouy_instance.position = Vector3(world_pos_2d.x, 2.0, world_pos_2d.y)
+
+
+func spawn_pillar_at(world_pos_2d: Vector2) -> void:
+	var pillar_instance := pillar.instantiate()
+	pillar_instance.set_spawn_location(Vector3(world_pos_2d.x, 60.0, world_pos_2d.y))
+	add_child(pillar_instance)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	

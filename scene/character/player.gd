@@ -36,7 +36,8 @@ var last_velocity: 						Vector3 = Vector3.ZERO
 var current_tilt: 						float = 0.0
 var camera:								Camera3D
 
-@onready var boat: 						RigidBody3D = $RigidBody3D
+var move_input_last:					Vector2
+@onready var boat: 						RigidBody3D
 
 
 
@@ -62,7 +63,7 @@ func _process(delta: float) -> void:
 	pitch_input = 0.0
 	
 	# camera updating
-	var target_tilt: float = -move_input.x * camera_tilt_strength				# camera tilt
+	var target_tilt: float = -move_input_last.x * camera_tilt_strength				# camera tilt
 	current_tilt = lerp(current_tilt, target_tilt, delta * camera_tilt_smooth)
 	pitch_pivot.rotation.z = current_tilt
 	var speed: float = boat.linear_velocity.length()
@@ -71,10 +72,14 @@ func _process(delta: float) -> void:
 	camera.fov = lerp(camera.fov, target_fov, delta * fov_smooth)
 	impact_offset = impact_offset.lerp(Vector3.ZERO, delta * impact_decay)		# impakt shake
 	pitch_pivot.position = impact_offset
-	
 	if boat:
-		HUD.on_speed_changed(boat.linear_velocity.length())
+		HUD.on_speed_changed(Vector2(boat.linear_velocity.x, boat.linear_velocity.z).length())
 		HUD.on_rpm_changed(boat.rpm_percentage)
+	
+	var move_x := Input.get_axis("move_right", "move_left")
+	var move_y := Input.get_axis("move_forward", "move_back")
+	move_input_last = Vector2(move_x, move_y)
+	boat.move_input = move_input_last
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -82,10 +87,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		pause_menu.pause()
 	if event.is_action_pressed("toggle_spectator"):
 		toggle_spectator()
-
-	var move_x := Input.get_axis("move_right", "move_left")
-	var move_y := Input.get_axis("move_forward", "move_back")
-	boat.move_input = Vector2(move_x, move_y)
 	if current_camera_type != camera_type.SPECTATOR:							# this input should only be processed when NOT in spectator
 		if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			twist_input = -event.relative.x * mouse_sensitivity

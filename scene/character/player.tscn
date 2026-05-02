@@ -37,9 +37,11 @@ transform = Transform3D(1, 0, 0, 0, 0.90630776, 0.42261827, 0, -0.42261827, 0.90
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.156124)
 
 [node name="effect" type="MeshInstance3D" parent="twist_pivot/pitch_pivot/Camera3D" unique_id=612445735]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0, -0.07)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7212995, 0, -0.07)
 mesh = SubResource("QuadMesh_hovdd")
 surface_material_override/0 = SubResource("ShaderMaterial_5utgv")
+
+[node name="AudioListener3D" type="AudioListener3D" parent="twist_pivot/pitch_pivot/Camera3D" unique_id=441038003]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1339601607]
 

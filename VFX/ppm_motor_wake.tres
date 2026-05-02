@@ -10,11 +10,11 @@ curve = SubResource("Curve_gec1c")
 [resource]
 lifetime_randomness = 0.62
 emission_shape = 1
-emission_sphere_radius = 0.1
+emission_sphere_radius = 0.3
 inherit_velocity_ratio = 0.336
 direction = Vector3(0.5, 1, 0)
-spread = 20.0
-initial_velocity_min = 4.0
+spread = 15.0
+initial_velocity_min = 5.0
 initial_velocity_max = 7.0
 scale_min = 0.5
 scale_max = 3.0

@@ -44,12 +44,12 @@ class track_data:
 var current_track: track_data
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _ready() -> void:
+	pass
+
+
+func _process(_delta: float) -> void:
 	pass
 
 
@@ -68,6 +68,7 @@ func generate_track(local_config: config = default_config) -> track_data:
 		counter += 1
 	print("Created track with [", counter, "] attempts, track open: [", open, "]")
 
+	path.pop_back()
 	var spline_points: Array[Vector2] = get_spline_points(path, !open, SPLINE_SAMPLES)
 	var splits: Array[Vector2] = []
 	if local_config.num_splits > 0 and path.size() >= 3:
@@ -256,3 +257,40 @@ func generate_points(random: RandomNumberGenerator, local_config: config = defau
 					best_pt = Vector2(x, y)
 		candidate.append(best_pt)
 	return candidate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	

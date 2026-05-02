@@ -16,7 +16,7 @@ rings = 5
 [node name="water_splash" type="GPUParticles3D" unique_id=1855549335]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_mp6ad")
-amount = 2000
+amount = 6000
 lifetime = 0.92
 speed_scale = 2.6
 randomness = 0.93

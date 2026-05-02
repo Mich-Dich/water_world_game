@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://giqy0fp07tht" path="res://scene/objects/terrain.tscn" id="4_fxnfp"]
 [ext_resource type="PackedScene" uid="uid://df7iek3utfg86" path="res://scene/objects/generic_boat.tscn" id="6_4ssk7"]
 [ext_resource type="Script" uid="uid://cvuyafbcmx87x" path="res://scripts/spectator_camera_3d.gd" id="6_qlmku"]
-[ext_resource type="PackedScene" uid="uid://c2h4c4h2viqve" path="res://scene/objects/hacker-craft_runabout.tscn" id="7_4ssk7"]
+[ext_resource type="PackedScene" uid="uid://3b7xw6dv7jqw" path="res://scene/objects/drone.tscn" id="7_4ssk7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pit2l"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -29,7 +29,9 @@ environment = SubResource("Environment_atw5s")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=831073332]
 transform = Transform3D(-0.8660254, -0.31488398, 0.3883917, -1.4901161e-08, 0.77678335, 0.6297679, -0.50000006, 0.545395, -0.6727142, 0, 0, 0)
+light_color = Color(0.90382373, 1, 0.9699511, 1)
 shadow_enabled = true
+shadow_blur = 6.0
 
 [node name="water_plain" parent="." unique_id=1358867198 instance=ExtResource("2_svyum")]
 transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, -0.00822258, 0.16669512, -0.099365234)
@@ -42,9 +44,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
 script = ExtResource("6_qlmku")
 
 [node name="RigidBody3D" parent="." unique_id=710540662 instance=ExtResource("6_4ssk7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.306, 0.8407645, -9.496)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1606026, 0)
 
-[node name="player" parent="RigidBody3D" unique_id=788734149 instance=ExtResource("3_qufgm")]
+[node name="player" parent="RigidBody3D" unique_id=788734149 node_paths=PackedStringArray("spectator_camera") instance=ExtResource("3_qufgm")]
+spectator_camera = NodePath("../../SpectatorCamera3D")
 
-[node name="RigidBody3D2" parent="." unique_id=1499121439 instance=ExtResource("7_4ssk7")]
-transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, -2.8514452, 0.3840754, -9.693378)
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="." unique_id=1842481319]
+transform = Transform3D(0.485, 0, 0, 0, 1, 0, 0, 0, 1, 0.43482453, 0.03694153, -0.11387634)
+size = Vector3(0.20690918, 0.3364563, 4.3056335)
+
+[node name="drone" parent="." unique_id=642866381 node_paths=PackedStringArray("filming_target") instance=ExtResource("7_4ssk7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+filming_target = NodePath("../RigidBody3D")
+thrust_power = 90.0
+follow_distance = 17.0
+follow_height = 9.0
+yaw_speed = 0.8

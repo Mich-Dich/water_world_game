@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://c5ou5x5wm7jfn"
+path="res://.godot/imported/Bebop_prop.obj-12f8c769a63b8eada06c0c51d4c967cd.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Bebop_prop.obj-12f8c769a63b8eada06c0c51d4c967cd.mesh"]
+
+source_file="res://assets/mesh/drone/Bebop_prop.obj"
+dest_files=["res://.godot/imported/Bebop_prop.obj-12f8c769a63b8eada06c0c51d4c967cd.mesh", "res://.godot/imported/Bebop_prop.obj-12f8c769a63b8eada06c0c51d4c967cd.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

@@ -2,12 +2,12 @@
 extends Node
 
 # settings for wave calculation
-var current_time:																= 0.0
-var sea_height:																	float = 0.4
-var sea_choppy: 																float = 4.0
-var sea_speed: 																	float = 1.5
-var sea_freq: 																	float = 0.032
-var water_materials: 															Array[ShaderMaterial] = []
+var current_time:										= 0.0
+var sea_height:											float = 0.5
+var sea_choppy: 										float = 4.0
+var sea_speed: 											float = 1.5
+var sea_freq: 											float = 0.032
+var water_materials: 									Array[ShaderMaterial] = []
 
 
 func _ready() -> void:
@@ -53,12 +53,12 @@ func set_weather_conditions(height: float, rough: float, speed: float, freq: flo
 
 
 # ----------------------- Wave height calculation -----------------------
-const ITER_GEOMETRY:															= 2
-const VEC2_ZERO:																= Vector2(0, 0)
-const VEC2_RIGHT:																= Vector2(1, 0)
-const VEC2_UP:																	= Vector2(0, 1)
-const VEC2_ONE:																	= Vector2(1, 1)
-const VEC2_SMOOTH:																= Vector2(3, 3)
+const ITER_GEOMETRY:									= 2
+const VEC2_ZERO:										= Vector2(0, 0)
+const VEC2_RIGHT:										= Vector2(1, 0)
+const VEC2_UP:											= Vector2(0, 1)
+const VEC2_ONE:											= Vector2(1, 1)
+const VEC2_SMOOTH:										= Vector2(3, 3)
 
 
 # 32-bit unsigned hash – now takes two ints directly to skip Vector2 creation
@@ -161,3 +161,42 @@ func get_submerged_volume_sphere_2(world_position: Vector3, radius: float, total
 
 func get_sphere_volume(radius: float) -> float:
 	return (4.0/3.0) * PI * radius * radius * radius
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	

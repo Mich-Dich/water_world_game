@@ -10,7 +10,12 @@ corner_detail = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2tee"]
 bg_color = Color(0, 0, 0, 0.7019608)
-corner_radius_top_left = 60
+corner_radius_top_left = 80
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mpyi7"]
+bg_color = Color(0, 0, 0, 0.7019608)
+corner_radius_bottom_right = 10
 corner_detail = 1
 
 [node name="HUD" type="Control" unique_id=1254872173]
@@ -22,7 +27,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_h2tee")
 
-[node name="PanelContainer2" type="PanelContainer" parent="." unique_id=1158614867]
+[node name="fps_info" type="PanelContainer" parent="." unique_id=1158614867]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -32,13 +37,13 @@ offset_bottom = 62.0
 grow_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_wabtr")
 
-[node name="fps_lable" type="Label" parent="PanelContainer2" unique_id=2143945759]
+[node name="fps_lable" type="Label" parent="fps_info" unique_id=2143945759]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "120 FPS"
 horizontal_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="." unique_id=720824368]
+[node name="boat_info_bg" type="PanelContainer" parent="." unique_id=720824368]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -51,7 +56,20 @@ grow_horizontal = 0
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_h2tee")
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1006259896]
+[node name="Control" type="Control" parent="boat_info_bg" unique_id=1544712218]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="boat_info_bg/Control" unique_id=484967108]
+layout_mode = 0
+offset_left = 118.0
+offset_top = 64.0
+offset_right = 171.0
+offset_bottom = 81.0
+theme_override_font_sizes/font_size = 10
+text = "x1000"
+horizontal_alignment = 1
+
+[node name="boat_info" type="CenterContainer" parent="." unique_id=1006259896]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -65,7 +83,7 @@ offset_bottom = 30.000977
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="speed_label" type="Label" parent="CenterContainer" unique_id=704722242]
+[node name="speed_label" type="Label" parent="boat_info" unique_id=704722242]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "51.9
@@ -73,10 +91,10 @@ km/h"
 horizontal_alignment = 1
 uppercase = true
 
-[node name="rpm_number_display" type="Control" parent="CenterContainer" unique_id=541399429]
+[node name="rpm_number_display" type="Control" parent="boat_info" unique_id=541399429]
 layout_mode = 2
 
-[node name="rpm_green" type="Control" parent="CenterContainer/rpm_number_display" unique_id=677863662]
+[node name="rpm_green" type="Control" parent="boat_info/rpm_number_display" unique_id=677863662]
 anchors_preset = 0
 grow_horizontal = 0
 grow_vertical = 0
@@ -91,7 +109,7 @@ bar_color = Color(0.19913465, 0.6635978, 0.20764804, 1)
 ring = true
 metadata/_custom_type_script = "uid://cbc6r3x84ejtj"
 
-[node name="rpm_main" type="ColorRect" parent="CenterContainer/rpm_number_display" unique_id=909145892]
+[node name="rpm_main" type="ColorRect" parent="boat_info/rpm_number_display" unique_id=909145892]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -108,7 +126,7 @@ grow_vertical = 2
 rotation = 3.7524579
 pivot_offset_ratio = Vector2(0.125, -4.995)
 
-[node name="rpm_sub" type="ColorRect" parent="CenterContainer/rpm_number_display" unique_id=1682848612]
+[node name="rpm_sub" type="ColorRect" parent="boat_info/rpm_number_display" unique_id=1682848612]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -124,3 +142,15 @@ grow_horizontal = 2
 grow_vertical = 2
 rotation = 1.1030481
 pivot_offset_ratio = Vector2(0.13, -15.62)
+
+[node name="race_info" type="PanelContainer" parent="." unique_id=692876827]
+layout_mode = 0
+offset_right = 243.0
+offset_bottom = 71.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_mpyi7")
+
+[node name="Label" type="Label" parent="race_info" unique_id=2019866824]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Current Position:    X/5
+Time:                         00:00:00"

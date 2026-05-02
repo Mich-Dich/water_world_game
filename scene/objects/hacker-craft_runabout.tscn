@@ -15,11 +15,12 @@
 [ext_resource type="Script" uid="uid://cmks1bry1rc5w" path="res://scripts/boat_behaviour.gd" id="11_uclqq"]
 
 [sub_resource type="Curve" id="Curve_bmw3t"]
-_data = [Vector2(0, 0.81760204), 0.0, 2.3102672, 0, 0, Vector2(0.7079365, 0.06313777), 0.0, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 0.6683673), 0.0, 3.772321, 0, 0, Vector2(0.44126987, 0.29528058), -1.9303185, -1.9303185, 0, 0, Vector2(0.68253964, 0.024213076), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="Curve" id="Curve_nrfog"]
-_data = [Vector2(0, 0.2), 0.0, 0.004869956, 0, 0, Vector2(0.5, 1), -0.11599398, 0.0, 0, 0]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 0.2), 0.0, 0.004869956, 0, 0, Vector2(0.4, 2), -0.11599398, 0.0, 0, 0]
 point_count = 2
 metadata/_snap_enabled = true
 
@@ -51,7 +52,7 @@ normal_texture = ExtResource("10_1lh80")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1yxt1"]
 points = PackedVector3Array(-1.0430417, 0.41436973, -0.42261568, 1.1130396, 0.7963941, 1.3534853, 1.0803608, 0.65587854, 1.3188993, 0.8299501, 0.58690065, -4.2836742, 0.10502997, -0.86237204, -3.848651, -0.039471574, -0.28245014, 4.4140615, -0.90961695, 1.3117498, 2.2389467, -0.76463294, 0.7318279, -4.2836742, 0.8299501, 1.3117498, 2.0945444, 0.9749341, -0.28245014, -1.8188465, -0.90961695, -0.28245014, -3.7033408, -0.76463294, -0.13752288, 2.8192801, 0.09901401, 0.95543146, 4.4634595, 0.8299501, -0.13752288, 2.6739697, 0.8299501, 0.7318279, 3.8337283, 0.10502997, 0.8767552, -3.7033408, 0.9749341, -0.13752288, -4.138364, -0.18445559, -0.86237204, -3.9939613, -0.557621, 0.94616324, 3.8841684, 0.10502997, -0.57230467, -4.4289846, -0.90961695, 0.4419734, -4.2836742, 0.10502997, 1.1666098, 4.1234407, 0.8299501, 0.7318279, -3.9939613, -0.18445559, 0.15233165, 4.7037745, -1.0121412, 0.90044713, 2.176732, 0.10502997, -0.28245014, 4.4140615, 0.9749341, 0.4419734, -4.138364, 0.250014, 0.7318279, -4.4289846, -0.76463294, -0.28245014, -4.2836742, -1.0170112, 0.2863254, 0.9504133, -0.90961695, 0.7318279, -3.5589385, -0.61940765, 1.0216825, -1.8188465)
 
-[node name="RigidBody3D" type="RigidBody3D" unique_id=1499121439 node_paths=PackedStringArray("splash_effect")]
+[node name="hacker_craft_runabout" type="RigidBody3D" unique_id=1499121439 node_paths=PackedStringArray("splash_effect")]
 mass = 500.0
 script = ExtResource("11_uclqq")
 thrust_force = -1500.0
@@ -97,11 +98,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.2, 0.62, -0.054, -1.958)
 emitting = false
 
 [node name="water_splash_small_l0" parent="." unique_id=945626002 instance=ExtResource("11_1qdc5")]
-transform = Transform3D(0.9121201, 0, 0.5328999, 0, 1, 0, -0.40992305, 0, 1.1857561, -0.268, -0.054, 2.162)
+transform = Transform3D(-0.91212016, 0, -0.5328998, 0, 1, 0, 0.40992293, 0, -1.1857562, -0.268, -0.054, 2.162)
 emitting = false
 
 [node name="water_splash_small_l1" parent="." unique_id=524442700 instance=ExtResource("11_1qdc5")]
-transform = Transform3D(0.99026805, 0, 0.18092503, 0, 1, 0, -0.1391731, 0, 1.2873484, -0.558, -0.054, 1.153)
+transform = Transform3D(-0.990268, 0, -0.18092506, 0, 1, 0, 0.1391731, 0, -1.2873484, -0.558, -0.054, 1.153)
 emitting = false
 
 [node name="water_splash_small_l2" parent="." unique_id=1093538856 instance=ExtResource("11_1qdc5")]

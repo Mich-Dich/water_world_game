@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dx04csppxpek6"]
+
+[ext_resource type="ArrayMesh" uid="uid://xsf1x3ow5a8p" path="res://assets/mesh/pillar.obj" id="1_anbxa"]
+[ext_resource type="Texture2D" uid="uid://bwlihq2cx5qof" path="res://assets/texture/grid.png" id="2_ljvvb"]
+[ext_resource type="Script" uid="uid://c6k7a608mlsg2" path="res://scripts/pillar.gd" id="3_ljvvb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ljvvb"]
+albedo_texture = ExtResource("2_ljvvb")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_wjwx0"]
+points = PackedVector3Array(-0.6328271, 15.286329, 0.34503213, 0.5895508, 3.7911522, 1.0788035, 0.5895508, 3.7911522, -1.1220798, -0.14378977, 13.574772, -0.8773458, 0.8340695, 14.797532, 0.10051346, -0.6328271, 0.36803484, 0.5895508, -1.1220798, 4.0363173, -0.6328271, 0.5895508, 0.12286997, -0.38830844, -0.38830844, 13.818404, 0.8340695, -1.1220798, 3.7911522, 0.5895508, 1.0788035, 3.7911522, -0.6328271, 0.5895508, 15.041164, -0.6328271, -0.6328271, 3.7911522, -1.1220798, 1.0788035, 3.7911522, 0.5895508, -0.6328271, 14.797532, -0.6328271, 0.34503213, 14.552367, 0.8340695, -0.6328271, 3.7911522, 1.0788035, -0.38830844, 0.12286997, -0.6328271, 0.5895508, 0.36803484, 0.5895508, -0.8773458, 13.084441, 0.34503213, 0.8340695, 12.106846, 0.5895508, -0.6328271, 0.12286997, -0.38830844, 0.8340695, 11.618048, -0.6328271, -0.6328271, 11.618048, 0.8340695, -0.8773458, 12.840809, -0.38830844, -0.6328271, 5.259078, -1.1220798, 0.34503213, 13.329606, -0.8773458, 0.34503213, 15.286329, 0.5895508, -0.38830844, 15.286329, -0.6328271, 0.34503213, 0.12286997, 0.5895508, -0.6328271, 15.041164, 0.5895508, 0.34503213, 0.12286997, -0.6328271)
+
+[node name="pillar" type="RigidBody3D" unique_id=998138341]
+mass = 10.0
+script = ExtResource("3_ljvvb")
+floater_transform = Array[Vector4]([Vector4(0, 4.3, 0, 1), Vector4(0, 7, 0, 0.9), Vector4(0, 10, 0, 0.8), Vector4(0, 13, 0, 0.7)])
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1255399331]
+lod_bias = 12.0
+mesh = ExtResource("1_anbxa")
+surface_material_override/0 = SubResource("StandardMaterial3D_ljvvb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=771793192]
+visible = false
+shape = SubResource("ConvexPolygonShape3D_wjwx0")

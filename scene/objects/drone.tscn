@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://3b7xw6dv7jqw"]
+
+[ext_resource type="ArrayMesh" uid="uid://fw3gssjfdoqy" path="res://assets/mesh/drone/Bebop.obj" id="1_66itd"]
+[ext_resource type="Script" uid="uid://bi6j3hgje03ox" path="res://scripts/drone.gd" id="1_dh4o5"]
+[ext_resource type="Material" uid="uid://c8p4n2nfh0rxe" path="res://material/Bebop.tres" id="2_dh4o5"]
+[ext_resource type="ArrayMesh" uid="uid://c5ou5x5wm7jfn" path="res://assets/mesh/drone/Bebop_prop.obj" id="3_324t4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_66itd"]
+size = Vector3(9.146929, 3.0077322, 7.4205)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dh4o5"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 0.795)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dh4o5"]
+size = Vector3(13.692305, 0.30010802, 11.228989)
+
+[node name="drone" type="RigidBody3D" unique_id=642866381]
+script = ExtResource("1_dh4o5")
+
+[node name="Bebop" type="MeshInstance3D" parent="." unique_id=56299924]
+transform = Transform3D(-0.1, 0, -8.742278e-09, 0, 0.1, 0, 8.742278e-09, 0, -0.1, 0, 0, 0)
+mesh = ExtResource("1_66itd")
+surface_material_override/0 = ExtResource("2_dh4o5")
+surface_material_override/1 = ExtResource("2_dh4o5")
+surface_material_override/2 = ExtResource("2_dh4o5")
+surface_material_override/3 = ExtResource("2_dh4o5")
+surface_material_override/4 = ExtResource("2_dh4o5")
+surface_material_override/5 = ExtResource("2_dh4o5")
+surface_material_override/6 = ExtResource("2_dh4o5")
+surface_material_override/7 = ExtResource("2_dh4o5")
+surface_material_override/8 = ExtResource("2_dh4o5")
+surface_material_override/9 = ExtResource("2_dh4o5")
+surface_material_override/10 = ExtResource("2_dh4o5")
+surface_material_override/11 = ExtResource("2_dh4o5")
+surface_material_override/12 = ExtResource("2_dh4o5")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1919885117]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.0003511429, -0.044996798, 0.03701198)
+visible = false
+shape = SubResource("BoxShape3D_66itd")
+
+[node name="BebopProp" type="MeshInstance3D" parent="." unique_id=2063594795]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+mesh = ExtResource("3_324t4")
+surface_material_override/0 = SubResource("StandardMaterial3D_dh4o5")
+surface_material_override/1 = SubResource("StandardMaterial3D_dh4o5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=834916337]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.0007379532, -0.012045801, -0.00021338463)
+visible = false
+shape = SubResource("BoxShape3D_dh4o5")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=61635352]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5165634)
+current = true

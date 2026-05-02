@@ -10,13 +10,13 @@ curve = SubResource("Curve_gec1c")
 [resource]
 lifetime_randomness = 0.62
 emission_shape = 3
-emission_box_extents = Vector3(0.05, 0.05, 0.4)
+emission_box_extents = Vector3(0.18, 0.05, 0.4)
 inherit_velocity_ratio = 0.336
 direction = Vector3(1, 0.4, 0)
 spread = 15.0
 initial_velocity_min = 6.0
 initial_velocity_max = 10.0
-gravity = Vector3(0, -0.5, 0)
+gravity = Vector3(0, 0, 0)
 scale_min = 0.5
 scale_max = 3.0
 scale_curve = SubResource("CurveTexture_j7dhm")

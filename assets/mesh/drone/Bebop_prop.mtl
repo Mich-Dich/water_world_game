@@ -1,0 +1,22 @@
+# Blender 5.1.1 MTL File: 'Bebop.blend.blend'
+# www.blender.org
+
+newmtl Body_MAT
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.010413 0.010413 0.010413
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 0.010000
+illum 9
+map_Kd Body_MAT_baseColor.png
+
+newmtl Body_MAT.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.010413 0.010413 0.010413
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 0.010000
+illum 9
+map_Kd Body_MAT_baseColor.png
