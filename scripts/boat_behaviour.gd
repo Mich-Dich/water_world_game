@@ -90,8 +90,9 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	var abs_rpm: float = abs(rpm_percentage)
-	motor_sound.pitch_scale = lerp(min_pitch, max_pitch, abs_rpm)
-	motor_sound.volume_db = lerp(min_volume, max_volume, abs_rpm)
+	if motor_sound:
+		motor_sound.pitch_scale = lerp(min_pitch, max_pitch, abs_rpm)
+		motor_sound.volume_db = lerp(min_volume, max_volume, abs_rpm)
 
 
 func _physics_process(delta: float) -> void:
