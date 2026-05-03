@@ -15,7 +15,7 @@ corner_detail = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mpyi7"]
 bg_color = Color(0, 0, 0, 0.7019608)
-corner_radius_bottom_right = 10
+corner_radius_top_right = 20
 corner_detail = 1
 
 [node name="HUD" type="Control" unique_id=1254872173]

@@ -2,6 +2,8 @@ extends Node3D
 
 @onready var bouy: 				PackedScene = load("res://scene/objects/bouy.tscn")
 @onready var pillar: 			PackedScene = load("res://scene/objects/pillar.tscn")
+var drone_scene:		PackedScene = preload("res://scene/objects/drone.tscn")
+
 var last_center_point:			= Vector2.ZERO
 var min_bouy_distance: 			float = 4.0
 var track_width: 				float = 30.0									# width in meters
@@ -143,34 +145,13 @@ func spawn_pillar_at(world_pos_2d: Vector2) -> void:
 	add_child(pillar_instance)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+func spawn_drone(pos: Vector3) -> Node3D:
+	var drone_ref := drone_scene.instantiate()
+	if not drone_ref:
+		breakpoint
+	drone_ref.global_position = pos
+	add_child(drone_ref)
+	return drone_ref
 
 
 

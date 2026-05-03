@@ -1,24 +1,39 @@
 extends RigidBody3D
 class_name Drone
 
-@export var filming_target: 			Node3D
+@export var filming_target: 				Node3D
 
-@export var thrust_power 					:= 15.0			# Maximum linear force applied for translation (hover & follow).
+@export var thrust_power 					:= 35.0			# Maximum linear force applied for translation (hover & follow).
 @export var linear_damping 					:= 0.9			# Damping factor for linear velocity (higher = more "floaty", lower = more responsive).
 @export var angular_damping	 				:= 10.0			# Angular damping factor for smooth rotation.
-@export var follow_distance 				:= 5.0			# Distance the drone tries to keep from the target.
-@export var follow_height 					:= 2.0			# Height above the target the drone prefers.
+@export var follow_distance 				:= 12.0			# Distance the drone tries to keep from the target.
+@export var follow_height 					:= 6.5			# Height above the target the drone prefers.
 @export var yaw_speed 						:= 0.3			# How aggressively the drone yaws to face the target (0.1 - slow, 1.0 - instant).
 @export var tilt_sensitivity 				:= 0.05			# How much the drone tilts based on its velocity.
 @export var max_tilt_angle_deg 				:= 30.0			# Maximum tilt angle (degrees) in any direction.
 @export var max_angular_velocity 			:= 3.0			# Maximum angular velocity (rad/s) to prevent spinning out.
 @export var debug_draw 						:= false		# Enable to draw debug lines (requires DebugDraw3D addon).
+@onready var camera_pos: 					= $camera_pos
 
+@export var record_fps := 30.0
+@export var output_folder := "res://../drone_frames/"
+
+var sub_viewport: SubViewport
+var frame_count := 0
+var time_accum := 0.0
+var recording := false
 
 
 func _ready() -> void:
 	gravity_scale = 0.0
 	custom_integrator = true
+	sub_viewport = $SubViewport
+	recording = true
+	DirAccess.make_dir_recursive_absolute(output_folder)						# Create output folder if it doesn't exist
+
+
+func _process(_delta: float) -> void:
+	camera_pos.look_at(filming_target.global_position)
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
@@ -48,7 +63,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		var local_vel := yaw_basis.inverse() * state.linear_velocity
 		var max_tilt := deg_to_rad(max_tilt_angle_deg)
 		var desired_pitch := clampf(-local_vel.z * tilt_sensitivity, -max_tilt, max_tilt)
-		var desired_roll  := clampf( local_vel.x * tilt_sensitivity, -max_tilt, max_tilt)
+		var desired_roll  := clampf(-local_vel.x * tilt_sensitivity, -max_tilt, max_tilt)
 		var target_basis := yaw_basis.rotated(yaw_basis.x, -desired_pitch)
 		target_basis = target_basis.rotated(target_basis.z, desired_roll)
 
@@ -72,8 +87,6 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		DebugDraw3D.draw_line(global_position, global_position + force.normalized(), Color.GREEN)
 		DebugDraw3D.draw_line(global_position, desired_position, Color.YELLOW)
 		DebugDraw3D.draw_line(global_position, filming_target.global_position, Color.CYAN)
-
-
 
 
 

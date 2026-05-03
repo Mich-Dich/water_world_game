@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://giqy0fp07tht" path="res://scene/objects/terrain.tscn" id="4_fxnfp"]
 [ext_resource type="PackedScene" uid="uid://df7iek3utfg86" path="res://scene/objects/generic_boat.tscn" id="6_4ssk7"]
 [ext_resource type="Script" uid="uid://cvuyafbcmx87x" path="res://scripts/spectator_camera_3d.gd" id="6_qlmku"]
-[ext_resource type="PackedScene" uid="uid://3b7xw6dv7jqw" path="res://scene/objects/drone.tscn" id="7_4ssk7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pit2l"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -47,16 +46,24 @@ script = ExtResource("6_qlmku")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1606026, 0)
 
 [node name="player" parent="RigidBody3D" unique_id=788734149 node_paths=PackedStringArray("spectator_camera") instance=ExtResource("3_qufgm")]
+thrust_force = 680000.0
+turn_torque = 150000.0
+mouse_sensitivity = 0.002
 spectator_camera = NodePath("../../SpectatorCamera3D")
+current_camera_type = 0
+previous_camera_type = 0
+impact_threshold = 8.0
+impact_strength = 0.1
+impact_decay = 6.0
+camera_tilt_strength = 0.1
+camera_tilt_smooth = 0.2
+base_fov = 75.0
+max_fov = 95.0
+fov_speed_factor = 0.8
+fov_smooth = 4.0
+high_speed_angular_damping = 3.0
+max_speed = 20.0
 
 [node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="." unique_id=1842481319]
 transform = Transform3D(0.485, 0, 0, 0, 1, 0, 0, 0, 1, 0.43482453, 0.03694153, -0.11387634)
 size = Vector3(0.20690918, 0.3364563, 4.3056335)
-
-[node name="drone" parent="." unique_id=642866381 node_paths=PackedStringArray("filming_target") instance=ExtResource("7_4ssk7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
-filming_target = NodePath("../RigidBody3D")
-thrust_power = 90.0
-follow_distance = 17.0
-follow_height = 9.0
-yaw_speed = 0.8

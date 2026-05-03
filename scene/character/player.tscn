@@ -35,6 +35,7 @@ transform = Transform3D(1, 0, 0, 0, 0.90630776, 0.42261827, 0, -0.42261827, 0.90
 
 [node name="Camera3D" type="Camera3D" parent="twist_pivot/pitch_pivot" unique_id=1740771454]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.156124)
+current = true
 
 [node name="effect" type="MeshInstance3D" parent="twist_pivot/pitch_pivot/Camera3D" unique_id=612445735]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7212995, 0, -0.07)
@@ -49,3 +50,22 @@ surface_material_override/0 = SubResource("ShaderMaterial_5utgv")
 visible = false
 
 [node name="HUD" parent="CanvasLayer" unique_id=517827588 instance=ExtResource("5_rrjs7")]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer" unique_id=752339436]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -254.0
+offset_right = 416.0
+offset_bottom = -14.0
+grow_vertical = 0
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer" unique_id=745229506]
+handle_input_locally = false
+size = Vector2i(400, 240)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="CanvasLayer/SubViewportContainer/SubViewport" unique_id=599025376]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+fov = 45.0

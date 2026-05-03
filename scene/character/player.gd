@@ -39,6 +39,9 @@ var camera:								Camera3D
 var move_input_last:					Vector2
 @onready var boat: 						RigidBody3D
 
+var drone_ref:							Node3D
+var drone_camera_pos:					Node3D
+var drone_camera:						Camera3D
 
 
 func _ready() -> void:
@@ -49,8 +52,19 @@ func _ready() -> void:
 	camera = $twist_pivot/pitch_pivot/Camera3D as Camera3D
 
 	# =================== DEV-ONLY ===================
-	boat = get_parent()
+	boat = get_parent()		# TODO: need to change when player is spawned
 	# =================== DEV-ONLY ===================
+
+	var drone_scene := load("res://scene/objects/drone.tscn")
+	drone_ref = drone_scene.instantiate()
+	add_child(drone_ref)
+	drone_ref.top_level = true
+	drone_ref.global_position = twist_pivot.global_position + (Vector3.UP * 7)
+	drone_ref.filming_target = boat
+	drone_camera_pos = drone_ref.get_node("camera_pos")
+	
+	drone_camera = $CanvasLayer/SubViewportContainer/SubViewport/Camera3D
+	drone_camera.global_transform = drone_camera_pos.global_transform
 
 
 func _process(delta: float) -> void:
@@ -61,6 +75,8 @@ func _process(delta: float) -> void:
 	pitch_pivot.rotation.x = clamp(pitch_pivot.rotation.x, -half_pi, half_pi)
 	twist_input = 0.0
 	pitch_input = 0.0
+	
+	drone_camera.global_transform = drone_camera_pos.global_transform
 	
 	# camera updating
 	var target_tilt: float = -move_input_last.x * camera_tilt_strength				# camera tilt
@@ -119,7 +135,7 @@ func toggle_spectator() -> void:
 
 
 
-
+ 
 
 
 

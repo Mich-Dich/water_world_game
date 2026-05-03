@@ -24,6 +24,7 @@ racetrack="*uid://dxjrkkt5376pt"
 [debug]
 
 settings/stdout/print_fps=true
+settings/gdscript/always_track_local_variables=true
 gdscript/warnings/untyped_declaration=1
 
 [debug_draw_3d]
@@ -32,9 +33,10 @@ settings/addon_root_folder="res://addons/debug_draw_3d"
 
 [display]
 
-window/size/viewport_width=1920
-window/size/viewport_height=1080
+window/size/viewport_width=1800
+window/size/viewport_height=900
 window/size/initial_position_type=0
+window/vsync/vsync_mode=0
 
 [editor_plugins]
 
