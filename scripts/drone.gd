@@ -15,6 +15,12 @@ class_name Drone
 @export var debug_draw:						= false			# enable DebugDraw3D lines
 @onready var camera_pos:					= $camera_pos
 
+# ------------------------------------------------------------------ avoidance
+@export var avoidance_strength:				float = 15.0     # how hard it pushes away
+@export var avoidance_max_speed:			float = 5.0     # cap on repulsion speed
+@onready var avoidance_area:				Area3D = $AvoidanceArea
+@onready var sphere_collision:				CollisionShape3D = $AvoidanceArea/sphere_collision
+
 # ------------------------------------------------------------------ autonomous modes
 enum DroneMode { ORBIT, DISTANCE_OSC, STATIC_BEHIND }
 
@@ -66,7 +72,7 @@ func _process(delta: float) -> void:
 func _pick_new_mode() -> void:
 	var modes := DroneMode.values()
 	var available: Array[int] = []
-	for m in modes:
+	for m : DroneMode in modes:
 		if m != current_mode:
 			available.append(m)
 	if available.is_empty():
@@ -112,14 +118,38 @@ func _update_movement(delta: float) -> void:
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if not is_instance_valid(filming_target):
 		return
+
+	# --- original movement towards desired_position ---
 	var to_target := desired_position - global_position
 	var distance := to_target.length()
 	var force := to_target.normalized() * thrust_power * distance
 	force += Vector3.UP * 9.8 * mass
+
 	var prev_vel := state.linear_velocity
 	var target_vel := to_target * 2.0
+
+	# --- obstacle avoidance (Add this block) ---
+	var repulsion_vel := Vector3.ZERO
+	if avoidance_area and sphere_collision and sphere_collision.shape is SphereShape3D:
+		var radius: float = sphere_collision.shape.radius
+		var obstacles := avoidance_area.get_overlapping_bodies()
+		for obstacle in obstacles:
+			if obstacle == self:
+				continue
+			var obstacle_pos := (obstacle as Node3D).global_position
+			var to_obstacle := obstacle_pos - global_position
+			var dist := to_obstacle.length()
+			if dist < radius and dist > 0.001:
+				# The closer the obstacle, the stronger the repulsion (1/distance²)
+				var strength := avoidance_strength / (dist * dist)
+				repulsion_vel -= to_obstacle.normalized() * min(strength, avoidance_max_speed)
+		repulsion_vel = repulsion_vel.limit_length(avoidance_max_speed)
+		target_vel += repulsion_vel          # blend in the avoidance
+
+	# --- apply velocity & rotation (unchanged) ---
 	var new_vel := prev_vel.lerp(target_vel, 1.0 - linear_damping)
 	state.linear_velocity = new_vel
+
 	var acceleration := (new_vel - prev_vel) / state.step
 	var flat_dir := filming_target.global_position - global_position
 	flat_dir.y = 0.0
@@ -152,7 +182,6 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		DebugDraw3D.draw_line(global_position, global_position + force.normalized(), Color.GREEN)
 		DebugDraw3D.draw_line(global_position, desired_position, Color.YELLOW)
 		DebugDraw3D.draw_line(global_position, filming_target.global_position, Color.CYAN)
-
 
 
 	

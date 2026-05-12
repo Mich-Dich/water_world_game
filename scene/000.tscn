@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://df7iek3utfg86" path="res://scene/objects/generic_boat.tscn" id="6_4ssk7"]
 [ext_resource type="Script" uid="uid://cvuyafbcmx87x" path="res://scripts/spectator_camera_3d.gd" id="6_qlmku"]
 [ext_resource type="PackedScene" uid="uid://c2h4c4h2viqve" path="res://scene/objects/hacker-craft_runabout.tscn" id="7_4ssk7"]
+[ext_resource type="PackedScene" uid="uid://3b7xw6dv7jqw" path="res://scene/objects/drone.tscn" id="8_56fi2"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pit2l"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -44,7 +45,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
 script = ExtResource("6_qlmku")
 
 [node name="RigidBody3D" parent="." unique_id=710540662 instance=ExtResource("6_4ssk7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1606026, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.7258515, 1.1606026, -11.266375)
 
 [node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="." unique_id=1842481319]
 transform = Transform3D(0.485, 0, 0, 0, 1, 0, 0, 0, 1, 0.43482453, 0.03694153, -0.11387634)
@@ -55,3 +56,7 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -4.6
 
 [node name="player" parent="hacker_craft_runabout" unique_id=788734149 node_paths=PackedStringArray("spectator_camera") instance=ExtResource("3_qufgm")]
 spectator_camera = NodePath("../../SpectatorCamera3D")
+
+[node name="drone" parent="." unique_id=642866381 node_paths=PackedStringArray("filming_target") instance=ExtResource("8_56fi2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.911005, 9.892177, -3.6319547)
+filming_target = NodePath("../RigidBody3D")

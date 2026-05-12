@@ -25,6 +25,7 @@ const half_pi:									float = (PI/2) - 0.1
 @export var floater_transform:					Array[Vector4] = []				# [pos.x, pos.y, pos.z, size] save size in last value
 @export var splash_effect:						Array[GPUParticles3D] = []
 var floater_volume: 							Array[float] = []				# will be computed at ready
+var splash_effect_position2D: 					Array[Vector2] = []				# will be computed at ready
 var splash_effect_matterial:					Array[ParticleProcessMaterial] = []
 var num_of_floaters: 							int = 0							# Assume floaters are symetrical
 
@@ -70,8 +71,10 @@ func _ready() -> void:
 	var water_splash_material: Material = load("res://VFX/ppm_water_splash.tres")
 	floater_volume.resize(num_of_floaters)
 	splash_effect_matterial.resize(num_of_floaters)
+	splash_effect_position2D.resize(num_of_floaters)
 	for index in num_of_floaters:
 		var effect := splash_effect[index] as GPUParticles3D
+		splash_effect_position2D[index] = Vector2(effect.position.x, effect.position.y)
 		if not effect:
 			breakpoint
 		effect.process_material = water_splash_material.duplicate(true)
@@ -83,6 +86,7 @@ func _ready() -> void:
 	for index in num_of_pure_floaters:
 		pure_floater_volume[index] = wave_settings.get_sphere_volume(pure_floater_transform[index].w)
 
+	
 	#if motor_sound.stream:
 		#motor_sound.stream.loop = true
 	#motor_sound.play()
@@ -166,12 +170,14 @@ func integrate_forces_for_floater(state: PhysicsDirectBodyState3D, transforms: A
 			is_submerged = true
 			force = Vector3.UP * buoyancy_strength * submerged_volume * mass
 			state.apply_force(force, world_pos - state.transform.origin)
-			#DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(0, 1, 0, 1), 0.001)
-		#else:
-			#DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(1, 0, 0, 1), 0.001)
+			DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(0, 1, 0, 1), 0.001)
+		else:
+			DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(1, 0, 0, 1), 0.001)
 		splash_effect[index].emitting = is_in_water and last_velocity.length() > 1
 		if splash_effect[index].emitting:
 			splash_effect[index].global_position.y = water_height + 0.05
+			splash_effect[index].position.x = splash_effect_position2D[index].x
+			splash_effect[index].position.z = splash_effect_position2D[index].y
 		var mat := splash_effect_matterial[index]
 		if mat:
 			var force_multiplier: float = force.length() * last_velocity.length() * 0.00004
@@ -194,9 +200,9 @@ func integrate_forces_for_pure_floater(state: PhysicsDirectBodyState3D, transfor
 			is_submerged = true
 			force = Vector3.UP * buoyancy_strength * submerged_volume * mass
 			state.apply_force(force, world_pos - state.transform.origin)
-			#DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(0, 1, 0, 1), 0.001)
-		#else:
-			#DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(1, 0, 0, 1), 0.001)
+			DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(0, 1, 0, 1), 0.001)
+		else:
+			DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(1, 0, 0, 1), 0.001)
 	return is_submerged
 
 
@@ -215,37 +221,6 @@ func sample_rate(curve: Curve, x: float, default_rate: float) -> float:
 	if curve and curve.point_count > 0:
 		return curve.sample(x)
 	return default_rate
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

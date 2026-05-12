@@ -1,0 +1,151 @@
+[gd_scene format=3 uid="uid://daycy11sf4ajy"]
+
+[ext_resource type="ArrayMesh" uid="uid://d13yf1387rvpl" path="res://assets/mesh/boats/USS Oliver Hazard Perry FFG-7.obj" id="1_brk2p"]
+[ext_resource type="Script" uid="uid://cmks1bry1rc5w" path="res://scripts/boat_behaviour.gd" id="1_qhjer"]
+[ext_resource type="Texture2D" uid="uid://dltarfv36a1si" path="res://assets/texture/uss-oliver-hazard-perry-ffg-7/008_8.png" id="3_cuing"]
+[ext_resource type="Texture2D" uid="uid://cbvii34kky5tw" path="res://assets/texture/uss-oliver-hazard-perry-ffg-7/001_1.png" id="4_smr6s"]
+[ext_resource type="Texture2D" uid="uid://cqyr180l31bgj" path="res://assets/texture/uss-oliver-hazard-perry-ffg-7/002_2.png" id="5_1pq60"]
+[ext_resource type="Texture2D" uid="uid://bipxq2dyt3bg6" path="res://assets/texture/uss-oliver-hazard-perry-ffg-7/003_3.png" id="6_e0e7l"]
+[ext_resource type="Texture2D" uid="uid://b4f5d0kir20cb" path="res://assets/texture/uss-oliver-hazard-perry-ffg-7/004_4.png" id="7_dtq58"]
+[ext_resource type="Texture2D" uid="uid://cqyo6rrsy0cpi" path="res://assets/texture/uss-oliver-hazard-perry-ffg-7/006_6.png" id="8_o4ojb"]
+[ext_resource type="Texture2D" uid="uid://yl3mq3j8bbiq" path="res://assets/texture/uss-oliver-hazard-perry-ffg-7/007_7.png" id="9_0hvn5"]
+[ext_resource type="Texture2D" uid="uid://gsbbx1iwvmie" path="res://assets/texture/Scratches005_1K-JPG_Color.jpg" id="10_lln7t"]
+[ext_resource type="Texture2D" uid="uid://dkiy2c57l2m0s" path="res://assets/texture/uss-oliver-hazard-perry-ffg-7/005_5.png" id="11_jt18x"]
+[ext_resource type="PackedScene" uid="uid://bstaqstdr1yhb" path="res://scene/vfx/water_splash_small.tscn" id="12_8t6t6"]
+[ext_resource type="PackedScene" uid="uid://d3rp3i7kmjj8g" path="res://scene/vfx/water_splash.tscn" id="13_smr6s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bfyr7"]
+albedo_texture = ExtResource("3_cuing")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fmd0u"]
+transparency = 1
+albedo_texture = ExtResource("4_smr6s")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0vtf0"]
+albedo_texture = ExtResource("5_1pq60")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_klmmd"]
+albedo_texture = ExtResource("6_e0e7l")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hkoaq"]
+albedo_texture = ExtResource("7_dtq58")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7yn5j"]
+albedo_texture = ExtResource("8_o4ojb")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_85gol"]
+albedo_texture = ExtResource("9_0hvn5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qt60s"]
+albedo_texture = ExtResource("10_lln7t")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qmwkq"]
+albedo_texture = ExtResource("11_jt18x")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_nbgfg"]
+points = PackedVector3Array(0.41910648, 5.7957153, -2.3345032, 4.4987507, 5.2131367, 0.57952857, 4.4987507, 4.630559, 0.57952857, 0.41910648, 5.7957153, 2.3279476, 2.1678107, 8.709005, 0.57952857, 2.7500465, 6.960472, -2.3345032, 0.41910648, 4.630559, -1.7512405, 1.002141, 8.709005, -0.58562773, 2.7500465, 6.960472, 2.3279476, 0.41910648, 4.630559, 1.7451413, 2.7500465, 4.630559, -1.7512405, 0.41910648, 6.960472, 2.3279476, 0.41910648, 6.960472, -2.3345032, 2.7500465, 4.630559, 1.7451413, 4.4987507, 5.2131367, -0.58562773, 2.1678107, 8.709005, -0.58562773, 2.7500465, 5.7957153, -2.3345032, 2.7500465, 5.7957153, 2.3279476, 1.002141, 8.709005, 0.57952857, 4.4987507, 4.630559, -0.58562773)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_k8rsh"]
+points = PackedVector3Array(-12.982701, -1.1983032, -1.1684341, 7.9928503, 4.6297603, 0.57952857, 18.486103, 4.0467257, 0.57952857, -18.229328, -0.032234192, 2.3279476, -11.818002, 4.6297603, -1.7512405, 14.404177, -1.1983032, -0.58562773, 6.8281507, 3.4636912, -2.3345032, -11.818002, 4.6297603, 1.7451413, 12.655301, 0.5502299, 1.7451413, -18.229328, -0.032234192, -2.3345032, 6.8281507, 3.4636912, 2.3279476, -18.813503, 2.8806567, 0.57952857, 8.577026, -1.1983032, 1.1623349, 13.823652, 1.1332644, -1.7512405, 18.486103, 4.0467257, -0.58562773, 7.412326, -0.6152687, -1.7512405, -12.982701, -1.1983032, 1.1623349, -17.645153, 1.7157285, -2.3345032, 2.7498753, 4.6297603, -1.7512405, -17.645153, 1.7157285, 2.3279476, 17.317753, 0.5502299, 0.57952857, 2.7498753, 4.6297603, 1.7451413, 18.486103, 1.7157285, -0.58562773, -18.229328, -0.6152687, 1.7451413, 7.412326, -0.6152687, 1.7451413, 14.404177, -1.1983032, 0.57952857, 14.404177, 2.2976222, 1.7451413, -18.813503, 2.8806567, -0.58562773, -18.229328, -0.6152687, -1.7512405, -11.818002, 2.8806567, -2.3345032, -11.818002, 2.8806567, 2.3279476, 14.404177, 2.2976222, -1.7512405)
+
+[node name="uss_oliver_hazard_perry" type="RigidBody3D" unique_id=2048877434]
+script = ExtResource("1_qhjer")
+floater_transform = Array[Vector4]([Vector4(-1.8, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0)])
+pure_floater_transform = Array[Vector4]([Vector4(0, 0.7, -12, 1.5), Vector4(0, 0.7, 4.5, 1.5)])
+
+[node name="UssOliverHazardPerryFfg7" type="MeshInstance3D" parent="." unique_id=1942473105]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+mesh = ExtResource("1_brk2p")
+surface_material_override/0 = SubResource("StandardMaterial3D_bfyr7")
+surface_material_override/1 = SubResource("StandardMaterial3D_fmd0u")
+surface_material_override/2 = SubResource("StandardMaterial3D_0vtf0")
+surface_material_override/3 = SubResource("StandardMaterial3D_klmmd")
+surface_material_override/4 = SubResource("StandardMaterial3D_hkoaq")
+surface_material_override/5 = SubResource("StandardMaterial3D_7yn5j")
+surface_material_override/6 = SubResource("StandardMaterial3D_85gol")
+surface_material_override/7 = SubResource("StandardMaterial3D_qt60s")
+surface_material_override/8 = SubResource("StandardMaterial3D_qmwkq")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1989665932]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+visible = false
+shape = SubResource("ConvexPolygonShape3D_nbgfg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1814223253]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+visible = false
+shape = SubResource("ConvexPolygonShape3D_k8rsh")
+
+[node name="water_splash_small_l0" parent="." unique_id=1264503882 instance=ExtResource("12_8t6t6")]
+transform = Transform3D(-1.9556763, 0, 0.7327682, 0, 2, 0, -0.41872472, 0, -3.4224334, -0.8252956, -0.054, -13.544853)
+emitting = false
+amount = 16500
+
+[node name="water_splash_small_l1" parent="." unique_id=1883168933 instance=ExtResource("12_8t6t6")]
+transform = Transform3D(-1.9875243, 0, 0.39032257, 0, 2, 0, -0.22304147, 0, -3.4781673, -1.3174344, -0.054, -10.49308)
+emitting = false
+amount = 16500
+
+[node name="water_splash_small_l2" parent="." unique_id=1776309034 instance=ExtResource("12_8t6t6")]
+transform = Transform3D(-1.9955821, 0, 0.2325064, 0, 2, 0, -0.1328608, 0, -3.4922686, -1.7536088, -0.054, -7.3600116)
+emitting = false
+amount = 6500
+
+[node name="water_splash_small_l3" parent="." unique_id=1814706805 instance=ExtResource("12_8t6t6")]
+transform = Transform3D(-2, 0, -3.6238995e-07, 0, 2, 0, 3.019916e-07, 0, -2.4, -1.8, -0.054, -2.513)
+emitting = false
+amount = 6500
+
+[node name="water_splash_small_l4" parent="." unique_id=1855549335 instance=ExtResource("12_8t6t6")]
+transform = Transform3D(-2, 0, -3.6238995e-07, 0, 2, 0, 3.019916e-07, 0, -2.4, -1.8, -0.054, 2.4)
+emitting = false
+amount = 6500
+
+[node name="water_splash_small_l5" parent="." unique_id=984690424 instance=ExtResource("12_8t6t6")]
+transform = Transform3D(-2, 0, -3.6238995e-07, 0, 2, 0, 3.019916e-07, 0, -2.4, -1.8, -0.054, 9.4)
+emitting = false
+amount = 6500
+
+[node name="water_splash_small_l6" parent="." unique_id=1282278237 instance=ExtResource("12_8t6t6")]
+transform = Transform3D(-2, 0, -3.6238995e-07, 0, 2, 0, 3.019916e-07, 0, -2.4, -1.8, -0.054, 16.4)
+emitting = false
+amount = 6500
+
+[node name="water_splash_small_r0" parent="." unique_id=1080860788 instance=ExtResource("12_8t6t6")]
+transform = Transform3D(1.9555665, 0, 0.73366493, 0, 2, 0, -0.41923714, 0, 3.4222412, 0.825, -0.054, -13.545)
+emitting = false
+amount = 16500
+
+[node name="water_splash_small_r1" parent="." unique_id=2031688384 instance=ExtResource("12_8t6t6")]
+transform = Transform3D(1.9875358, 0, 0.39014125, 0, 2, 0, -0.22293787, 0, 3.4781876, 1.317, -0.054, -10.493)
+emitting = false
+amount = 16500
+
+[node name="water_splash_small_r2" parent="." unique_id=150736073 instance=ExtResource("12_8t6t6")]
+transform = Transform3D(1.995603, 0, 0.23195866, 0, 2, 0, -0.13254781, 0, 3.492305, 1.754, -0.054, -7.36)
+emitting = false
+amount = 6500
+
+[node name="water_splash_small_r3" parent="." unique_id=1351974874 instance=ExtResource("12_8t6t6")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2.4, 1.8, -0.054, -2.513)
+emitting = false
+amount = 6500
+
+[node name="water_splash_small_r4" parent="." unique_id=1894863696 instance=ExtResource("12_8t6t6")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2.4, 1.8, -0.054, 2.4)
+emitting = false
+amount = 6500
+
+[node name="water_splash_small_r5" parent="." unique_id=75851158 instance=ExtResource("12_8t6t6")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2.4, 1.8, -0.054, 9.4)
+emitting = false
+amount = 6500
+
+[node name="water_splash_small_r6" parent="." unique_id=700605502 instance=ExtResource("12_8t6t6")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2.4, 1.8, -0.054, 16.4)
+emitting = false
+amount = 6500
+
+[node name="motor_wash" parent="." unique_id=986601128 instance=ExtResource("13_smr6s")]
+transform = Transform3D(4.993745e-09, 4.3425192e-08, 1, 0.99345267, -0.1142436, 0, 0.1142436, 0.99345267, -4.371139e-08, 1.0290834e-06, -0.019272447, 17.98969)
+emitting = false
