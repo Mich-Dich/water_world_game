@@ -45,6 +45,7 @@ rpm_decrease_rate_curve = SubResource("Curve_3kgma")
 floater_transform = Array[Vector4]([Vector4(0.46, 0, -1.954, 0.12), Vector4(0.478, 0, -1.036, 0.22), Vector4(0.478, 0, -0.13, 0.23), Vector4(0.478, 0, 0.891, 0.2), Vector4(0.452, 0, 1.724, 0.2), Vector4(-0.452, 0, -1.954, 0.12), Vector4(-0.478, 0, -1.036, 0.22), Vector4(-0.478, 0, -0.13, 0.23), Vector4(-0.478, 0, 0.891, 0.2), Vector4(-0.46, 0, 1.724, 0.2)])
 splash_effect = [NodePath("water_splash_small_r0"), NodePath("water_splash_small_r1"), NodePath("water_splash_small_r2"), NodePath("water_splash_small_r3"), NodePath("water_splash_small_r4"), NodePath("water_splash_small_l0"), NodePath("water_splash_small_l1"), NodePath("water_splash_small_l2"), NodePath("water_splash_small_l3"), NodePath("water_splash_small_l4")]
 pure_floater_transform = Array[Vector4]([Vector4(0, 0.16, -0.106, 0.4), Vector4(0, 0.016, 0.71, 0.4)])
+tilt_amount = 0.2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=267300022]
 transform = Transform3D(-0.015, 2.264937e-09, 9.900354e-17, 0, -6.556708e-10, 0.015, 2.264937e-09, 0.015, 6.556708e-10, -1.8256294e-15, -0.27660057, -1.2090595e-08)

@@ -11,8 +11,8 @@ func _ready() -> void:
 	bu_resume.pressed.connect(resume)
 	bu_quit.pressed.connect(get_tree().quit)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+
+func _process(_delta: float) -> void:
 	pass
 
 
@@ -20,19 +20,15 @@ func resume() -> void:
 	animator.play("hide")
 	self.hide()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	get_tree().paused = false;
 	print("Resuming Game")
 
 
 func pause() -> void:
 	self.show()
-	animator.play("show")
-	for i in range(10):
-		await get_tree().process_frame
-		if i == 0:
-			get_tree().paused = true   # pause after first frame
-			break
-	await get_tree().process_frame   # Wait one frame so the animation can start
-	get_tree().paused = true
+	#animator.play("show")
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	print("Pausing Game")
+	print("Showing escape settings")
+
+
+
+	

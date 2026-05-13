@@ -21,7 +21,7 @@ const half_pi:									float = (PI/2) - 0.1
 @export var damping_water_linear: 				float = 0.85
 @export var damping_water_angular: 				float = 2.6
 
-# floaters are sphereical locations used to calculate the water buoyancy effect, they have a splash partical-effect
+# floaters are spherical locations used to calculate the water buoyancy effect, they have a splash particle-effect
 @export var floater_transform:					Array[Vector4] = []				# [pos.x, pos.y, pos.z, size] save size in last value
 @export var splash_effect:						Array[GPUParticles3D] = []
 var floater_volume: 							Array[float] = []				# will be computed at ready
@@ -34,10 +34,13 @@ var num_of_floaters: 							int = 0							# Assume floaters are symetrical
 var pure_floater_volume: 						Array[float] = []				# will be computed at ready
 var num_of_pure_floaters: 						int = 0							# Assume floaters are symetrical
 
+var pure_floater_for_tilt_effect:				Array[int] = []
+var max_downwards_offset:						float = 0.5
+
 # Movement
 @export var thrust_pos:							= Vector3(0.0, -0.352, 2.373)
 @export var thrust_offset: 						= Vector3(0, 0.25, 0)
-@export var max_speed:							float = 20.0					# Max speed (units/sec)
+@export var max_speed:							float = 100.0					# Max speed (units/sec)
 @export var impact_threshold: 					float = 1.0
 @export var impact_strength: 					float = 0.1
 @export var impact_decay: 						float = 6.0
@@ -48,7 +51,12 @@ var last_velocity: 								= Vector3.ZERO
 var impact_offset: 								= Vector3.ZERO
 var current_tilt: 								= 0.0
 
-# Node referencesw
+# TILT SYSTEM – dynamic leaning into turns
+@export var tilt_amount: float = 0.9            # How strongly the boat leans (higher = more tilt)
+var original_floater_y: Array[float] = []       # Store initial Y positions of floaters
+var original_pure_floater_y: Array[float] = []  # Store initial Y positions of pure floaters
+
+# Node references
 @onready var motor_wash:						GPUParticles3D = $motor_wash
 @onready var motor_sound:						AudioStreamPlayer3D = $motor_sound
 var timer: 										Timer
@@ -58,7 +66,6 @@ var timer: 										Timer
 @export var max_pitch: 							float = 2.0						# pitch at max RPM
 @export var min_volume: 						float = -10.0					# dB at idle
 @export var max_volume: 						float = 0.0						# dB at max RPM
-
 
 
 func _ready() -> void:
@@ -74,7 +81,7 @@ func _ready() -> void:
 	splash_effect_position2D.resize(num_of_floaters)
 	for index in num_of_floaters:
 		var effect := splash_effect[index] as GPUParticles3D
-		splash_effect_position2D[index] = Vector2(effect.position.x, effect.position.y)
+		splash_effect_position2D[index] = Vector2(effect.position.x, effect.position.z)
 		if not effect:
 			breakpoint
 		effect.process_material = water_splash_material.duplicate(true)
@@ -86,7 +93,14 @@ func _ready() -> void:
 	for index in num_of_pure_floaters:
 		pure_floater_volume[index] = wave_settings.get_sphere_volume(pure_floater_transform[index].w)
 
-	
+	# Store original Y positions for tilt system
+	original_floater_y.resize(num_of_floaters)
+	for i in num_of_floaters:
+		original_floater_y[i] = floater_transform[i].y
+	original_pure_floater_y.resize(num_of_pure_floaters)
+	for i in num_of_pure_floaters:
+		original_pure_floater_y[i] = pure_floater_transform[i].y
+
 	#if motor_sound.stream:
 		#motor_sound.stream.loop = true
 	#motor_sound.play()
@@ -137,9 +151,27 @@ func _physics_process(delta: float) -> void:
 		material.initial_velocity_max =  7.0
 	var velocity_change := (linear_velocity - last_velocity).length()
 	if velocity_change > impact_threshold:
-		print("Registered impace")
+		print("Registered impact")
 		impact_offset += Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1)) * impact_strength
 	last_velocity = linear_velocity
+
+	# TILT SYSTEM – dynamic vertical offset for floaters based on speed and steering
+	var speed := linear_velocity.length()
+	var speed_factor: float = clamp(speed / max_speed, 0.0, 1.0)
+	var tilt_factor: float = move_input.x * speed_factor * tilt_amount
+	tilt_factor = clamp(tilt_factor, -0.5, 0.5)
+
+	# Apply tilt to normal floaters (with splash)
+	for i in num_of_floaters:
+		var orig_y := original_floater_y[i]
+		var offset := tilt_factor * floater_transform[i].x
+		floater_transform[i].y = orig_y + offset
+
+	# Apply tilt to pure floaters (no splash)
+	for i in num_of_pure_floaters:
+		var orig_y := original_pure_floater_y[i]
+		var offset := tilt_factor * pure_floater_transform[i].x
+		pure_floater_transform[i].y = orig_y + offset
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
@@ -170,9 +202,9 @@ func integrate_forces_for_floater(state: PhysicsDirectBodyState3D, transforms: A
 			is_submerged = true
 			force = Vector3.UP * buoyancy_strength * submerged_volume * mass
 			state.apply_force(force, world_pos - state.transform.origin)
-			DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(0, 1, 0, 1), 0.001)
-		else:
-			DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(1, 0, 0, 1), 0.001)
+			#DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(0, 1, 0, 1), 0.001)
+		#else:
+			#DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(1, 0, 0, 1), 0.001)
 		splash_effect[index].emitting = is_in_water and last_velocity.length() > 1
 		if splash_effect[index].emitting:
 			splash_effect[index].global_position.y = water_height + 0.05
@@ -200,9 +232,9 @@ func integrate_forces_for_pure_floater(state: PhysicsDirectBodyState3D, transfor
 			is_submerged = true
 			force = Vector3.UP * buoyancy_strength * submerged_volume * mass
 			state.apply_force(force, world_pos - state.transform.origin)
-			DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(0, 1, 0, 1), 0.001)
-		else:
-			DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(1, 0, 0, 1), 0.001)
+			#DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(0, 1, 0, 1), 0.001)
+		#else:
+			#DebugDraw3D.draw_sphere(world_pos, position_4d.w, Color(1, 0, 0, 1), 0.001)
 	return is_submerged
 
 
@@ -221,8 +253,6 @@ func sample_rate(curve: Curve, x: float, default_rate: float) -> float:
 	if curve and curve.point_count > 0:
 		return curve.sample(x)
 	return default_rate
-
-
 
 
 

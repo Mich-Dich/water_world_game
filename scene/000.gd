@@ -2,14 +2,19 @@ extends Node3D
 
 @onready var bouy: 				PackedScene = load("res://scene/objects/bouy.tscn")
 @onready var pillar: 			PackedScene = load("res://scene/objects/pillar.tscn")
-var drone_scene:		PackedScene = preload("res://scene/objects/drone.tscn")
+var drone_scene:				PackedScene = preload("res://scene/objects/drone.tscn")
 
 var last_center_point:			= Vector2.ZERO
 var min_bouy_distance: 			float = 4.0
 var track_width: 				float = 30.0									# width in meters
+var registered_players:			Array[Node3D] = []
 
 
 func _ready() -> void:
+	pass
+
+
+func create_track() -> void:
 	var track_data: racetrack.track_data = racetrack.generate_track(
 		racetrack.config.new(
 			20,																	# num_points
@@ -20,7 +25,7 @@ func _ready() -> void:
 			-1,																	# random_seed
 			Vector2(600.0, 600.0))												# area_rect
 	)
-	
+
 	var spline_points: Array[Vector2] = track_data.spline_points as Array[Vector2]
 	if spline_points.is_empty():
 		return
@@ -56,7 +61,6 @@ func _ready() -> void:
 				right_edges[j], left_edges[j]
 			]))
 
-
 	var m := track_data.track_path.size()
 	for k in range(m):
 		var point := track_data.track_path[k]
@@ -84,7 +88,6 @@ func _ready() -> void:
 		spawn_pillar_at(left_edge)
 		spawn_pillar_at(right_edge)
 		last_center_point = point   # still use center for buoy distance skipping
-
 
 	for i in range(n):															# Place buoys, skipping those that fall inside another segment
 		var center := spline_points[i]
@@ -152,6 +155,10 @@ func spawn_drone(pos: Vector3) -> Node3D:
 	drone_ref.global_position = pos
 	add_child(drone_ref)
 	return drone_ref
+
+
+func register_player(player: Node3D) -> void:
+	registered_players.append(player)
 
 
 
