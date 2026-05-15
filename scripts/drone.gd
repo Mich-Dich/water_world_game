@@ -9,7 +9,7 @@ class_name Drone
 @export var follow_distance:				= 12.0			# base distance from target
 @export var follow_height:					= 6.5			# base height above target
 @export var yaw_speed:						= 0.3			# how fast the drone turns (0.1‑1.0)
-@export var max_tilt_angle_deg:				= 30.0			# maximum tilt in any direction
+@export var max_tilt_angle_deg:				= 15.0			# maximum tilt in any direction
 @export var max_angular_velocity:			= 3.0			# rad/s cap to avoid spinning out
 @export var tilt_accel_sensitivity:			= 0.2			# tilt sensitivity for acceleration
 @export var debug_draw:						= false			# enable DebugDraw3D lines

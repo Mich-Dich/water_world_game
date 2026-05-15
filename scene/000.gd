@@ -3,34 +3,33 @@ extends Node3D
 @onready var bouy: 				PackedScene = load("res://scene/objects/bouy.tscn")
 @onready var pillar: 			PackedScene = load("res://scene/objects/pillar.tscn")
 var drone_scene:				PackedScene = preload("res://scene/objects/drone.tscn")
-
 var last_center_point:			= Vector2.ZERO
 var min_bouy_distance: 			float = 4.0
 var track_width: 				float = 30.0									# width in meters
 var registered_players:			Array[Node3D] = []
 
 
+
 func _ready() -> void:
-	pass
+	racetrack.generate_track(
+		racetrack.config.new(
+			20,								# num_points
+			250.0,							# margin
+			300.0,							# min_distance
+			500.0,							# connect_distance
+			0,								# num_splits
+			-1,								# random_seed
+			Vector2(600.0, 600.0))			# area_rect
+	)
 
 
 func create_track() -> void:
-	var track_data: racetrack.track_data = racetrack.generate_track(
-		racetrack.config.new(
-			20,																	# num_points
-			250.0,																# margin
-			300.0,																# min_distance
-			500.0,																# connect_distance
-			0,																	# num_splits
-			-1,																	# random_seed
-			Vector2(600.0, 600.0))												# area_rect
-	)
-
+	var track_data: racetrack.track_data = racetrack.current_track				# get the current racetrack
 	var spline_points: Array[Vector2] = track_data.spline_points as Array[Vector2]
 	if spline_points.is_empty():
 		return
 
-	var open: bool = track_data.open          # true when track is NOT closed
+	var open: bool = track_data.open											# true when track is NOT closed
 	var n := spline_points.size()
 	var tangents := compute_tangents(spline_points)
 	var half_width := track_width * 0.5
@@ -64,7 +63,7 @@ func create_track() -> void:
 	var m := track_data.track_path.size()
 	for k in range(m):
 		var point := track_data.track_path[k]
-		var tangent: Vector2 = Vector2.RIGHT   # fallback, no direction available
+		var tangent: Vector2 = Vector2.RIGHT									# fallback, no direction available
 		if m != 1:
 			var prev_point: Vector2
 			var next_point: Vector2
@@ -159,6 +158,17 @@ func spawn_drone(pos: Vector3) -> Node3D:
 
 func register_player(player: Node3D) -> void:
 	registered_players.append(player)
+	print("Resitered player: ", player)
+
+
+func spawn_boat(selected_boat_types: boat_types) -> Node:
+	var boat_ref: Node
+	match selected_boat_types:
+		boat_types.DRAGON_SPEED_BOAT:
+			boat_ref = dragon_speed_boat.instantiate()
+		boat_types.HACKER_CRAFT_RUNABOUT:
+			boat_ref = hacker_craft_runabout.instantiate()
+	return boat_ref
 
 
 

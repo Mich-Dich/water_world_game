@@ -67,6 +67,10 @@ var timer: 										Timer
 @export var min_volume: 						float = -10.0					# dB at idle
 @export var max_volume: 						float = 0.0						# dB at max RPM
 
+@export var follow_camera_offset:				= Vector3(0, 1.5, 4.0)   		# Closer: up 1.5, back 5.0
+@export var follow_camera_orientation:			float = -1.0
+
+
 
 func _ready() -> void:
 	# ensure all variables are set
@@ -238,7 +242,7 @@ func integrate_forces_for_pure_floater(state: PhysicsDirectBodyState3D, transfor
 	return is_submerged
 
 
-func reset_player(camera_forward: Vector3) -> void:
+func reset_boat(camera_forward: Vector3) -> void:
 	var sea_height : float = wave_settings.get_wave_height(Vector2(global_position.x, global_position.z))
 	global_position.y = sea_height + 1
 	camera_forward.y = 0.0

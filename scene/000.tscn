@@ -4,8 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://cpdht31432b30" path="res://scene/water_plaine.tscn" id="2_svyum"]
 [ext_resource type="PackedScene" uid="uid://cfb6vip2v1uj3" path="res://scene/character/player.tscn" id="3_qufgm"]
 [ext_resource type="PackedScene" uid="uid://giqy0fp07tht" path="res://scene/objects/terrain.tscn" id="4_fxnfp"]
-[ext_resource type="PackedScene" uid="uid://df7iek3utfg86" path="res://scene/objects/generic_boat.tscn" id="6_4ssk7"]
-[ext_resource type="PackedScene" uid="uid://c2h4c4h2viqve" path="res://scene/objects/hacker-craft_runabout.tscn" id="7_4ssk7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pit2l"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -38,10 +36,5 @@ transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, -0.00822258, 0.16669512, -0.0
 [node name="Terrain" parent="." unique_id=280443316 instance=ExtResource("4_fxnfp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -21.92868, 0)
 
-[node name="hacker_craft_runabout" parent="." unique_id=1499121439 instance=ExtResource("7_4ssk7")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -4.654703, 2.1506526, 1.9849932)
-
-[node name="generic_boat" parent="." unique_id=710540662 instance=ExtResource("6_4ssk7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.679142, 1.2533894, 0.3388384)
-
-[node name="player" parent="generic_boat" unique_id=788734149 instance=ExtResource("3_qufgm")]
+[node name="player" parent="." unique_id=788734149 instance=ExtResource("3_qufgm")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -9.106, 1.0939386, 0)

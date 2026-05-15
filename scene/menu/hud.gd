@@ -71,36 +71,4 @@ func on_rpm_changed(rpm_percent: float) -> void:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	

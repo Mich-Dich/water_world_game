@@ -52,9 +52,9 @@ surface_material_override/0 = SubResource("ShaderMaterial_5utgv")
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1339601607]
 
 [node name="pause_menu" parent="CanvasLayer" unique_id=120024327 instance=ExtResource("2_hovdd")]
-visible = false
 
 [node name="HUD" parent="CanvasLayer" unique_id=517827588 instance=ExtResource("5_rrjs7")]
+visible = false
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/HUD" unique_id=463264542]
 layout_mode = 1
@@ -74,7 +74,7 @@ size_flags_vertical = 4
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/HUD/PanelContainer/SubViewportContainer" unique_id=745229506]
 handle_input_locally = false
 size = Vector2i(400, 240)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="Camera3D" type="Camera3D" parent="CanvasLayer/HUD/PanelContainer/SubViewportContainer/SubViewport" unique_id=599025376]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)

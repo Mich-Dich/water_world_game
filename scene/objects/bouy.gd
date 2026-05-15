@@ -30,22 +30,26 @@ func _process(_delta: float) -> void:
 	if distance_to_target < 1.0:
 		# Condition 2: ALL players are far (>10m away)
 		var all_players_far := true
-		for p in player:
-			if is_instance_valid(p) and global_position.distance_to(p.global_position) <= 10.0:
-				all_players_far = false
-				break
+		if player:
+			for p in player:
+				if is_instance_valid(p) and global_position.distance_to(p.global_position) <= 10.0:
+					all_players_far = false
+					break
 		
 		# Condition 3: NO player's camera can see the object
 		var any_camera_looking := false
-		for p in player:
-			if not is_instance_valid(p):
-				continue
-			# Look for a Camera3D child in the player node
-			var cam = p.find_child("Camera3D", true, false) # recursive, not owned
-			if cam is Camera3D and cam.is_current() and cam.is_position_in_frustum(global_position):
-				any_camera_looking = true
-				break
-			# Fallback: if no Camera3D child, you might also check for other camera types you use
+		if player:
+			for p in player:
+				if not is_instance_valid(p):
+					continue
+				# Look for a Camera3D child in the player node
+				var cam = p.find_child("Camera3D", true, false) # recursive, not owned
+				if cam is Camera3D and cam.is_current() and cam.is_position_in_frustum(global_position):
+					any_camera_looking = true
+					break
+				# Fallback: if no Camera3D child, you might also check for other camera types you use
+		else:
+			any_camera_looking = true			# FALLBACK
 		
 		if all_players_far and not any_camera_looking:
 			should_freeze = true

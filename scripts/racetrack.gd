@@ -23,7 +23,6 @@ class config:
 		num_splits = p_num_splits
 		random_seed = p_seed
 		area_rect = p_area_rect
-
 var default_config := config.new(15, 50.0, 5000.0, 400.0, 1, 42, Vector2(300.0, 300.0))
 
 class track_data:
@@ -40,8 +39,16 @@ class track_data:
 		open = p_open
 		spline_points = p_spline_points
 		splits = p_splits
-
 var current_track: track_data
+
+
+# boats
+var dragon_speed_boat:			PackedScene = preload("res://scene/objects/generic_boat.tscn")
+var hacker_craft_runabout: 		PackedScene = preload("res://scene/objects/hacker-craft_runabout.tscn")
+enum boat_types {
+	DRAGON_SPEED_BOAT,
+	HACKER_CRAFT_RUNABOUT,
+}
 
 
 

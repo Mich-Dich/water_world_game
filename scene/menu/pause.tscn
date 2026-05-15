@@ -5,14 +5,18 @@
 [ext_resource type="StyleBox" uid="uid://c0y8etsw5prku" path="res://scene/menu/menu_sbf_normal.tres" id="1_k1d7r"]
 [ext_resource type="StyleBox" uid="uid://dyiel4u7hu03a" path="res://scene/menu/menu_sbf_press.tres" id="2_k1d7r"]
 [ext_resource type="Shader" uid="uid://bg1tih677tcc5" path="res://shaders/blur.gdshader" id="2_u6nvq"]
+[ext_resource type="StyleBox" uid="uid://du8ds8mjcrqq1" path="res://scene/menu/menu_sbf_normal_V.tres" id="3_ymoid"]
+[ext_resource type="StyleBox" uid="uid://dsr2hc5dvvum8" path="res://scene/menu/menu_sbf_press_V.tres" id="4_a2bc7"]
+[ext_resource type="StyleBox" uid="uid://cc8cyk2geux3r" path="res://scene/menu/menu_sbf_hover_V.tres" id="5_1cqu1"]
+[ext_resource type="Script" uid="uid://iijw6crecwe5" path="res://scene/menu/track_preview.gd" id="6_rruo0"]
+[ext_resource type="Texture2D" uid="uid://dq27bbcxeyl1l" path="res://assets/images/hacker-craft_runabout.png" id="7_1qm2k"]
+[ext_resource type="Texture2D" uid="uid://ctbk0q17jghjk" path="res://assets/images/dragon_speed_boat.png" id="8_e8k4d"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_06t71"]
 shader = ExtResource("2_u6nvq")
 shader_parameter/lod = 0.800000038
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0ta5q"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u6nvq"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_06t71"]
 
@@ -141,6 +145,16 @@ _data = {
 &"show": SubResource("Animation_6k3ii")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rruo0"]
+bg_color = Color(0, 0, 0, 0.7019608)
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_detail = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u6nvq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e8k4d"]
+
 [node name="pause_menu" type="ColorRect" unique_id=120024327]
 material = SubResource("ShaderMaterial_06t71")
 anchors_preset = 15
@@ -153,17 +167,17 @@ script = ExtResource("1_0ta5q")
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1675128364]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -133.75
-offset_top = 71.0
-offset_right = 133.75
-offset_bottom = 241.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -361.89
+offset_top = -206.0
+offset_right = -91.890015
+offset_bottom = -88.29999
+grow_horizontal = 0
+grow_vertical = 0
 theme_override_constants/separation = 10
 
 [node name="bu_resume" type="Button" parent="VBoxContainer" unique_id=1886325497]
@@ -171,27 +185,226 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 26
-theme_override_styles/normal = ExtResource("1_k1d7r")
-theme_override_styles/pressed = ExtResource("2_k1d7r")
-theme_override_styles/hover = ExtResource("1_137xo")
-theme_override_styles/hover_pressed = ExtResource("2_k1d7r")
+theme_override_styles/normal = ExtResource("3_ymoid")
+theme_override_styles/pressed = ExtResource("4_a2bc7")
+theme_override_styles/hover = ExtResource("5_1cqu1")
+theme_override_styles/hover_pressed = ExtResource("4_a2bc7")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_0ta5q")
 text = "Resume
 "
 
-[node name="bu_settings" type="Button" parent="VBoxContainer" unique_id=16508247]
+[node name="bu_quit" type="Button" parent="VBoxContainer" unique_id=948469683]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 26
-theme_override_styles/normal = ExtResource("1_k1d7r")
-theme_override_styles/pressed = ExtResource("2_k1d7r")
-theme_override_styles/hover = ExtResource("1_137xo")
-theme_override_styles/hover_pressed = ExtResource("2_k1d7r")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_u6nvq")
-text = "Settings"
+theme_override_styles/normal = ExtResource("3_ymoid")
+theme_override_styles/pressed = ExtResource("4_a2bc7")
+theme_override_styles/hover = ExtResource("5_1cqu1")
+theme_override_styles/hover_pressed = ExtResource("4_a2bc7")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_06t71")
+text = "Quit"
 
-[node name="bu_quit" type="Button" parent="VBoxContainer" unique_id=948469683]
+[node name="Label" type="Label" parent="." unique_id=2143945759]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -338.0
+offset_top = -352.0
+offset_right = -117.0
+offset_bottom = -242.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 80
+text = "Menu"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1152276724]
+libraries/ = SubResource("AnimationLibrary_rruo0")
+
+[node name="track_display_container" type="PanelContainer" parent="." unique_id=1934566343]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 120.0
+offset_top = 50.0
+offset_right = 20.0
+offset_bottom = -50.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rruo0")
+
+[node name="MarginContainer" type="MarginContainer" parent="track_display_container" unique_id=1130865879]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="track_display_container/MarginContainer" unique_id=1579930812]
+layout_mode = 2
+alignment = 1
+
+[node name="track_display" type="TextureRect" parent="track_display_container/MarginContainer/VBoxContainer" unique_id=1010076170]
+custom_minimum_size = Vector2(650, 650)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+script = ExtResource("6_rruo0")
+
+[node name="bu_recreate" type="Button" parent="track_display_container/MarginContainer/VBoxContainer" unique_id=634887067]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = ExtResource("3_ymoid")
+theme_override_styles/pressed = ExtResource("4_a2bc7")
+theme_override_styles/hover = ExtResource("5_1cqu1")
+theme_override_styles/hover_pressed = ExtResource("4_a2bc7")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_u6nvq")
+text = "Recreate"
+
+[node name="boat_selection" type="PanelContainer" parent="." unique_id=930190049]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 120.0
+offset_top = 50.0
+offset_right = 20.0
+offset_bottom = -50.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rruo0")
+
+[node name="MarginContainer" type="MarginContainer" parent="boat_selection" unique_id=1803084924]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="boat_selection/MarginContainer" unique_id=694387981]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="boat_selection/MarginContainer/VBoxContainer" unique_id=236946957]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 32
+text = "Select a Boat"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="boat_selection/MarginContainer/VBoxContainer" unique_id=464491190]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer" unique_id=1469904742]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" unique_id=825673310]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer" unique_id=759980197]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=953905710]
+custom_minimum_size = Vector2(238.333, 200)
+layout_mode = 2
+texture = ExtResource("7_1qm2k")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=767666865]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=727385031]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Hacker-craft Runabout"
+
+[node name="Label2" type="Label" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=33615128]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Acceleration: ++
+Speed: +"
+
+[node name="spawn_hacker" type="Button" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=712166055]
+custom_minimum_size = Vector2(130, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/normal = ExtResource("3_ymoid")
+theme_override_styles/pressed = ExtResource("4_a2bc7")
+theme_override_styles/hover = ExtResource("5_1cqu1")
+theme_override_styles/hover_pressed = ExtResource("4_a2bc7")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_e8k4d")
+text = "Select"
+
+[node name="MarginContainer2" type="MarginContainer" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" unique_id=299693348]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer2" unique_id=1943203628]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer2/HBoxContainer" unique_id=439000149]
+custom_minimum_size = Vector2(238.333, 200)
+layout_mode = 2
+texture = ExtResource("8_e8k4d")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer2/HBoxContainer" unique_id=271649529]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer" unique_id=405202788]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Dragon Speed-boat"
+
+[node name="Label2" type="Label" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer" unique_id=1008671474]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Hacker-craft Runabout"
+
+[node name="spawn_dragon" type="Button" parent="boat_selection/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer" unique_id=1772585832]
+custom_minimum_size = Vector2(130, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/normal = ExtResource("3_ymoid")
+theme_override_styles/pressed = ExtResource("4_a2bc7")
+theme_override_styles/hover = ExtResource("5_1cqu1")
+theme_override_styles/hover_pressed = ExtResource("4_a2bc7")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_e8k4d")
+text = "Select"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1526522749]
+layout_mode = 1
+offset_left = -485.0
+offset_top = 50.0
+offset_right = 69.0
+offset_bottom = 95.0
+rotation = -1.5707964
+pivot_offset_ratio = Vector2(1, 0)
+
+[node name="bu_track_create" type="Button" parent="HBoxContainer" unique_id=1950139359]
+custom_minimum_size = Vector2(300, 45)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -201,25 +414,18 @@ theme_override_styles/pressed = ExtResource("2_k1d7r")
 theme_override_styles/hover = ExtResource("1_137xo")
 theme_override_styles/hover_pressed = ExtResource("2_k1d7r")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_06t71")
-text = "Quit"
+text = "Tacetrake Creation"
 
-[node name="Label" type="Label" parent="." unique_id=2143945759]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -115.5
-offset_top = -176.0
-offset_right = 115.5
-offset_bottom = -66.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/outline_size = 14
-theme_override_font_sizes/font_size = 80
-text = "Pause"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1152276724]
-libraries/ = SubResource("AnimationLibrary_rruo0")
+[node name="bu_boat_select" type="Button" parent="HBoxContainer" unique_id=348498803]
+custom_minimum_size = Vector2(250, 45)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = ExtResource("1_k1d7r")
+theme_override_styles/pressed = ExtResource("2_k1d7r")
+theme_override_styles/hover = ExtResource("1_137xo")
+theme_override_styles/hover_pressed = ExtResource("2_k1d7r")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_06t71")
+text = "Boat selection
+"
